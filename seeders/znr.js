@@ -3,7 +3,7 @@ const fs = require('fs');
 
 
   const prisma = new PrismaClient();
-  fs.readFile('./json/KHM.json', 'utf8', async (err, jsonString) => {
+  fs.readFile('./json/ZNR.json', 'utf8', async (err, jsonString) => {
     if (err) {
       console.log('Error reading file', err);
       await prisma.$disconnect();

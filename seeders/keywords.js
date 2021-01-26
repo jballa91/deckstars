@@ -21,9 +21,24 @@ fs.readFile('./json/Keywords.json', 'utf8', async (err, jsonString) => {
           }
         });
         i++;
-        final.push(res);
       }
     }
+    const landfall = await prisma.keyword.create({
+      data: {
+        name: "Landfall",
+      },
+    })
+    const adamant = await prisma.keyword.create({
+      data: {
+        name: "Adamant",
+      },
+    });
+    const constellation = await prisma.keyword.create({
+       data: {
+         name: "Constellation",
+       },
+    });
+    console.log(landfall, adamant, constellation);
   } catch(e) {
     console.log("Error Parsing JSON string", e)
   }

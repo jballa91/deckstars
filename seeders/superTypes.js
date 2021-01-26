@@ -13,7 +13,6 @@ let supertypelist = [];
     })
     supertypelist.push(newsuper);
   }
-
 })();
 
 console.log(supertypelist)

@@ -91,7 +91,7 @@ model Card {
   colorIdentity String
   colors        String
   cmc           Int
-  flavorText    String
+  flavorText    String?
   frameVersion  String
   hasFoil       Boolean
   hasNonFoil    Boolean
@@ -99,19 +99,19 @@ model Card {
   inSideBoard   SideBoard[]
   keywords      Keyword[]
   layout        String
-  manaCost      String
+  manaCost      String?
   name          String
-  power         String
+  power         String?
   rarity        String
   rulings       Ruling[]
   setId         Int
   set           Set         @relation(fields: [setId], references: [id])
   subtypes      SubType[]
   supertypes    SuperType[]
-  text          String
-  toughness     String
+  text          String?
+  toughness     String?
   type          String
-  types         CardType[]
+  cardTypes     CardType[]
 }
 
 model Keyword {
