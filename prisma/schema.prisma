@@ -32,14 +32,14 @@ model Deck {
   imgUrl      String?
   description String?
   mainBoard   Card[]
-  sideboard   SideBoard?
   likes       DeckLikes[]
   comments    Comment[]
+  sideBoard   SideBoard?
 }
 
 model SideBoard {
   id     Int    @id @default(autoincrement())
-  deckId Int
+  deckId Int    @unique
   deck   Deck   @relation(fields: [deckId], references: [id])
   cards  Card[]
 }
