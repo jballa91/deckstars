@@ -15,6 +15,7 @@ CREATE TABLE "Deck" (
     "name" TEXT NOT NULL,
     "format" TEXT NOT NULL,
     "wins" INTEGER NOT NULL,
+    "losses" INTEGER NOT NULL,
     "buyLink" TEXT,
     "imgUrl" TEXT,
     "description" TEXT,
@@ -35,6 +36,8 @@ CREATE TABLE "Comment" (
     "id" SERIAL NOT NULL,
     "authorId" INTEGER NOT NULL,
     "deckId" INTEGER NOT NULL,
+    "content" TEXT NOT NULL,
+    "edited" BOOLEAN NOT NULL DEFAULT false,
 
     PRIMARY KEY ("id")
 );
@@ -61,8 +64,11 @@ CREATE TABLE "Set" (
     "name" TEXT NOT NULL,
     "baseSetSize" INTEGER NOT NULL,
     "totalSetSize" INTEGER NOT NULL,
-    "setCode" TEXT NOT NULL,
-    "cardId" INTEGER,
+    "code" TEXT NOT NULL,
+    "isFoilOnly" BOOLEAN NOT NULL,
+    "isOnlineOnly" BOOLEAN NOT NULL,
+    "releaseDate" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -75,18 +81,19 @@ CREATE TABLE "Card" (
     "colorIdentity" TEXT NOT NULL,
     "colors" TEXT NOT NULL,
     "cmc" INTEGER NOT NULL,
-    "flavorText" TEXT NOT NULL,
+    "flavorText" TEXT,
     "frameVersion" TEXT NOT NULL,
     "hasFoil" BOOLEAN NOT NULL,
     "hasNonFoil" BOOLEAN NOT NULL,
     "layout" TEXT NOT NULL,
-    "manaCost" TEXT NOT NULL,
+    "manaCost" TEXT,
     "name" TEXT NOT NULL,
+    "power" TEXT,
     "rarity" TEXT NOT NULL,
     "setId" INTEGER NOT NULL,
-    "text" TEXT NOT NULL,
-    "toughness" INTEGER NOT NULL,
-    "typeId" INTEGER NOT NULL,
+    "text" TEXT,
+    "toughness" TEXT,
+    "type" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -120,7 +127,6 @@ CREATE TABLE "SubType" (
 CREATE TABLE "SuperType" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "typeId" INTEGER NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -130,6 +136,7 @@ CREATE TABLE "Ruling" (
     "id" SERIAL NOT NULL,
     "cardId" INTEGER NOT NULL,
     "text" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -164,6 +171,12 @@ CREATE TABLE "_CardToSuperType" (
     "B" INTEGER NOT NULL
 );
 
+-- CreateTable
+CREATE TABLE "_CardToCardType" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User.username_unique" ON "User"("username");
 
@@ -171,7 +184,7 @@ CREATE UNIQUE INDEX "User.username_unique" ON "User"("username");
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "SideBoard_deckId_unique" ON "SideBoard"("deckId");
+CREATE UNIQUE INDEX "SideBoard.deckId_unique" ON "SideBoard"("deckId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_CardToDeck_AB_unique" ON "_CardToDeck"("A", "B");
@@ -203,6 +216,12 @@ CREATE UNIQUE INDEX "_CardToSuperType_AB_unique" ON "_CardToSuperType"("A", "B")
 -- CreateIndex
 CREATE INDEX "_CardToSuperType_B_index" ON "_CardToSuperType"("B");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "_CardToCardType_AB_unique" ON "_CardToCardType"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_CardToCardType_B_index" ON "_CardToCardType"("B");
+
 -- AddForeignKey
 ALTER TABLE "Deck" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -231,13 +250,7 @@ ALTER TABLE "CommentLikes" ADD FOREIGN KEY ("commentId") REFERENCES "Comment"("i
 ALTER TABLE "Card" ADD FOREIGN KEY ("setId") REFERENCES "Set"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Card" ADD FOREIGN KEY ("typeId") REFERENCES "CardType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "SubType" ADD FOREIGN KEY ("typeId") REFERENCES "CardType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "SuperType" ADD FOREIGN KEY ("typeId") REFERENCES "CardType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Ruling" ADD FOREIGN KEY ("cardId") REFERENCES "Card"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -271,3 +284,9 @@ ALTER TABLE "_CardToSuperType" ADD FOREIGN KEY ("A") REFERENCES "Card"("id") ON 
 
 -- AddForeignKey
 ALTER TABLE "_CardToSuperType" ADD FOREIGN KEY ("B") REFERENCES "SuperType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CardToCardType" ADD FOREIGN KEY ("A") REFERENCES "Card"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CardToCardType" ADD FOREIGN KEY ("B") REFERENCES "CardType"("id") ON DELETE CASCADE ON UPDATE CASCADE;

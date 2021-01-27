@@ -1,13 +1,13 @@
-const {PrismaClient} = require("@prisma/client")
+const { PrismaClient } = require("@prisma/client");
 const fs = require("fs");
 
 const prisma = new PrismaClient();
 
 let data;
-fs.readFile('./json/SetList.json', 'utf8', async (err, jsonString) => {
+fs.readFile("./json/SetList.json", "utf8", async (err, jsonString) => {
   if (err) {
-    console.log('Error reading file', err);
-    return
+    console.log("Error reading file", err);
+    return;
   }
   try {
     data = JSON.parse(jsonString).data;
@@ -26,11 +26,12 @@ fs.readFile('./json/SetList.json', 'utf8', async (err, jsonString) => {
           type: set.type,
         },
       });
-      console.log(i, res)
-      i++
+      console.log(i, res);
+      i++;
     }
-    
-  } catch(e) {
-    console.log("Error Parsing JSON string", e)
+    await prisma.$disconnect();
+  } catch (e) {
+    console.log("Error Parsing JSON string", e);
+    await prisma.$disconnect();
   }
-})
+});

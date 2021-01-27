@@ -1,12 +1,12 @@
-const {PrismaClient} = require('@prisma/client');
-const fs = require('fs');
+const { PrismaClient } = require("@prisma/client");
+const fs = require("fs");
 
 const prisma = new PrismaClient();
 let data;
-fs.readFile('./json/Keywords.json', 'utf8', async (err, jsonString) => {
+fs.readFile("./json/Keywords.json", "utf8", async (err, jsonString) => {
   if (err) {
-    console.log('Error reading file', err);
-    return
+    console.log("Error reading file", err);
+    return;
   }
   try {
     data = JSON.parse(jsonString);
@@ -14,11 +14,11 @@ fs.readFile('./json/Keywords.json', 'utf8', async (err, jsonString) => {
     for (arr in data.data) {
       console.log(arr);
       for (keyword of data.data[arr]) {
-        console.log(i, keyword)
+        console.log(i, keyword);
         const res = await prisma.keyword.create({
           data: {
             name: keyword,
-          }
+          },
         });
         i++;
       }
@@ -27,33 +27,21 @@ fs.readFile('./json/Keywords.json', 'utf8', async (err, jsonString) => {
       data: {
         name: "Landfall",
       },
-    })
+    });
     const adamant = await prisma.keyword.create({
       data: {
         name: "Adamant",
       },
     });
     const constellation = await prisma.keyword.create({
-       data: {
-         name: "Constellation",
-       },
+      data: {
+        name: "Constellation",
+      },
     });
     console.log(landfall, adamant, constellation);
-  } catch(e) {
-    console.log("Error Parsing JSON string", e)
+    await prisma.$disconnect();
+  } catch (e) {
+    console.log("Error Parsing JSON string", e);
+    await prisma.$disconnect();
   }
-})
-
-let final = [];
-
-// (async () => {
-//   for (arr in data.meta.data.abilitywords) {
-//     for (keyword in arr) {
-//       const res = await prisma.keyword.create({
-//         name: keyword,
-//       });
-//       final.push(res);
-//     }
-// }})()
-
-console.log(final);
+});

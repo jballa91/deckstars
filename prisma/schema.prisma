@@ -28,6 +28,7 @@ model Deck {
   name        String
   format      String
   wins        Int
+  losses      Int
   buyLink     String?
   imgUrl      String?
   description String?
@@ -51,20 +52,22 @@ model Comment {
   deckId   Int
   deck     Deck           @relation(fields: [deckId], references: [id])
   likedBy  CommentLikes[]
+  content  String
+  edited   Boolean        @default(false)
 }
 
 model DeckLikes {
-  userId  Int
-  likedBy User @relation(fields: [userId], references: [id])
-  deckId  Int
-  deck    Deck @relation(fields: [deckId], references: [id])
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+  deckId Int
+  deck   Deck @relation(fields: [deckId], references: [id])
 
   @@id([userId, deckId])
 }
 
 model CommentLikes {
   userId    Int
-  likedBy   User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
   commentId Int
   comment   Comment @relation(fields: [commentId], references: [id])
 
