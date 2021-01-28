@@ -22,6 +22,14 @@ router.get(
   })
 );
 
+router.get(
+  "/auth",
+  requireAuth,
+  asyncHandler(async (req, res, next) => {
+    res.status(200).send("OK");
+  })
+);
+
 // get one user
 router.get(
   "/:userId",
@@ -104,6 +112,8 @@ router.post(
     }
   })
 );
+
+// auth route
 
 // login route
 router.post(

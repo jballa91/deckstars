@@ -1,9 +1,8 @@
-const jwt = require('jsonwebtoken');
-const bearerToken = require('express-bearer-token');
-const bcrypt = require('bcryptjs');
-const { PrismaClient} = require('@prisma/client');
-const { jwtConfig } = require('./config');
-
+const jwt = require("jsonwebtoken");
+const bearerToken = require("express-bearer-token");
+const bcrypt = require("bcryptjs");
+const { PrismaClient } = require("@prisma/client");
+const { jwtConfig } = require("./config");
 
 const { secret, expiresIn } = jwtConfig;
 const prisma = new PrismaClient();
@@ -13,16 +12,14 @@ const getUserToken = (user) => {
     id: user.id,
     email: user.email,
     username: user.username,
-  }
+  };
 
-  const token = jwt.sign(
-    { data: userDataForToken },
-    secret,
-    { expiresIn: parseInt(expiresIn, 10) },
-  );
+  const token = jwt.sign({ data: userDataForToken }, secret, {
+    expiresIn: parseInt(expiresIn, 10),
+  });
 
   return token;
-}
+};
 
 const restoreUser = (req, res, next) => {
   const { token } = req;
@@ -36,11 +33,10 @@ const restoreUser = (req, res, next) => {
       err.status = 401;
       return next(err);
     }
-
     const { id } = jwtPayload.data;
     try {
       req.user = await prisma.user.findUnique({
-        where: {id},
+        where: { id: parseInt(id, 10) },
       });
     } catch (e) {
       return next(e);
@@ -50,12 +46,12 @@ const restoreUser = (req, res, next) => {
       return res.set("WWW-Authenticate", "Bearer").status(401).end();
     }
     return next();
-  })
-}
+  });
+};
 
 const validatePassword = (password, user) => {
   return bcrypt.compareSync(password, user.hashword.toString());
-}
+};
 
 const requireAuth = [bearerToken(), restoreUser];
 
