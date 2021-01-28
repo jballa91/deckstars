@@ -14,11 +14,6 @@ const homepagestyles = {
     display: "flex",
     height: "calc(100% - 40px)",
   },
-  homepage_left: {
-    width: "20%",
-    height: "100%",
-    backgroundColor: "red",
-  },
   homepage_center: {
     width: "60%",
     height: "100%",

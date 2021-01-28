@@ -1,6 +1,6 @@
 import { createBrowserHistory } from "history";
-import React, { useEffect, useState, useContext } from "react";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { SplashPage } from "./components/SplashPage.js";
 import { MainContext } from "./MainContext";
 
@@ -8,10 +8,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import NavBar from "./components/nav/NavBar";
 import HomePage from "./components/HomePage";
 
-import { Box } from "@material-ui/core";
+import { Box, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-
-import { authenticate } from "./services/auth";
 const history = createBrowserHistory();
 
 const useStyles = makeStyles((theme) => ({
@@ -25,15 +23,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
-  const { authenticated, setAuthenticated } = useContext(MainContext);
-  const { user, setUser, loading } = useContext(MainContext);
+  const { authenticated } = useContext(MainContext);
+  const { loading } = useContext(MainContext);
 
   const classes = useStyles();
 
   useEffect(() => {}, [loading]);
 
   if (loading) {
-    return null;
+    return <CircularProgress />;
   }
 
   return (

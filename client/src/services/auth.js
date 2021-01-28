@@ -29,7 +29,6 @@ export const login = async (username, password) => {
         password,
       }),
     });
-
     return await res.json();
   } catch (e) {
     console.log(e);

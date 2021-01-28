@@ -1,16 +1,11 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Box, Menu, MenuItem, IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import MenuIcon from "@material-ui/icons/Menu";
-// import navmenustyles from "../../styles/navmenustyles";
+import navmenustyles from "../../styles/navmenustyles";
 import { MainContext } from "../../MainContext";
 
-const useStyles = makeStyles((theme) => ({
-  navmenu: {
-    display: "flex",
-    alignItmes: "center",
-  },
-}));
+const useStyles = makeStyles((theme) => navmenustyles);
 
 const NavMenu = () => {
   const { user, setAuthenticated } = useContext(MainContext);

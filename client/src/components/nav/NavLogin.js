@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, TextField, Button, Typography, Modal } from "@material-ui/core";
+import { Box, TextField, Button, Modal } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { MainContext } from "../../MainContext";
 
@@ -80,9 +80,13 @@ const NavLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let user = await login(username, password);
-    window.localStorage.setItem("token", user.token);
-    setUser(user.user);
-    setAuthenticated(true);
+    if (user.message) {
+      window.alert("Invalid credentials.");
+    } else {
+      window.localStorage.setItem("token", user.token);
+      setUser(user.user);
+      setAuthenticated(true);
+    }
   };
 
   const handleOpen = () => {

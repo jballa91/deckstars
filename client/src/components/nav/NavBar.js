@@ -8,7 +8,7 @@ import NavMenu from "./NavMenu";
 
 import navbarstyles from "../../styles/navbarstyles";
 
-const useStyles = makeStyles((theme) => ({ ...navbarstyles }));
+const useStyles = makeStyles((theme) => navbarstyles);
 
 const NavBar = () => {
   const { authenticated } = useContext(MainContext);

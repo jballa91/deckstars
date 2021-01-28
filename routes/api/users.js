@@ -162,7 +162,7 @@ router.post(
     });
     if (!login || !validatePassword(password, login)) {
       const err = new Error("Login failed");
-      err.stataus = 401;
+      err.status = 401;
       err.title = "Login Failed";
       err.errors = ["The provided credentials were invalid"];
       return next(err);
