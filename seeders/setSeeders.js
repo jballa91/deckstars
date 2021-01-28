@@ -20,7 +20,6 @@ for (let set of sets) {
         let keywords = [];
         if (card.keywords) {
           for (keyword of card.keywords) {
-            // console.log(keyword)
             let kw = await prisma.keyword.findFirst({
               where: {
                 name: keyword,
@@ -29,7 +28,6 @@ for (let set of sets) {
             keywords.push({ id: kw.id });
           }
         }
-        console.log("keywords ===============", keywords);
         let subtypes = [];
         for (subtype of card.subtypes) {
           let st = await prisma.subType.findFirst({
@@ -39,7 +37,6 @@ for (let set of sets) {
           });
           subtypes.push({ id: st.id });
         }
-        console.log("subtypes-- ---------", subtypes);
         let supertypes = [];
         for (supertype of card.supertypes) {
           let supt = await prisma.superType.findFirst({
@@ -49,7 +46,6 @@ for (let set of sets) {
           });
           supertypes.push({ id: supt.id });
         }
-        console.log("supertypes ---", supertypes);
         let cardtypes = [];
         for (cardtype of card.types) {
           let type = await prisma.cardType.findFirst({
@@ -59,7 +55,6 @@ for (let set of sets) {
           });
           cardtypes.push({ id: type.id });
         }
-        console.log("cardtypes -------", cardtypes);
         let set = await prisma.set.findFirst({
           where: {
             code: card.setCode,
@@ -71,14 +66,12 @@ for (let set of sets) {
             colors += color;
           }
         }
-        console.log("colors---", colors);
         let colorIdentity = "";
         if (card.colorIdentity) {
           for (color of card.colorIdentity) {
             colorIdentity += color;
           }
         }
-        console.log("ident ----", colorIdentity);
         let res = await prisma.card.create({
           data: {
             artist: card.artist,

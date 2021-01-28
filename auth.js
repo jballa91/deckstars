@@ -37,6 +37,37 @@ const restoreUser = (req, res, next) => {
     try {
       req.user = await prisma.user.findUnique({
         where: { id: parseInt(id, 10) },
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          decks: {
+            select: {
+              id: true,
+              name: true,
+              wins: true,
+              losses: true,
+              format: true,
+              imgUrl: true,
+            },
+          },
+          deckLikes: {
+            include: {
+              deck: {
+                select: {
+                  id: true,
+                  name: true,
+                  user: {
+                    select: {
+                      id: true,
+                      username: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       });
     } catch (e) {
       return next(e);

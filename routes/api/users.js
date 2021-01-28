@@ -26,7 +26,11 @@ router.get(
   "/auth",
   requireAuth,
   asyncHandler(async (req, res, next) => {
-    res.status(200).send("OK");
+    console.log(req.user);
+    res.status(200).send({
+      message: "OK",
+      user: req.user,
+    });
   })
 );
 
@@ -120,7 +124,6 @@ router.post(
   "/login",
   asyncHandler(async (req, res, next) => {
     const { username, password } = req.body;
-    console.log(username, password);
     const login = await prisma.user.findUnique({
       where: {
         username,

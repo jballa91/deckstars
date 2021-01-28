@@ -9,14 +9,20 @@ export const MainContext = React.createContext();
 export const MainProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState();
   const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       const auth = await authenticate();
+      console.log(auth);
       if (auth) {
         setAuthenticated(true);
+        await setUser(auth);
+        setLoading(false);
+      } else {
+        setAuthenticated(false);
+        setLoading(false);
       }
-      setAuthenticated(false);
     })();
   }, []);
 
@@ -24,8 +30,10 @@ export const MainProvider = ({ children }) => {
     <MainContext.Provider
       value={{
         authenticated,
+        loading,
         user,
         setAuthenticated,
+        setLoading,
         setUser,
       }}
     >

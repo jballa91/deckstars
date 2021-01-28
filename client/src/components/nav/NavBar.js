@@ -14,7 +14,6 @@ const NavBar = () => {
   const { authenticated } = useContext(MainContext);
   const styles = useStyles();
   useEffect(() => {}, [authenticated]);
-  console.log(authenticated);
   return (
     <Box className={styles.nav_main}>
       <Box className={styles.nav_left}>

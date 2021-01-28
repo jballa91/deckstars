@@ -12,9 +12,7 @@ fs.readFile("./json/Keywords.json", "utf8", async (err, jsonString) => {
     data = JSON.parse(jsonString);
     i = 1;
     for (arr in data.data) {
-      console.log(arr);
       for (keyword of data.data[arr]) {
-        console.log(i, keyword);
         const res = await prisma.keyword.create({
           data: {
             name: keyword,
@@ -38,7 +36,6 @@ fs.readFile("./json/Keywords.json", "utf8", async (err, jsonString) => {
         name: "Constellation",
       },
     });
-    console.log(landfall, adamant, constellation);
     await prisma.$disconnect();
   } catch (e) {
     console.log("Error Parsing JSON string", e);

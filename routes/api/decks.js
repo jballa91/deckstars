@@ -168,8 +168,6 @@ router.patch(
     let deckClone = Object.assign({}, { ...deck });
     delete deckClone.mainBoard;
     delete deckClone.sideBoard;
-    console.log(deck);
-    console.log(deckClone);
 
     const updatedDeck = await prisma.deck.update({
       where: { id: parseInt(deckId) },
@@ -214,7 +212,6 @@ router.delete(
         sideBoard: true,
       },
     });
-    console.log(deck);
     const sideBoard = await prisma.sideBoard.delete({
       where: {
         id: parseInt(deck.sideBoard.id),

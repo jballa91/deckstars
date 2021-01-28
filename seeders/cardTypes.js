@@ -24,7 +24,6 @@ fs.readFile("./json/CardTypes.json", "utf8", async (err, jsonString) => {
           },
         },
       });
-      console.log(type);
     }
     await prisma.$disconnect();
   } catch (e) {

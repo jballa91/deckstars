@@ -12,7 +12,8 @@ export const authenticate = async () => {
   if (res.status === 401) {
     return false;
   } else if (res.status === 200) {
-    return true;
+    const parsed = await res.json();
+    return parsed.user;
   }
 };
 

@@ -4,11 +4,14 @@ import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import { SplashPage } from "./components/SplashPage.js";
 import { MainContext } from "./MainContext";
 
+import PrivateRoute from "./components/PrivateRoute";
 import NavBar from "./components/nav/NavBar";
+import HomePage from "./components/HomePage";
 
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
+import { authenticate } from "./services/auth";
 const history = createBrowserHistory();
 
 const useStyles = makeStyles((theme) => ({
@@ -22,10 +25,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
-  const { autheticated, setAuthenticated } = useContext(MainContext);
-  const { user, setUser } = useContext(MainContext);
+  const { authenticated, setAuthenticated } = useContext(MainContext);
+  const { user, setUser, loading } = useContext(MainContext);
 
   const classes = useStyles();
+
+  useEffect(() => {}, [loading]);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <Box className={classes.window}>
@@ -35,12 +44,11 @@ function App() {
         </header>
         <Box className={classes.app}>
           <Switch>
-            {/* {authenticated ? (
-              <Route exact path='/' component={HomePage} />
+            {authenticated ? (
+              <PrivateRoute path="/" component={HomePage} />
             ) : (
-              <Route exact path='/' component={SplashPage} />
-            )} */}
-            <SplashPage />
+              <Route exact path="/" component={SplashPage} />
+            )}
           </Switch>
         </Box>
       </BrowserRouter>

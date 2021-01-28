@@ -1,13 +1,25 @@
-import React, { useState, useContext } from "react";
-import { Box, Menu, MenuItem, IconButton } from "@material-ui/core";
-import { MainContext } from "../../MainContext";
+import React, { useState, useContext, useEffect } from "react";
+import { Box, Menu, MenuItem, IconButton, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import MenuIcon from "@material-ui/icons/Menu";
+// import navmenustyles from "../../styles/navmenustyles";
+import { MainContext } from "../../MainContext";
+
+const useStyles = makeStyles((theme) => ({
+  navmenu: {
+    display: "flex",
+    alignItmes: "center",
+  },
+}));
 
 const NavMenu = () => {
-  const { setAuthenticated } = useContext(MainContext);
+  const { user, setAuthenticated } = useContext(MainContext);
   const [anchorEl, setAnchorEl] = useState(null);
+  console.log(user);
+  const styles = useStyles();
 
   const handleClick = (e) => {
+    e.preventDefault();
     setAnchorEl(e.currentTarget);
   };
 
@@ -16,32 +28,34 @@ const NavMenu = () => {
   };
 
   const handleLogout = (e) => {
+    e.preventDefault();
     setAuthenticated(false);
     window.localStorage.removeItem("token");
     handleClose();
   };
 
   return (
-    <Box>
-      <div>
-        <IconButton
-          aria-controls="menu"
-          component="span"
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          <MenuIcon fontSize="large" />
-        </IconButton>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        </Menu>
-      </div>
+    <Box className={styles.navmenu}>
+      <Box>
+        <Typography>Welcome, {user.username}.</Typography>
+      </Box>
+      <IconButton
+        aria-controls="menu"
+        component="span"
+        aria-haspopup="true"
+        onClick={handleClick}
+      >
+        <MenuIcon fontSize="large" />
+      </IconButton>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
     </Box>
   );
 };
