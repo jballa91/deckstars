@@ -7,6 +7,7 @@ const routes = [
   "comments",
   "decklikes",
   "commentlikes",
+  "symbols",
 ];
 
 for (let route of routes) {

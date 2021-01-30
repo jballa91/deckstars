@@ -8,7 +8,7 @@ import { MainContext } from "../../MainContext";
 const useStyles = makeStyles((theme) => navmenustyles);
 
 const NavMenu = () => {
-  const { user, setAuthenticated } = useContext(MainContext);
+  const { user, setAuthenticated, setCurrentDeck } = useContext(MainContext);
   const [anchorEl, setAnchorEl] = useState(null);
   console.log(user);
   const styles = useStyles();
@@ -26,6 +26,7 @@ const NavMenu = () => {
     e.preventDefault();
     setAuthenticated(false);
     window.localStorage.removeItem("token");
+    setCurrentDeck(null);
     handleClose();
   };
 

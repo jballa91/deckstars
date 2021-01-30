@@ -9,6 +9,7 @@ export const MainContext = React.createContext();
 export const MainProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState();
   const [user, setUser] = useState();
+  const [currentDeck, setCurrentDeck] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,9 +31,11 @@ export const MainProvider = ({ children }) => {
     <MainContext.Provider
       value={{
         authenticated,
+        currentDeck,
         loading,
         user,
         setAuthenticated,
+        setCurrentDeck,
         setLoading,
         setUser,
       }}

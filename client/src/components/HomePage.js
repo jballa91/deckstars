@@ -3,6 +3,7 @@ import { Switch } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import HomePageLeft from "./homepage/HomePageLeft";
 import DeckDetails from "./DeckDetails";
+import DeckCards from "./homepage/DeckCards";
 import { MainContext } from "../MainContext";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
@@ -26,10 +27,14 @@ const HomePage = () => {
         <HomePageLeft />
         <Box className={styles.homepage_center}>
           <Switch>
-            <PrivateRoute path="/decks/:id" component={DeckDetails} />
+            <PrivateRoute path="/decks/:id" component={DeckCards} />
           </Switch>
         </Box>
-        <Box className={styles.homepage_right}></Box>
+        <Box className={styles.homepage_right}>
+          <Switch>
+            <PrivateRoute path="/decks/:deckId" component={DeckDetails} />
+          </Switch>
+        </Box>
       </Box>
     </Box>
   );

@@ -22,9 +22,9 @@ model User {
 }
 
 model Deck {
-  id          Int         @id @default(autoincrement())
+  id          Int              @id @default(autoincrement())
   userId      Int
-  user        User        @relation(fields: [userId], references: [id])
+  user        User             @relation(fields: [userId], references: [id])
   name        String
   format      String
   wins        Int
@@ -32,17 +32,30 @@ model Deck {
   buyLink     String?
   imgUrl      String?
   description String?
-  mainBoard   Card[]
+  mainDeck    MainDeckCards[]
   likes       DeckLikes[]
   comments    Comment[]
-  sideBoard   SideBoard?
+  sideBoard   SideBoardCards[]
 }
 
-model SideBoard {
-  id     Int    @id @default(autoincrement())
-  deckId Int    @unique
-  deck   Deck   @relation(fields: [deckId], references: [id])
-  cards  Card[]
+model MainDeckCards {
+  deckId   Int
+  deck     Deck @relation(fields: [deckId], references: [id])
+  cardId   Int
+  card     Card @relation("inMainDeck", fields: [cardId], references: [id])
+  quantity Int
+
+  @@id([deckId, cardId])
+}
+
+model SideBoardCards {
+  deckId   Int
+  deck     Deck @relation(fields: [deckId], references: [id])
+  cardId   Int
+  card     Card @relation("inSideBoard", fields: [cardId], references: [id])
+  quantity Int
+
+  @@id([deckId, cardId])
 }
 
 model Comment {
@@ -88,7 +101,7 @@ model Set {
 }
 
 model Card {
-  id            Int         @id @default(autoincrement())
+  id            Int              @id @default(autoincrement())
   artist        String
   borderColor   String
   colorIdentity String
@@ -98,8 +111,8 @@ model Card {
   frameVersion  String
   hasFoil       Boolean
   hasNonFoil    Boolean
-  inMainBoard   Deck[]
-  inSideBoard   SideBoard[]
+  inMainDeck    MainDeckCards[]  @relation("inMainDeck")
+  inSideBoard   SideBoardCards[] @relation("inSideBoard")
   keywords      Keyword[]
   layout        String
   manaCost      String?
@@ -108,13 +121,26 @@ model Card {
   rarity        String
   rulings       Ruling[]
   setId         Int
-  set           Set         @relation(fields: [setId], references: [id])
+  set           Set              @relation(fields: [setId], references: [id])
   subtypes      SubType[]
   supertypes    SuperType[]
   text          String?
   toughness     String?
   type          String
   cardTypes     CardType[]
+  imgSmall      String?
+  imgLarge      String?
+  backImgSmall  String?
+  backImgLarge  String?
+  uuid          String           @unique
+  otherFaceId   String?
+}
+
+model CardSymbol {
+  id      Int    @id @default(autoincrement())
+  symbol  String @unique
+  svg_uri String
+  english String
 }
 
 model Keyword {

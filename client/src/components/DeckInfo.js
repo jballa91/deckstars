@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+
+import { MainContext } from "../MainContext";
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -29,9 +31,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DeckInfo = ({ deck }) => {
+  const { setCurrentDeck } = useContext(MainContext);
   const styles = useStyles();
+
+  const handleClick = async (e) => {
+    const token = window.localStorage.getItem("token");
+    let foundDeck = await fetch(`/api/decks/${deck.id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setCurrentDeck(await foundDeck.json());
+  };
   return (
-    <Link to={`/decks/${deck.id}`} key={deck.id} className={styles.link}>
+    <Link
+      to={`/decks/${deck.id}`}
+      key={deck.id}
+      className={styles.link}
+      onClick={(e) => handleClick(e)}
+    >
       <Box className={styles.deckinfo_container}>
         <Box className={styles.row_one}>
           <Typography>{deck.name}</Typography>

@@ -54,10 +54,21 @@ router.get(
         id: parseInt(deckId),
       },
       include: {
-        mainBoard: true,
+        mainDeck: {
+          select: {
+            quantity: true,
+            card: true,
+          },
+        },
         sideBoard: {
           include: {
-            cards: true,
+            card: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            username: true,
           },
         },
         likes: {
@@ -101,60 +112,60 @@ router.post(
   "/",
   requireAuth,
   asyncHandler(async (req, res, next) => {
-    const data = req.body;
-    const tempDeck = await prisma.deck.create({
+    const { userId, deck } = req.body;
+    console.log(deck.mainDeck, deck.sideBoard);
+    const newDeck = await prisma.deck.create({
       data: {
-        user: { connect: { id: data.userId } },
-        name: data.deck.name,
-        format: data.deck.format,
+        user: { connect: { id: userId } },
+        name: deck.name,
+        format: deck.format,
         wins: 0,
         losses: 0,
-        buyLink: data.deck.buyLink,
-        imgUrl: data.deck.imgUrl,
-        description: data.deck.description,
-        mainBoard: {
-          connect: [...data.deck.mainBoard],
+        buyLink: deck.buyLink,
+        imgUrl: deck.imgUrl,
+        description: deck.description,
+        mainDeck: {
+          create: deck.mainDeck,
+        },
+        sideBoard: {
+          create: deck.sideBoard || [],
         },
         likes: [],
         comments: [],
       },
-    });
-    const sideBoard = await prisma.sideBoard.create({
-      data: {
-        deck: { connect: { id: tempDeck.id } },
-        cards: { connect: [...data.deck.sideBoard] },
-      },
-    });
-    const deck = await prisma.deck.findUnique({
-      where: {
-        id: tempDeck.id,
-      },
       include: {
-        mainBoard: true,
-        sideBoard: true,
-        likes: {
-          include: {
-            user: {
+        mainDeck: {
+          select: {
+            card: {
               select: {
                 id: true,
-                username: true,
+                name: true,
+                manaCost: true,
+                cmc: true,
+                cardTypes: {
+                  select: {
+                    name: true,
+                  },
+                },
               },
             },
+            quantity: true,
           },
         },
-        comments: {
-          include: {
-            author: {
+        sideBoard: {
+          select: {
+            card: {
               select: {
                 id: true,
-                username: true,
+                name: true,
               },
             },
+            quantity: true,
           },
         },
       },
     });
-    res.json(deck);
+    res.json(newDeck);
   })
 );
 
@@ -163,32 +174,47 @@ router.patch(
   "/:deckId",
   requireAuth,
   asyncHandler(async (req, res, next) => {
-    const { deckId } = req.params;
+    const deckId = parseInt(req.params.deckId);
     const { deck } = req.body;
-    let deckClone = Object.assign({}, { ...deck });
-    delete deckClone.mainBoard;
-    delete deckClone.sideBoard;
+    console.log(deck.mainDeck);
+    deck.mainDeck.forEach((obj) => (obj["deckId"] = deckId));
+    deck.sideBoard.forEach((obj) => (obj["deckId"] = deckId));
+    console.log(deck.mainDeck);
+
+    const deletedMainDeck = await prisma.mainDeckCards.deleteMany({
+      where: {
+        deckId,
+      },
+    });
+
+    const deletedSideBoard = await prisma.sideBoardCards.deleteMany({
+      where: {
+        deckId,
+      },
+    });
+
+    deck.mainDeck.forEach((obj) => {
+      delete obj.deckId;
+    });
+    deck.sideBoard.forEach((obj) => {
+      delete obj.deckId;
+    });
 
     const updatedDeck = await prisma.deck.update({
-      where: { id: parseInt(deckId) },
+      where: { id: deckId },
       data: {
-        mainBoard: {
-          set: deck.mainBoard,
+        mainDeck: {
+          create: deck.mainDeck,
         },
         sideBoard: {
-          update: {
-            cards: {
-              set: deck.sideBoard,
-            },
-          },
+          create: deck.sideBoard || [],
         },
-        ...deckClone,
       },
       include: {
-        mainBoard: true,
+        mainDeck: true,
         sideBoard: {
           include: {
-            cards: true,
+            card: true,
           },
         },
       },
@@ -202,19 +228,15 @@ router.delete(
   "/:deckId",
   requireAuth,
   asyncHandler(async (req, res, next) => {
-    const { deckId } = req.params;
-
-    const deck = await prisma.deck.findUnique({
+    const deckId = parseInt(req.params.deckId);
+    await prisma.mainDeckCards.deleteMany({
       where: {
-        id: parseInt(deckId),
-      },
-      include: {
-        sideBoard: true,
+        deckId,
       },
     });
-    const sideBoard = await prisma.sideBoard.delete({
+    await prisma.sideBoardCards.deleteMany({
       where: {
-        id: parseInt(deck.sideBoard.id),
+        deckId,
       },
     });
     const delDeck = await prisma.deck.delete({

@@ -28,6 +28,20 @@ router.get(
   })
 );
 
+// get one card by uuid
+router.get(
+  "/uuid/:uuid",
+  asyncHandler(async (req, res, next) => {
+    const { uuid } = req.params;
+    const card = await prisma.card.findUnique({
+      where: {
+        uuid: parseInt(uuid, 10),
+      },
+    });
+    return res.json(card);
+  })
+);
+
 // get all cards
 router.get(
   "/",

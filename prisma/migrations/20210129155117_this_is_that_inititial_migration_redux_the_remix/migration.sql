@@ -24,11 +24,21 @@ CREATE TABLE "Deck" (
 );
 
 -- CreateTable
-CREATE TABLE "SideBoard" (
-    "id" SERIAL NOT NULL,
+CREATE TABLE "MainDeckCards" (
     "deckId" INTEGER NOT NULL,
+    "cardId" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
 
-    PRIMARY KEY ("id")
+    PRIMARY KEY ("deckId","cardId")
+);
+
+-- CreateTable
+CREATE TABLE "SideBoardCards" (
+    "deckId" INTEGER NOT NULL,
+    "cardId" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
+
+    PRIMARY KEY ("deckId","cardId")
 );
 
 -- CreateTable
@@ -142,18 +152,6 @@ CREATE TABLE "Ruling" (
 );
 
 -- CreateTable
-CREATE TABLE "_CardToDeck" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "_CardToSideBoard" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
-);
-
--- CreateTable
 CREATE TABLE "_CardToKeyword" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
@@ -184,21 +182,6 @@ CREATE UNIQUE INDEX "User.username_unique" ON "User"("username");
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "SideBoard.deckId_unique" ON "SideBoard"("deckId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_CardToDeck_AB_unique" ON "_CardToDeck"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_CardToDeck_B_index" ON "_CardToDeck"("B");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_CardToSideBoard_AB_unique" ON "_CardToSideBoard"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_CardToSideBoard_B_index" ON "_CardToSideBoard"("B");
-
--- CreateIndex
 CREATE UNIQUE INDEX "_CardToKeyword_AB_unique" ON "_CardToKeyword"("A", "B");
 
 -- CreateIndex
@@ -226,7 +209,16 @@ CREATE INDEX "_CardToCardType_B_index" ON "_CardToCardType"("B");
 ALTER TABLE "Deck" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "SideBoard" ADD FOREIGN KEY ("deckId") REFERENCES "Deck"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "MainDeckCards" ADD FOREIGN KEY ("deckId") REFERENCES "Deck"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MainDeckCards" ADD FOREIGN KEY ("cardId") REFERENCES "Card"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SideBoardCards" ADD FOREIGN KEY ("deckId") REFERENCES "Deck"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SideBoardCards" ADD FOREIGN KEY ("cardId") REFERENCES "Card"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Comment" ADD FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -254,18 +246,6 @@ ALTER TABLE "SubType" ADD FOREIGN KEY ("typeId") REFERENCES "CardType"("id") ON 
 
 -- AddForeignKey
 ALTER TABLE "Ruling" ADD FOREIGN KEY ("cardId") REFERENCES "Card"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_CardToDeck" ADD FOREIGN KEY ("A") REFERENCES "Card"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_CardToDeck" ADD FOREIGN KEY ("B") REFERENCES "Deck"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_CardToSideBoard" ADD FOREIGN KEY ("A") REFERENCES "Card"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_CardToSideBoard" ADD FOREIGN KEY ("B") REFERENCES "SideBoard"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_CardToKeyword" ADD FOREIGN KEY ("A") REFERENCES "Card"("id") ON DELETE CASCADE ON UPDATE CASCADE;
