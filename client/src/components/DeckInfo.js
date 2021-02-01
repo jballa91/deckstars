@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useHistory } from "react-router-dom";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
@@ -13,10 +13,12 @@ const useStyles = makeStyles((theme) => ({
   deckinfo_container: {
     display: "flex",
     flexDirection: "column",
-    backgroundColor: theme.palette.secondary.dark,
-    height: "60px",
-    width: "100%",
+    backgroundColor: theme.palette.secondary.light,
+    height: "80px",
+    maxWidth: "100%",
     marginBottom: "5px",
+    padding: "10px",
+    // boxSizing: "border-box",
   },
   row_one: {
     display: "flex",
@@ -33,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 const DeckInfo = ({ deck }) => {
   const { setCurrentDeck } = useContext(MainContext);
   const styles = useStyles();
-
   const handleClick = async (e) => {
     const token = window.localStorage.getItem("token");
     let foundDeck = await fetch(`/api/decks/${deck.id}`, {
@@ -42,8 +43,11 @@ const DeckInfo = ({ deck }) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    setCurrentDeck(await foundDeck.json());
+    const parsedDeck = await foundDeck.json();
+    setCurrentDeck(parsedDeck);
+    window.localStorage.setItem("last-deck", JSON.stringify(parsedDeck));
   };
+
   return (
     <Link
       to={`/decks/${deck.id}`}
@@ -57,10 +61,10 @@ const DeckInfo = ({ deck }) => {
           <Typography>{deck.format}</Typography>
         </Box>
         <Box className={styles.row_two}>
-          <Typography variant="p">Wins: {deck.wins}</Typography>
-          <Typography variant="p">Losses: {deck.losses}</Typography>
-          <Typography variant="p">
-            Win Rate: {deck.wins ? deck.wins / (deck.wins + deck.losses) : 0}
+          <Typography variant="body2">Wins: {deck.wins}</Typography>
+          <Typography variant="body2">Losses: {deck.losses}</Typography>
+          <Typography variant="body2">
+            Winrate: {deck.wins ? deck.wins / (deck.wins + deck.losses) : 0}
           </Typography>
         </Box>
       </Box>

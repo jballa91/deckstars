@@ -14,23 +14,23 @@ import DeckInfo from "../DeckInfo";
 const useStyles = makeStyles((theme) => ({
   homepage_left: {
     width: "20%",
-    height: "100%",
-    backgroundColor: "red",
+    borderRight: `1px solid ${theme.palette.secondary.light}`,
+    backgroundColor: theme.palette.secondary.main,
+  },
+  fixed: {
+    position: "static",
+    width: "100%",
+  },
+  accordion: {
+    backgroundColor: theme.palette.secondary.main,
+    color: "white",
+    width: "100%",
   },
   accordion_expanded: {
     display: "flex",
     flexDirection: "column",
     width: "100%",
-  },
-  homepage_center: {
-    width: "60%",
-    height: "100%",
-    backgroundColor: "blue",
-  },
-  homepage_right: {
-    width: "20%",
-    height: "100%",
-    backgroundColor: "yellow",
+    borderRight: "none",
   },
 }));
 
@@ -39,21 +39,38 @@ const HomePageLeft = () => {
   const styles = useStyles();
   return (
     <Box className={styles.homepage_left}>
-      <Accordion square="true">
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="created decks"
-        >
-          <Typography>Created Decks</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Box className={styles.accordion_expanded}>
-            {user.decks.map((deck) => (
-              <DeckInfo deck={deck} />
-            ))}
-          </Box>
-        </AccordionDetails>
-      </Accordion>
+      <Box className={styles.fixed}>
+        <Accordion square={true} className={styles.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon color="primary" />}
+            aria-controls="created decks"
+          >
+            <Typography>Created Decks</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Box className={styles.accordion_expanded}>
+              {user.decks.map((deck) => (
+                <DeckInfo key={deck.id} deck={deck} />
+              ))}
+            </Box>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion square={true} className={styles.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon color="primary" />}
+            aria-controls="liked decks"
+          >
+            <Typography>Liked Decks</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Box className={styles.accordion_expanded}>
+              {user.deckLikes.map((deck) => (
+                <DeckInfo key={deck.id} deck={deck} />
+              ))}
+            </Box>
+          </AccordionDetails>
+        </Accordion>
+      </Box>
     </Box>
   );
 };

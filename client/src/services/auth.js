@@ -1,14 +1,11 @@
 // import { response } from "express";
 
 export const authenticate = async () => {
-  const token = window.localStorage.getItem("token");
-  console.log("TOKEN FROM LOCAL STORAGE", token);
   const res = await fetch("/api/users/auth", {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    credentials: "include",
   });
+  // const json = await res.json();
+  console.log(res);
   if (res.status === 401) {
     return false;
   } else if (res.status === 200) {
@@ -28,6 +25,21 @@ export const login = async (username, password) => {
         username,
         password,
       }),
+    });
+    return await res.json();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const logout = async () => {
+  try {
+    const res = await fetch("/api/users/logout", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
     });
     return await res.json();
   } catch (e) {

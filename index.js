@@ -8,25 +8,26 @@ const morgan = require("morgan");
 const csurf = require("csurf");
 const routes = require("./routes");
 
-const prisma = new PrismaClient();
 const app = express();
 const port = 5000;
 
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
 
 app.use(cors({ origin: true }));
 app.use(helmet({ hsts: false }));
-// app.use(csurf({
-//   cookie: {
-//     secure: process.env.NODE_ENV === 'production',
-//     sameSite: process.env.NODE_ENV === 'production',
-//     httpOnly: true,
-//   }
-// }));
+// app.use(
+//   csurf({
+//     // cookie: {
+//     //   // secure: process.env.NODE_ENV === "production",
+//     //   // sameSite: process.env.NODE_ENV === "production",
+//     //   httpOnly: true,
+//     // },
+//   })
+// );
 
 app.use(routes);
 

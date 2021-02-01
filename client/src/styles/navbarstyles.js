@@ -3,7 +3,7 @@ import theme from "../theme/mui_theme";
 const navbarstyles = {
   nav_main: {
     position: "static",
-    width: "100vw",
+    width: "100%",
     height: "40px",
     backgroundColor: theme.palette.primary.dark,
     display: "flex",
@@ -71,6 +71,7 @@ const navbarstyles = {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    height: "100%",
   },
 };
 

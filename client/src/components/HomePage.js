@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { Switch } from "react-router-dom";
+import { Switch, useLocation } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import HomePageLeft from "./homepage/HomePageLeft";
 import DeckDetails from "./DeckDetails";
@@ -13,18 +13,18 @@ import homepagestyles from "../styles/homepagestyles";
 const useStyles = makeStyles((theme) => homepagestyles);
 
 const HomePage = () => {
-  const { user } = useContext(MainContext);
-  console.log(user.decks);
-
+  const { user, setCurrentDeck } = useContext(MainContext);
   const styles = useStyles();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setCurrentDeck(JSON.parse(window.localStorage.getItem("last-deck")) || {});
+  }, [setCurrentDeck]);
 
   return (
-    <Box className={styles.homepage_container}>
+    <div className={styles.homepage_container}>
       <Box className={styles.homepage_top}></Box>
       <Box className={styles.homepage_bottom}>
-        <HomePageLeft />
+        <HomePageLeft className={styles.homepage_left} />
         <Box className={styles.homepage_center}>
           <Switch>
             <PrivateRoute path="/decks/:id" component={DeckCards} />
@@ -36,7 +36,7 @@ const HomePage = () => {
           </Switch>
         </Box>
       </Box>
-    </Box>
+    </div>
   );
 };
 

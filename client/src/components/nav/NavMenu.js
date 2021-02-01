@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import navmenustyles from "../../styles/navmenustyles";
 import { MainContext } from "../../MainContext";
+import { logout } from "../../services/auth";
 
 const useStyles = makeStyles((theme) => navmenustyles);
 
@@ -25,7 +26,7 @@ const NavMenu = () => {
   const handleLogout = (e) => {
     e.preventDefault();
     setAuthenticated(false);
-    window.localStorage.removeItem("token");
+    logout();
     setCurrentDeck(null);
     handleClose();
   };
@@ -40,8 +41,9 @@ const NavMenu = () => {
         component="span"
         aria-haspopup="true"
         onClick={handleClick}
+        style={{ "margin-left": "10px", "margin-right": "10px" }}
       >
-        <MenuIcon fontSize="large" />
+        <MenuIcon fontSize="normal" />
       </IconButton>
       <Menu
         id="simple-menu"

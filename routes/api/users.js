@@ -26,7 +26,6 @@ router.get(
   "/auth",
   requireAuth,
   asyncHandler(async (req, res, next) => {
-    console.log(req.user);
     res.status(200).send({
       message: "OK",
       user: req.user,
@@ -103,9 +102,9 @@ router.post(
         },
       });
       const token = getUserToken(user);
+      res.cookie("token", token, { httpOnly: true });
       res.json({
         user,
-        token,
       });
     } catch (e) {
       if (e.code === "P2002") {
@@ -170,7 +169,17 @@ router.post(
     const user = Object.assign({}, { ...login });
     delete user.hashword;
     const token = getUserToken(login);
-    res.json({ user, token });
+    res.cookie("token", token, { httpOnly: true });
+    res.json({ user });
+  })
+);
+
+router.patch(
+  "/logout",
+  requireAuth,
+  asyncHandler(async (req, res, next) => {
+    res.clearCookie("token");
+    res.json({ message: "logged out successfully" });
   })
 );
 

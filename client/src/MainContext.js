@@ -1,4 +1,5 @@
 import { MuiThemeProvider } from "@material-ui/core/styles";
+import fetch from "node-fetch";
 import React, { useState, useEffect } from "react";
 import { authenticate } from "./services/auth";
 
@@ -8,22 +9,30 @@ export const MainContext = React.createContext();
 
 export const MainProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState();
-  const [user, setUser] = useState();
-  const [currentDeck, setCurrentDeck] = useState(null);
+  const [currentDeck, setCurrentDeck] = useState();
   const [loading, setLoading] = useState(true);
+  const [symbols, setSymbols] = useState({});
+  const [user, setUser] = useState();
 
   useEffect(() => {
     (async () => {
       const auth = await authenticate();
-      console.log(auth);
       if (auth) {
         setAuthenticated(true);
-        await setUser(auth);
+        setUser(auth);
         setLoading(false);
       } else {
         setAuthenticated(false);
         setLoading(false);
       }
+      const syms = await fetch("/api/symbols");
+      const parsedSyms = await syms.json();
+      setSymbols(
+        parsedSyms.reduce((obj, x) => {
+          obj[x.symbol] = x.svg_uri;
+          return obj;
+        }, {})
+      );
     })();
   }, []);
 
@@ -33,10 +42,12 @@ export const MainProvider = ({ children }) => {
         authenticated,
         currentDeck,
         loading,
+        symbols,
         user,
         setAuthenticated,
         setCurrentDeck,
         setLoading,
+        setSymbols,
         setUser,
       }}
     >

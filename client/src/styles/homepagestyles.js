@@ -1,6 +1,8 @@
+import theme from "../theme/mui_theme";
+
 const homepagestyles = {
   homepage_container: {
-    width: "100vw",
+    width: "100%",
     height: "calc(100vh - 40px)",
     display: "flex",
     flexDirection: "column",
@@ -8,21 +10,22 @@ const homepagestyles = {
   homepage_top: {
     display: "flex",
     backgroundColor: "purple",
-    height: "40px",
+    minHeight: "40px",
   },
   homepage_bottom: {
     display: "flex",
-    height: "calc(100% - 40px)",
+    backgroundColor: theme.palette.secondary.main,
+    height: "100%",
   },
   homepage_center: {
     width: "60%",
-    height: "100%",
-    backgroundColor: "blue",
+    overflowY: "auto",
   },
   homepage_right: {
     width: "20%",
+    position: "static",
+    borderLeft: `1px solid ${theme.palette.secondary.light}`,
     height: "100%",
-    backgroundColor: "yellow",
   },
 };
 

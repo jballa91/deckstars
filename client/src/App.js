@@ -15,18 +15,27 @@ const history = createBrowserHistory();
 const useStyles = makeStyles((theme) => ({
   window: {
     width: "100vw",
-    height: "100vh",
+    minHeight: "100vh",
     margin: "0px",
     padding: "0px",
+    backgroundColor: theme.palette.secondary.main,
   },
-  app: {},
+  app: {
+    minHeight: "100vh",
+    // backgroundColor: theme.palette.secondary.main,
+  },
+  slipbop: {
+    position: "static",
+    zIndex: 3,
+    width: "100%",
+  },
 }));
 
 function App() {
   const { authenticated } = useContext(MainContext);
   const { loading } = useContext(MainContext);
 
-  const classes = useStyles();
+  const styles = useStyles();
 
   useEffect(() => {}, [loading]);
 
@@ -35,20 +44,18 @@ function App() {
   }
 
   return (
-    <Box className={classes.window}>
+    <Box className={styles.window}>
       <BrowserRouter history={history}>
-        <header>
+        <header className={styles.slipbop}>
           <NavBar />
         </header>
-        <Box className={classes.app}>
-          <Switch>
-            {authenticated ? (
-              <PrivateRoute path="/" component={HomePage} />
-            ) : (
-              <Route exact path="/" component={SplashPage} />
-            )}
-          </Switch>
-        </Box>
+        <Switch>
+          {authenticated ? (
+            <PrivateRoute path="/" component={HomePage} />
+          ) : (
+            <Route exact path="/" component={SplashPage} />
+          )}
+        </Switch>
       </BrowserRouter>
     </Box>
   );

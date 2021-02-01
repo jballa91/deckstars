@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const bearerToken = require("express-bearer-token");
+// const bearerToken = require("express-bearer-token");
 const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("@prisma/client");
 const { jwtConfig } = require("./config");
@@ -22,7 +22,7 @@ const getUserToken = (user) => {
 };
 
 const restoreUser = (req, res, next) => {
-  const { token } = req;
+  const { token } = req.cookies;
 
   if (!token) {
     return res.set("WWW-Authenticate", "Bearer").status(401).end();
@@ -84,6 +84,6 @@ const validatePassword = (password, user) => {
   return bcrypt.compareSync(password, user.hashword.toString());
 };
 
-const requireAuth = [bearerToken(), restoreUser];
+const requireAuth = [restoreUser];
 
 module.exports = { getUserToken, requireAuth, validatePassword };

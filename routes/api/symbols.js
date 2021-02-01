@@ -5,6 +5,15 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const router = express.Router();
 
+// get all symbols
+router.get(
+  "/",
+  asyncHandler(async (req, res, next) => {
+    const symbols = await prisma.cardSymbol.findMany();
+    return res.json(symbols);
+  })
+);
+
 // Get a symbol
 router.get(
   "/:text",
