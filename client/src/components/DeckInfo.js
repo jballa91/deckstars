@@ -71,13 +71,8 @@ const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
           </Typography>
         </Box>
         <Box className={styles.delete_holder}>
-          <IconButton size="small">
-            <DeleteIcon
-              color="primary"
-              fontSize="small"
-              onClick={(e) => handleDelete(e)}
-              id={deck.id}
-            />
+          <IconButton onClick={(e) => handleDelete(e)} size="small">
+            <DeleteIcon color="primary" fontSize="small" id={deck.id} />
           </IconButton>
         </Box>
       </Box>

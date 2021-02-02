@@ -8,6 +8,7 @@ const routes = [
   "decklikes",
   "commentlikes",
   "symbols",
+  "cardtypes",
 ];
 
 for (let route of routes) {

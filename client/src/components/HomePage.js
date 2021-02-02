@@ -6,6 +6,7 @@ import DeckDetails from "./DeckDetails";
 import DeckCards from "./homepage/DeckCards";
 import CardBrowser from "./homepage/CardBrowser";
 import DeckForm from "./homepage/DeckForm";
+import CardFilter from "./homepage/CardFilter";
 import { MainContext } from "../MainContext";
 import { Box, Modal } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
@@ -46,7 +47,11 @@ const HomePage = () => {
           src={modalImgSrc}
         ></img>
       </Modal>
-      <Box className={styles.homepage_top}></Box>
+      <Box className={styles.homepage_top}>
+        <Switch>
+          <PrivateRoute exact path="/" component={CardFilter} />
+        </Switch>
+      </Box>
       <Box className={styles.homepage_bottom}>
         <HomePageLeft className={styles.homepage_left} />
         <Box className={styles.homepage_center}>

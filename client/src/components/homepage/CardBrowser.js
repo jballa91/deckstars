@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     color: "white",
-    marginBottom: "20px",
+    marginBottom: "10px",
   },
   button_previous_page: {
     marginRight: "20px",

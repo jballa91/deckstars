@@ -1,7 +1,6 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
 const { PrismaClient } = require("@prisma/client");
-const { requireAuth } = require("../../auth");
 
 const prisma = new PrismaClient();
 const router = express.Router();
