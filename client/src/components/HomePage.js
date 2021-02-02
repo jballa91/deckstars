@@ -29,9 +29,7 @@ const HomePage = () => {
     setModalImgSrc(null);
   };
 
-  useEffect(() => {
-    // setCurrentDeck(JSON.parse(window.localStorage.getItem("last-deck")) || {});
-  }, [setCurrentDeck]);
+  useEffect(() => {}, [setCurrentDeck]);
 
   return (
     <div className={styles.homepage_container}>

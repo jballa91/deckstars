@@ -3,8 +3,7 @@ import theme from "../theme/mui_theme";
 const homepagestyles = {
   homepage_container: {
     width: "100%",
-    height: "calc(100vh - 40px)",
-    // minHeight: "fit-content",
+    height: "calc(100% - 40px)",
     display: "flex",
     flexDirection: "column",
   },
@@ -16,18 +15,20 @@ const homepagestyles = {
   homepage_bottom: {
     display: "flex",
     backgroundColor: theme.palette.secondary.main,
-    height: "100%",
+    height: "calc(100% - 40px)",
   },
   homepage_center: {
     width: "60%",
-    // minHeight: "100%",
-    // overflowY: "auto",
+    height: "100%",
+    overflowY: "auto",
   },
   homepage_right: {
     width: "20%",
     position: "static",
     borderLeft: `1px solid ${theme.palette.secondary.light}`,
     height: "100%",
+    overflowY: "auto",
+    boxSizing: "border-box",
   },
   modal: {
     display: "flex",

@@ -16,7 +16,9 @@ import {
 const useStyles = makeStyles((theme) => deckformstyles);
 
 const DeckForm = () => {
-  const { newDeck, user, setCurrentDeck, setNewDeck } = useContext(MainContext);
+  const { newDeck, user, setCurrentDeck, setNewDeck, setUser } = useContext(
+    MainContext
+  );
   const [redirectId, setRedirectId] = useState(null);
   const styles = useStyles();
 
@@ -76,6 +78,10 @@ const DeckForm = () => {
     });
     let parsed = await res.json();
     console.log(parsed);
+    let tempUser = { ...user };
+    console.log(user);
+    tempUser.decks.push(parsed);
+    setUser(tempUser);
     setRedirectId(parsed.id);
   };
 

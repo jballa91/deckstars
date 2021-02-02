@@ -13,13 +13,10 @@ import {
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex-box",
-    // boxSizing: "border-box",
     flexDirection: "column",
     alignItems: "center",
     height: "100%",
-    overflowY: "auto",
     justifyContent: "center",
-    // borderBottom: "100px solid red",
   },
   card_browser: {
     display: "flex",
@@ -31,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.light,
     flexDirection: "column",
     borderRadius: "5px",
-    // border: `1px solid ${theme.palette.primary.light}`,
     boxSizing: "border-box",
     padding: "10px",
     height: "auto",
@@ -75,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   page_header: {
-    height: "50px",
     paddingTop: "10px",
     display: "flex",
     width: "100%",
@@ -83,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-start",
   },
   page_footer: {
-    height: "100px",
     paddingTop: "10px",
     display: "flex",
     width: "100%",
@@ -96,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     color: "white",
+    marginBottom: "20px",
   },
   button_previous_page: {
     marginRight: "20px",

@@ -13,8 +13,8 @@ import reactStringReplace from "react-string-replace";
 
 const useStyles = makeStyles((theme) => ({
   deck_cards: {
-    backgroundColor: theme.palette.secondary.main,
-    height: "100%",
+    // backgroundColor: theme.palette.secondary.main,
+    // height: "100%",
     minWidth: "100%",
     overflowY: "auto",
   },

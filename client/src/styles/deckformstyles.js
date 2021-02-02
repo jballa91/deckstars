@@ -5,7 +5,6 @@ const deckformstyles = {
     display: "flex",
     flexDirection: "column",
     width: "90%",
-    height: "inherit",
     margin: "10px auto",
     overflow: "auto",
   },

@@ -1,10 +1,7 @@
-// import { response } from "express";
-
 export const authenticate = async () => {
   const res = await fetch("/api/users/auth", {
     credentials: "include",
   });
-  // const json = await res.json();
   if (res.status === 401) {
     return false;
   } else if (res.status === 200) {

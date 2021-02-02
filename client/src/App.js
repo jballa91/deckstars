@@ -15,15 +15,12 @@ const history = createBrowserHistory();
 const useStyles = makeStyles((theme) => ({
   window: {
     width: "100vw",
-    minHeight: "100vh",
+
+    height: "100%",
     margin: "0px",
     padding: "0px",
-    backgroundColor: theme.palette.secondary.main,
   },
-  app: {
-    minHeight: "100vh",
-    // backgroundColor: theme.palette.secondary.main,
-  },
+  app: {},
   slipbop: {
     position: "static",
     zIndex: 3,

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link, withRouter, useHistory } from "react-router-dom";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography, IconButton } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/styles";
 
 import { MainContext } from "../MainContext";
@@ -18,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     marginBottom: "5px",
     padding: "10px",
-    // boxSizing: "border-box",
   },
   row_one: {
     display: "flex",
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DeckInfo = ({ deck }) => {
+const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
   const { setCurrentDeck } = useContext(MainContext);
   const styles = useStyles();
   const handleClick = async (e) => {
@@ -43,7 +43,12 @@ const DeckInfo = ({ deck }) => {
     });
     const parsedDeck = await foundDeck.json();
     setCurrentDeck(parsedDeck);
-    // window.localStorage.setItem("last-deck", JSON.stringify(parsedDeck));
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    setDeckToDelete(deck.id);
+    setDeleteOpen(true);
   };
 
   return (
@@ -64,6 +69,16 @@ const DeckInfo = ({ deck }) => {
           <Typography variant="body2">
             Winrate: {deck.wins ? deck.wins / (deck.wins + deck.losses) : 0}
           </Typography>
+        </Box>
+        <Box className={styles.delete_holder}>
+          <IconButton size="small">
+            <DeleteIcon
+              color="primary"
+              fontSize="small"
+              onClick={(e) => handleDelete(e)}
+              id={deck.id}
+            />
+          </IconButton>
         </Box>
       </Box>
     </Link>

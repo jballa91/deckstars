@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-// const bearerToken = require("express-bearer-token");
 const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("@prisma/client");
 const { jwtConfig } = require("./config");
