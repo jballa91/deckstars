@@ -113,7 +113,7 @@ router.post(
   requireAuth,
   asyncHandler(async (req, res, next) => {
     const { userId, deck } = req.body;
-    console.log(deck.mainDeck, deck.sideBoard);
+    console.log(userId, deck);
     const newDeck = await prisma.deck.create({
       data: {
         user: { connect: { id: userId } },
@@ -176,10 +176,8 @@ router.patch(
   asyncHandler(async (req, res, next) => {
     const deckId = parseInt(req.params.deckId);
     const { deck } = req.body;
-    console.log(deck.mainDeck);
     deck.mainDeck.forEach((obj) => (obj["deckId"] = deckId));
     deck.sideBoard.forEach((obj) => (obj["deckId"] = deckId));
-    console.log(deck.mainDeck);
 
     const deletedMainDeck = await prisma.mainDeckCards.deleteMany({
       where: {

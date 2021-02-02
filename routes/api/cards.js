@@ -51,6 +51,19 @@ router.get(
   })
 );
 
+// get paginated cards
+router.get(
+  "/page/:page",
+  asyncHandler(async (req, res, next) => {
+    const page = parseInt(req.params.page, 10);
+    const cards = await prisma.card.findMany({
+      skip: page * 20,
+      take: 20,
+    });
+    res.json(cards);
+  })
+);
+
 // get all cards in one set
 router.get(
   "/set/:setId",

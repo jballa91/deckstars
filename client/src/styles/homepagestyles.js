@@ -4,6 +4,7 @@ const homepagestyles = {
   homepage_container: {
     width: "100%",
     height: "calc(100vh - 40px)",
+    // minHeight: "fit-content",
     display: "flex",
     flexDirection: "column",
   },
@@ -19,13 +20,23 @@ const homepagestyles = {
   },
   homepage_center: {
     width: "60%",
-    overflowY: "auto",
+    // minHeight: "100%",
+    // overflowY: "auto",
   },
   homepage_right: {
     width: "20%",
     position: "static",
     borderLeft: `1px solid ${theme.palette.secondary.light}`,
     height: "100%",
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modal_img: {
+    height: "80vh",
+    width: "auto",
   },
 };
 

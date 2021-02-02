@@ -9,12 +9,14 @@ import {
 import { Box, Typography } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { MainContext } from "../../MainContext";
+import reactStringReplace from "react-string-replace";
 
 const useStyles = makeStyles((theme) => ({
   deck_cards: {
     backgroundColor: theme.palette.secondary.main,
+    height: "100%",
     minWidth: "100%",
-    // overflowY: "auto",
+    overflowY: "auto",
   },
   header: {
     color: "white",
@@ -57,27 +59,63 @@ const useStyles = makeStyles((theme) => ({
     height: "0.875rem",
     marginRight: "5px",
   },
-  img_small: {
-    backgroundColor: theme.palette.secondary.light,
+  imgSmall: {
+    width: "200px",
+    height: "auto",
+    "&:hover": {
+      cursor: "pointer",
+    },
   },
-  flavorText: {
+  rules_card_symbol_img: {
+    display: "inline-block",
+    height: "0.875rem",
+    position: "relative",
+    top: "3px",
+    margin: "0px 2px",
+  },
+  flavor_text: {
     fontStyle: "italic",
   },
 }));
 
 const DeckCards = () => {
-  const { currentDeck, symbols } = useContext(MainContext);
+  const {
+    currentDeck,
+    symbols,
+    setCurrentDeck,
+    setModalImgSrc,
+    setModalImgOpen,
+  } = useContext(MainContext);
+  const { deckId } = useParams();
   const [expanded, setExpanded] = useState(false);
   const styles = useStyles();
+
+  const handleImgClick = (e, uri) => {
+    setModalImgSrc(uri);
+    setModalImgOpen(true);
+  };
 
   const findSymbols = (str) => {
     const regex = /\{(.*?)\}/g;
     return str.match(regex);
   };
 
+  // found package for this replacing in rules text
+  // const fillSymbols = (str) => {
+  //   return `<img src=${symbols[str]} alt="card symbol" className={styles.card_symbol_img}></img>`;
+  // };
+
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(`/api/decks/${parseInt(deckId)}`);
+      const parsed = await res.json();
+      setCurrentDeck(parsed);
+    })();
+  }, [deckId, setCurrentDeck]);
 
   if (!currentDeck) {
     return <h1>NO CURRENT DECK</h1>;
@@ -119,7 +157,7 @@ const DeckCards = () => {
                     findSymbols(card.manaCost).map((symbol, i) => {
                       return (
                         <img
-                          key={symbol + `${i}`}
+                          key={symbol + card.uuid + `${i}`}
                           className={styles.card_symbol_img}
                           alt="Card Symbol"
                           src={symbols[symbol]}
@@ -134,13 +172,26 @@ const DeckCards = () => {
               <Box className={styles.open}>
                 <img
                   alt="This is a card"
-                  src={card.imgSmall}
+                  src={card.imgLarge}
                   className={styles.imgSmall}
+                  onClick={(e) => handleImgClick(e, card.imgLarge)}
                 ></img>
                 <Box className={styles.card_info}>
-                  <Typography variant="body2">{card.text}</Typography>
+                  <Typography variant="body2" className={styles.rules_text}>
+                    {/* {card.text.replace(/\{(.*?)\}/g, fillSymbols)} */}
+                    {reactStringReplace(card.text, /\{(.*?)\}/g, (match, i) => {
+                      return (
+                        <img
+                          key={match + card.id + `${i}`}
+                          src={symbols[`{${match}}`]}
+                          alt="card symbol"
+                          className={styles.rules_card_symbol_img}
+                        ></img>
+                      );
+                    })}
+                  </Typography>
                   {card.flavorText ? (
-                    <Typography variant="body2" className={styles.flavorText}>
+                    <Typography variant="body2" className={styles.flavor_text}>
                       {card.flavorText}
                     </Typography>
                   ) : null}

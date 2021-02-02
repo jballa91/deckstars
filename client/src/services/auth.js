@@ -5,7 +5,6 @@ export const authenticate = async () => {
     credentials: "include",
   });
   // const json = await res.json();
-  console.log(res);
   if (res.status === 401) {
     return false;
   } else if (res.status === 200) {

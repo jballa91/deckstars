@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => navmenustyles);
 const NavMenu = () => {
   const { user, setAuthenticated, setCurrentDeck } = useContext(MainContext);
   const [anchorEl, setAnchorEl] = useState(null);
-  console.log(user);
   const styles = useStyles();
 
   const handleClick = (e) => {
@@ -41,9 +40,9 @@ const NavMenu = () => {
         component="span"
         aria-haspopup="true"
         onClick={handleClick}
-        style={{ "margin-left": "10px", "margin-right": "10px" }}
+        style={{ marginLeft: "10px", marginRight: "10px" }}
       >
-        <MenuIcon fontSize="normal" />
+        <MenuIcon fontSize="default" />
       </IconButton>
       <Menu
         id="simple-menu"

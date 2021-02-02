@@ -36,16 +36,14 @@ const DeckInfo = ({ deck }) => {
   const { setCurrentDeck } = useContext(MainContext);
   const styles = useStyles();
   const handleClick = async (e) => {
-    const token = window.localStorage.getItem("token");
     let foundDeck = await fetch(`/api/decks/${deck.id}`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
     const parsedDeck = await foundDeck.json();
     setCurrentDeck(parsedDeck);
-    window.localStorage.setItem("last-deck", JSON.stringify(parsedDeck));
+    // window.localStorage.setItem("last-deck", JSON.stringify(parsedDeck));
   };
 
   return (

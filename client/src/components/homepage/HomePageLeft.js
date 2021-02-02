@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { MainContext } from "../../MainContext";
 import {
   Box,
+  Button,
   Typography,
   Accordion,
   AccordionSummary,
@@ -20,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   fixed: {
     position: "static",
     width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   accordion: {
     backgroundColor: theme.palette.secondary.main,
@@ -31,6 +36,16 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     width: "100%",
     borderRight: "none",
+  },
+  link_new_deck: {
+    textDecoration: "none",
+  },
+  button_new_deck: {
+    margin: "10px 0 10px 10px",
+    backgroundColor: theme.palette.primary.dark,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+    },
   },
 }));
 
@@ -70,6 +85,9 @@ const HomePageLeft = () => {
             </Box>
           </AccordionDetails>
         </Accordion>
+        <Link className={styles.link_new_deck} to="/">
+          <Button className={styles.button_new_deck}>Create a new deck</Button>
+        </Link>
       </Box>
     </Box>
   );

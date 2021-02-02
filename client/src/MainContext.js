@@ -1,5 +1,4 @@
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import fetch from "node-fetch";
 import React, { useState, useEffect } from "react";
 import { authenticate } from "./services/auth";
 
@@ -11,6 +10,14 @@ export const MainProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState();
   const [currentDeck, setCurrentDeck] = useState();
   const [loading, setLoading] = useState(true);
+  const [modalImgOpen, setModalImgOpen] = useState(false);
+  const [modalImgSrc, setModalImgSrc] = useState(null);
+  const [newDeck, setNewDeck] = useState({
+    name: "",
+    description: "",
+    mainDeck: [],
+    sideBoard: [],
+  });
   const [symbols, setSymbols] = useState({});
   const [user, setUser] = useState();
 
@@ -42,11 +49,17 @@ export const MainProvider = ({ children }) => {
         authenticated,
         currentDeck,
         loading,
+        modalImgOpen,
+        modalImgSrc,
+        newDeck,
         symbols,
         user,
         setAuthenticated,
         setCurrentDeck,
         setLoading,
+        setModalImgOpen,
+        setModalImgSrc,
+        setNewDeck,
         setSymbols,
         setUser,
       }}
