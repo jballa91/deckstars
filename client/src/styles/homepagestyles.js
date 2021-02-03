@@ -3,7 +3,7 @@ import theme from "../theme/mui_theme";
 const homepagestyles = {
   homepage_container: {
     width: "100%",
-    height: "calc(100% - 80px)",
+    height: "calc(100% - 40px)",
     display: "flex",
     flexDirection: "column",
   },
