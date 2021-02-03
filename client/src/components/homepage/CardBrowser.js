@@ -20,14 +20,15 @@ const CardBrowser = () => {
     cards,
     filters,
     newDeck,
+    page,
     setCards,
+    setPage,
     setModalImgOpen,
     setModalImgSrc,
     setNewDeck,
   } = useContext(MainContext);
   // const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0);
 
   const styles = useStyles();
 
@@ -97,6 +98,7 @@ const CardBrowser = () => {
           </Button>
           <Typography className={styles.current_page}>{page + 1}</Typography>
           <Button
+            disabled={cards.length < 20}
             className={styles.button_next_page}
             onClick={(e) => handleClickNextPage(e, newDeck, setNewDeck)}
           >
@@ -179,6 +181,7 @@ const CardBrowser = () => {
           </Button>
           <Typography className={styles.current_page}>{page + 1}</Typography>
           <Button
+            disabled={cards.length < 20}
             className={styles.button_next_page}
             onClick={(e) => handleClickNextPage(e)}
           >

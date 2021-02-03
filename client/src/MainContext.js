@@ -24,6 +24,7 @@ export const MainProvider = ({ children }) => {
     mainDeck: [],
     sideBoard: [],
   });
+  const [page, setPage] = useState(0);
   const [symbols, setSymbols] = useState({});
   const [user, setUser] = useState();
 
@@ -60,6 +61,7 @@ export const MainProvider = ({ children }) => {
         modalImgOpen,
         modalImgSrc,
         newDeck,
+        page,
         symbols,
         user,
         setAuthenticated,
@@ -70,6 +72,7 @@ export const MainProvider = ({ children }) => {
         setModalImgOpen,
         setModalImgSrc,
         setNewDeck,
+        setPage,
         setSymbols,
         setUser,
       }}

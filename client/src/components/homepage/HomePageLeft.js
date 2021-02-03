@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { MainContext } from "../../MainContext";
 import {
   Box,
@@ -22,6 +22,8 @@ const HomePageLeft = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deckToDelete, setDeckToDelete] = useState(null);
   const styles = useStyles();
+
+  const history = useHistory();
 
   useEffect(() => {}, []);
 
@@ -48,6 +50,7 @@ const HomePageLeft = () => {
     setUser(tempUser);
     setDeckToDelete(0);
     setDeleteOpen(false);
+    history.push("/");
   };
   return (
     <Box className={styles.homepage_left}>

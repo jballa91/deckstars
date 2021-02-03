@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CardFilter = () => {
-  const { symbols, setCards, setFilters } = useContext(MainContext);
+  const { symbols, setFilters, setPage } = useContext(MainContext);
   const [searchString, setSearchString] = useState("");
   const [cardTypes, setCardTypes] = useState([]);
   const [checkedTypes, setCheckedTypes] = useState([]);
@@ -163,6 +163,8 @@ const CardFilter = () => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+    setPage(0);
     const queryObj = {
       name: "",
       colors: [],
@@ -180,7 +182,6 @@ const CardFilter = () => {
     if (checkedTypes.length > 0) {
       queryObj["cardTypes"] = checkedTypes;
     }
-
     setFilters(queryObj);
 
     // const res = await fetch(`/api/cards/search/results${queryString}`);
@@ -192,7 +193,7 @@ const CardFilter = () => {
 
   return (
     <Box className={styles.container}>
-      <Box className={styles.form}>
+      <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
         <Box className={styles.search_container}>
           <TextField
             className={styles.text_field}
@@ -268,14 +269,11 @@ const CardFilter = () => {
         </Box>
         <Box></Box>
         <Box className={styles.submit_container}>
-          <Button
-            className={styles.button_submit}
-            onClick={(e) => handleSubmit(e)}
-          >
+          <Button className={styles.button_submit} type="submit">
             Search
           </Button>
         </Box>
-      </Box>
+      </form>
     </Box>
   );
 };
