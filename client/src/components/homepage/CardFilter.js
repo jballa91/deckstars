@@ -21,7 +21,6 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import { makeStyles } from "@material-ui/styles";
-import fetch from "node-fetch";
 
 const useStyles = makeStyles((theme) => ({
   container: {

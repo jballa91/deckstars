@@ -11,7 +11,6 @@ import {
 } from "../../services/buttons";
 
 import cardbrowserstyles from "../../styles/cardbrowserstyles";
-import fetch from "node-fetch";
 
 const useStyles = makeStyles((theme) => cardbrowserstyles);
 
