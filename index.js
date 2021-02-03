@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
 
 app.use(cors({ origin: true }));
-app.use(helmet({ hsts: false }));
+app.use(helmet({ hsts: false, contentSecurityPolicy: false }));
 // app.use(
 //   csurf({
 //     // cookie: {
