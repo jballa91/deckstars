@@ -10,6 +10,7 @@ WORKDIR /public
 COPY . .
 COPY --from=front-end-build /react-app/build ./client/build
 RUN npm install
+RUN npm add -D prisma
 RUN npm install -g @prisma/client
 
 EXPOSE 5000
