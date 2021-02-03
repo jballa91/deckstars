@@ -8,7 +8,13 @@ export const MainContext = React.createContext();
 
 export const MainProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState();
+  const [cards, setCards] = useState([]);
   const [currentDeck, setCurrentDeck] = useState();
+  const [filters, setFilters] = useState({
+    name: "",
+    colors: [],
+    cardTypes: [],
+  });
   const [loading, setLoading] = useState(true);
   const [modalImgOpen, setModalImgOpen] = useState(false);
   const [modalImgSrc, setModalImgSrc] = useState(null);
@@ -47,7 +53,9 @@ export const MainProvider = ({ children }) => {
     <MainContext.Provider
       value={{
         authenticated,
+        cards,
         currentDeck,
+        filters,
         loading,
         modalImgOpen,
         modalImgSrc,
@@ -55,7 +63,9 @@ export const MainProvider = ({ children }) => {
         symbols,
         user,
         setAuthenticated,
+        setCards,
         setCurrentDeck,
+        setFilters,
         setLoading,
         setModalImgOpen,
         setModalImgSrc,

@@ -4,9 +4,6 @@ import {
   Box,
   Typograhpy,
   Typography,
-  // Accordion,
-  // AccordionDetails,
-  // AccordionSummary,
   FormControl,
   FormGroup,
   FormLabel,
@@ -114,9 +111,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CardFilter = () => {
-  const { symbols } = useContext(MainContext);
+  const { symbols, setCards, setFilters } = useContext(MainContext);
   const [searchString, setSearchString] = useState("");
-  const [filters, setFilters] = useState([]);
   const [cardTypes, setCardTypes] = useState([]);
   const [checkedTypes, setCheckedTypes] = useState([]);
   const [checkedColors, setCheckedColors] = useState([]);
@@ -167,11 +163,31 @@ const CardFilter = () => {
   };
 
   const handleSubmit = async (e) => {
-    const toSend = {
-      types: Object.keys(checkedTypes),
-      str: searchString,
+    const queryObj = {
+      name: "",
+      colors: [],
+      cardTypes: [],
     };
-    console.log(toSend);
+
+    if (searchString) {
+      queryObj["name"] = searchString;
+    }
+
+    if (checkedColors.length > 0) {
+      queryObj["colors"] = checkedColors;
+    }
+
+    if (checkedTypes.length > 0) {
+      queryObj["cardTypes"] = checkedTypes;
+    }
+
+    setFilters(queryObj);
+
+    // const res = await fetch(`/api/cards/search/results${queryString}`);
+    // // const parsed = await res.json();
+    // // setCards(parsed);
+    // let parsed = await res.json();
+    // setCards(parsed);
   };
 
   return (

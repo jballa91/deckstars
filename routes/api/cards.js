@@ -1,5 +1,6 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
+const querystring = require("querystring");
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
@@ -82,6 +83,120 @@ router.get(
       },
     });
     res.json(cards);
+  })
+);
+
+// router.get(
+//   "/search/results",
+//   asyncHandler(async (req, res, next) => {
+//     const { types } = req.body;
+
+//     const cards = await prisma.card.findMany({
+//       where: {
+//         cardTypes: {
+//           // every: {
+//           name: {
+//             in: types,
+//           },
+//           // },
+//         },
+//       },
+//       include: {
+//         cardTypes: true,
+//       },
+//     });
+//     res.json(cards);
+//   })
+// );
+
+router.get(
+  "/search/results",
+  asyncHandler(async (req, res, next) => {
+    const data = req.query;
+
+    const page = data.page || 0;
+
+    const query = { skip: page * 20, take: 20, where: { ["AND"]: [] } };
+
+    const listOfKeys = Object.keys(data);
+
+    if (listOfKeys.includes("name")) {
+      query.where["AND"].push({
+        name: { contains: data.name, mode: "insensitive" },
+      });
+    }
+
+    if (listOfKeys.includes("colors")) {
+      query.where["OR"] = [];
+      for (let color of data.colors) {
+        query.where["OR"].push({
+          colors: { contains: color, mode: "insensitive" },
+        });
+      }
+    }
+
+    if (listOfKeys.includes("cardTypes")) {
+      for (let type of data.cardTypes) {
+        query.where["AND"].push({
+          cardTypes: {
+            some: {
+              name: {
+                contains: type,
+                mode: "insensitive",
+              },
+            },
+          },
+        });
+      }
+    }
+    query.include = {
+      cardTypes: true,
+    };
+    query.orderBy = {
+      cmc: "asc",
+    };
+    // res.json(query);
+
+    const cards = await prisma.card.findMany(query);
+    res.json(cards);
+
+    // const cards = await prisma.card.findMany({
+    //   where: {
+    //     AND: [
+    //       {
+    //         cardTypes: {
+    //           some: {
+    //             name: {
+    //               contains: types[0],
+    //               mode: "insensitive",
+    //             },
+    //           },
+    //         },
+    //       },
+    //       {
+    //         cardTypes: {
+    //           some: {
+    //             name: {
+    //               contains: types[1],
+    //               mode: "insensitive",
+    //             },
+    //           },
+    //         },
+    //       },
+    //     ],
+    //   },
+    //   include: {
+    //     cardTypes: true,
+    //   },
+    // });
+    // res.json(cards);
+  })
+);
+
+router.get(
+  "/slipbop/test",
+  asyncHandler(async (req, res, next) => {
+    res.json(req.query);
   })
 );
 
