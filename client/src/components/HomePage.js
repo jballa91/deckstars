@@ -27,7 +27,7 @@ const HomePage = () => {
 
   const handleClose = (e) => {
     setModalImgOpen(false);
-    setModalImgSrc(null);
+    setModalImgSrc([]);
   };
 
   useEffect(() => {}, [setCurrentDeck]);
@@ -41,11 +41,17 @@ const HomePage = () => {
         aria-labelledby="Card Image"
         aria-describedby="This is an image of a selected card."
       >
-        <img
-          className={styles.modal_img}
-          alt="A large version of selected card"
-          src={modalImgSrc}
-        ></img>
+        <Box className={styles.modal}>
+          {modalImgSrc.map((src) => {
+            return (
+              <img
+                className={styles.modal_img}
+                alt="A large version of selected card"
+                src={src}
+              ></img>
+            );
+          })}
+        </Box>
       </Modal>
       <Box className={styles.homepage_top}>
         <Switch>

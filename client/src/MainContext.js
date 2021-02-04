@@ -17,7 +17,7 @@ export const MainProvider = ({ children }) => {
   });
   const [loading, setLoading] = useState(true);
   const [modalImgOpen, setModalImgOpen] = useState(false);
-  const [modalImgSrc, setModalImgSrc] = useState(null);
+  const [modalImgSrc, setModalImgSrc] = useState([]);
   const [newDeck, setNewDeck] = useState({
     name: "",
     description: "",

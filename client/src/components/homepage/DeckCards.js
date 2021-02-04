@@ -26,8 +26,12 @@ const DeckCards = () => {
   const [expanded, setExpanded] = useState(false);
   const styles = useStyles();
 
-  const handleImgClick = (e, uri) => {
-    setModalImgSrc(uri);
+  const handleImgClick = (e) => {
+    if (e.target.getAttribute("layout") === "modal_dfc") {
+      setModalImgSrc([e.target.src, e.target.getAttribute("backImg")]);
+    } else {
+      setModalImgSrc([e.target.src]);
+    }
     setModalImgOpen(true);
   };
 
@@ -110,7 +114,9 @@ const DeckCards = () => {
                   alt="This is a card"
                   src={card.imgLarge}
                   className={styles.imgSmall}
-                  onClick={(e) => handleImgClick(e, card.imgLarge)}
+                  layout={card.layout}
+                  backImg={card.backImgLarge}
+                  onClick={(e) => handleImgClick(e)}
                 ></img>
                 <Box className={styles.card_info}>
                   <Typography variant="body2" className={styles.rules_text}>

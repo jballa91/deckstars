@@ -150,10 +150,21 @@ const setSeeders = () => {
                     }
                     let scry = await scry_res.json();
                     let img_uris = {};
-                    img_uris.small = scry.card_faces[0].image_uris.small;
-                    img_uris.large = scry.card_faces[0].image_uris.large;
-                    img_uris.backSmall = scry.card_faces[1].image_uris.small;
-                    img_uris.backLarge = scry.card_faces[1].image_uris.large;
+                    if (
+                      await prisma.card.findUnique({
+                        where: { uuid: card.otherFaceIds[0] },
+                      })
+                    ) {
+                      img_uris.small = scry.card_faces[1].image_uris.small;
+                      img_uris.large = scry.card_faces[1].image_uris.large;
+                      img_uris.backSmall = scry.card_faces[0].image_uris.small;
+                      img_uris.backLarge = scry.card_faces[0].image_uris.large;
+                    } else {
+                      img_uris.small = scry.card_faces[0].image_uris.small;
+                      img_uris.large = scry.card_faces[0].image_uris.large;
+                      img_uris.backSmall = scry.card_faces[1].image_uris.small;
+                      img_uris.backLarge = scry.card_faces[1].image_uris.large;
+                    }
                     let res = await prisma.card.create({
                       data: {
                         artist: card.artist,

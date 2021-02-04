@@ -205,7 +205,7 @@ const CardFilter = () => {
         <Box></Box>
         <Box className={styles.filters_container}>
           <Box className={styles.filters}>
-            <Accordion sqyare={true} className={styles.accordion}>
+            <Accordion square={true} className={styles.accordion}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon color="primary" />}
                 aria-controls="expand filters"

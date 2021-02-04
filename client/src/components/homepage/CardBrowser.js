@@ -31,8 +31,39 @@ const CardBrowser = () => {
 
   const styles = useStyles();
 
+  const sortCards = (a, b) => {
+    let layoutA = a.layout.toLowerCase();
+    let layoutB = b.layout.toLowerCase();
+
+    if (layoutA < layoutB) {
+      return 1;
+    }
+    if (layoutA > layoutB) {
+      return -1;
+    }
+    return 0;
+  };
+
+  const temp = [];
+
+  let filterDups = (obj) => {
+    if (obj.layout === "normal" || obj.layout === "adventure") {
+      return true;
+    }
+    if (temp.indexOf(obj.uuid) !== -1) {
+      return false;
+    } else {
+      temp.push(obj.uuid, obj.otherFaceId);
+      return true;
+    }
+  };
+
   const handleImgClick = (e) => {
-    setModalImgSrc(e.target.src);
+    if (e.target.getAttribute("layout") === "modal_dfc") {
+      setModalImgSrc([e.target.src, e.target.getAttribute("backImg")]);
+    } else {
+      setModalImgSrc([e.target.src]);
+    }
     setModalImgOpen(true);
   };
 
@@ -106,68 +137,152 @@ const CardBrowser = () => {
         </Box>
       </Box>
       <Box className={styles.card_browser}>
-        {cards.map((card) => {
-          return (
-            <Box className={styles.card_panel} key={card.uuid}>
-              <img
-                src={card.imgLarge}
-                alt={card.name}
-                className={styles.card_img}
-                onClick={(e) => handleImgClick(e)}
-              ></img>
-              <Box className={styles.card_panel_interact}>
-                <Box className={styles.card_panel_interact_main}>
-                  <Typography
-                    className={styles.card_panel_interact_header}
-                    variant="body2"
-                  >
-                    Main Deck
-                  </Typography>
-                  <button
-                    className={styles.interact_button}
-                    id={`${card.id}@${card.name}`}
-                    onClick={(e) =>
-                      handleRemoveCardMain(e, newDeck, setNewDeck)
-                    }
-                  >
-                    -1
-                  </button>
-                  <button
-                    className={styles.interact_button}
-                    id={`${card.id}@${card.name}`}
-                    onClick={(e) => handleAddCardMain(e, newDeck, setNewDeck)}
-                  >
-                    +1
-                  </button>
+        {cards
+          .filter(filterDups)
+          .sort(sortCards)
+          .map((card) => {
+            {
+              /* if (card.layout === "modal_dfc") {
+              return (
+                <Box className={styles.card_panel_mdfc} key={card.uuid}>
+                  <Box className={styles.card_panel_mdfc_imgs}>
+                    <img
+                      src={card.imgLarge}
+                      alt={card.name}
+                      className={styles.card_img}
+                      onClick={(e) => handleImgClick(e)}
+                    ></img>
+                    <img
+                      src={card.backImgLarge}
+                      alt={card.name}
+                      className={styles.card_img}
+                      onClick={(e) => handleImgClick(e)}
+                    ></img>
+                  </Box>
+                  <Box className={styles.card_panel_interact}>
+                    <Box className={styles.card_panel_interact_main}>
+                      <Typography
+                        className={styles.card_panel_interact_header}
+                        variant="body2"
+                      >
+                        Main Deck
+                      </Typography>
+                      <button
+                        className={styles.interact_button}
+                        id={`${card.id}@${card.name}`}
+                        onClick={(e) =>
+                          handleRemoveCardMain(e, newDeck, setNewDeck)
+                        }
+                      >
+                        -1
+                      </button>
+                      <button
+                        className={styles.interact_button}
+                        id={`${card.id}@${card.name}`}
+                        onClick={(e) =>
+                          handleAddCardMain(e, newDeck, setNewDeck)
+                        }
+                      >
+                        +1
+                      </button>
+                    </Box>
+                    <Box className={styles.card_panel_interact_main}>
+                      <Typography
+                        className={styles.card_panel_interact_header}
+                        variant="body2"
+                      >
+                        Side Board
+                      </Typography>
+                      <button
+                        className={styles.interact_button}
+                        id={`${card.id}@${card.name}`}
+                        onClick={(e) =>
+                          handleRemoveCardSide(e, newDeck, setNewDeck)
+                        }
+                      >
+                        -1
+                      </button>
+                      <button
+                        className={styles.interact_button}
+                        id={`${card.id}@${card.name}`}
+                        onClick={(e) =>
+                          handleAddCardSide(e, newDeck, setNewDeck)
+                        }
+                      >
+                        +1
+                      </button>
+                    </Box>
+                  </Box>
                 </Box>
-                <Box className={styles.card_panel_interact_main}>
-                  <Typography
-                    className={styles.card_panel_interact_header}
-                    variant="body2"
-                  >
-                    Side Board
-                  </Typography>
-                  <button
-                    className={styles.interact_button}
-                    id={`${card.id}@${card.name}`}
-                    onClick={(e) =>
-                      handleRemoveCardSide(e, newDeck, setNewDeck)
-                    }
-                  >
-                    -1
-                  </button>
-                  <button
-                    className={styles.interact_button}
-                    id={`${card.id}@${card.name}`}
-                    onClick={(e) => handleAddCardSide(e, newDeck, setNewDeck)}
-                  >
-                    +1
-                  </button>
+              );
+            } else { */
+            }
+            return (
+              <Box className={styles.card_panel} key={card.uuid}>
+                <img
+                  src={card.imgLarge}
+                  alt={card.name}
+                  className={styles.card_img}
+                  layout={card.layout}
+                  backImg={card.backImgLarge}
+                  onClick={(e) => handleImgClick(e)}
+                ></img>
+                <Box className={styles.card_panel_interact}>
+                  <Box className={styles.card_panel_interact_main}>
+                    <Typography
+                      className={styles.card_panel_interact_header}
+                      variant="body2"
+                    >
+                      Main Deck
+                    </Typography>
+                    <button
+                      className={styles.interact_button}
+                      id={`${card.id}@${card.name}`}
+                      onClick={(e) =>
+                        handleRemoveCardMain(e, newDeck, setNewDeck)
+                      }
+                    >
+                      -1
+                    </button>
+                    <button
+                      className={styles.interact_button}
+                      id={`${card.id}@${card.name}`}
+                      onClick={(e) => handleAddCardMain(e, newDeck, setNewDeck)}
+                    >
+                      +1
+                    </button>
+                  </Box>
+                  <Box className={styles.card_panel_interact_main}>
+                    <Typography
+                      className={styles.card_panel_interact_header}
+                      variant="body2"
+                    >
+                      Side Board
+                    </Typography>
+                    <button
+                      className={styles.interact_button}
+                      id={`${card.id}@${card.name}`}
+                      onClick={(e) =>
+                        handleRemoveCardSide(e, newDeck, setNewDeck)
+                      }
+                    >
+                      -1
+                    </button>
+                    <button
+                      className={styles.interact_button}
+                      id={`${card.id}@${card.name}`}
+                      onClick={(e) => handleAddCardSide(e, newDeck, setNewDeck)}
+                    >
+                      +1
+                    </button>
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-          );
-        })}
+            );
+            {
+              /* } */
+            }
+          })}
       </Box>
       <Box className={styles.page_footer}>
         <Box className={styles.page_changer}>
