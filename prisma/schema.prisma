@@ -101,39 +101,47 @@ model Set {
 }
 
 model Card {
-  id            Int              @id @default(autoincrement())
-  artist        String
-  borderColor   String
-  colorIdentity String
-  colors        String
-  cmc           Int
-  flavorText    String?
-  frameVersion  String
-  hasFoil       Boolean
-  hasNonFoil    Boolean
-  inMainDeck    MainDeckCards[]  @relation("inMainDeck")
-  inSideBoard   SideBoardCards[] @relation("inSideBoard")
-  keywords      Keyword[]
-  layout        String
-  manaCost      String?
-  name          String
-  power         String?
-  rarity        String
-  rulings       Ruling[]
-  setId         Int
-  set           Set              @relation(fields: [setId], references: [id])
-  subtypes      SubType[]
-  supertypes    SuperType[]
-  text          String?
-  toughness     String?
-  type          String
-  cardTypes     CardType[]
-  imgSmall      String?
-  imgLarge      String?
-  backImgSmall  String?
-  backImgLarge  String?
-  uuid          String           @unique
-  otherFaceId   String?
+  id                  Int              @id @default(autoincrement())
+  artist              String
+  borderColor         String
+  colorIdentity       String
+  colors              String
+  cmc                 Int
+  flavorText          String?
+  frameVersion        String
+  hasFoil             Boolean
+  hasNonFoil          Boolean
+  inMainDeck          MainDeckCards[]  @relation("inMainDeck")
+  inSideBoard         SideBoardCards[] @relation("inSideBoard")
+  keywords            Keyword[]
+  layout              String
+  manaCost            String?
+  name                String
+  power               String?
+  rarity              String
+  rulings             Ruling[]
+  setId               Int
+  set                 Set              @relation(fields: [setId], references: [id])
+  subtypes            SubType[]
+  supertypes          SuperType[]
+  text                String?
+  toughness           String?
+  type                String
+  cardTypes           CardType[]
+  imgSmall            String?
+  imgLarge            String?
+  backImgSmall        String?
+  backImgLarge        String?
+  uuid                String           @unique
+  frontFaceName       String?
+  otherFaceName       String?
+  otherFaceId         String?
+  otherFaceText       String?
+  otherFaceFlavorText String?
+  otherFaceType       String?
+  otherFaceColors     String?
+  otherFaceManaCost   String?
+
 }
 
 model CardSymbol {

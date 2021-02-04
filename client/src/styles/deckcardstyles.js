@@ -31,11 +31,23 @@ const deckcardstyles = {
     margin: "0 100px",
     backgroundColor: theme.palette.secondary.light,
   },
+  open_modal_dfc: {
+    display: "flex",
+    margin: "0 20px",
+    backgroundColor: theme.palette.secondary.light,
+  },
   card_info: {
     margin: "0px 20px",
+    width: "50%",
     display: "flex",
     flexDirection: "column",
   },
+  name_and_cost: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  pre: { fontFamily: "inherit", whiteSpace: "pre-wrap" },
   mana_cost_symbols: {
     display: "flex",
     alignItems: "center",
@@ -45,9 +57,10 @@ const deckcardstyles = {
     height: "0.875rem",
     marginRight: "5px",
   },
-  imgSmall: {
-    width: "200px",
-    height: "auto",
+  img: {
+    maxWidth: "200px",
+    maxHeight: "279px",
+    borderRadius: "4.4%",
     "&:hover": {
       cursor: "pointer",
     },
@@ -56,8 +69,13 @@ const deckcardstyles = {
     display: "inline-block",
     height: "0.875rem",
     position: "relative",
-    top: "3px",
+    top: "2px",
     margin: "0px 2px",
+  },
+  card_symbol_img_large: {
+    height: "1rem",
+    margin: "0px 2px",
+    // display: "inline-block",
   },
   flavor_text: {
     fontStyle: "italic",

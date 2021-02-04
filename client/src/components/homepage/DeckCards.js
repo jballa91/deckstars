@@ -28,7 +28,7 @@ const DeckCards = () => {
 
   const handleImgClick = (e) => {
     if (e.target.getAttribute("layout") === "modal_dfc") {
-      setModalImgSrc([e.target.src, e.target.getAttribute("backImg")]);
+      setModalImgSrc([e.target.src, e.target.getAttribute("backimg")]);
     } else {
       setModalImgSrc([e.target.src]);
     }
@@ -109,36 +109,209 @@ const DeckCards = () => {
               </Box>
             </AccordionSummary>
             <AccordionDetails>
-              <Box className={styles.open}>
-                <img
-                  alt="This is a card"
-                  src={card.imgLarge}
-                  className={styles.imgSmall}
-                  layout={card.layout}
-                  backImg={card.backImgLarge}
-                  onClick={(e) => handleImgClick(e)}
-                ></img>
-                <Box className={styles.card_info}>
-                  <Typography variant="body2" className={styles.rules_text}>
-                    {/* {card.text.replace(/\{(.*?)\}/g, fillSymbols)} */}
-                    {reactStringReplace(card.text, /\{(.*?)\}/g, (match, i) => {
-                      return (
-                        <img
-                          key={match + card.id + `${i}`}
-                          src={symbols[`{${match}}`]}
-                          alt="card symbol"
-                          className={styles.rules_card_symbol_img}
-                        ></img>
-                      );
-                    })}
-                  </Typography>
-                  {card.flavorText ? (
-                    <Typography variant="body2" className={styles.flavor_text}>
-                      {card.flavorText}
+              {card.layout !== "modal_dfc" ? (
+                <Box className={styles.open}>
+                  <img
+                    alt="This is a card"
+                    src={card.imgLarge}
+                    className={styles.img}
+                    layout={card.layout}
+                    backimg={card.backImgLarge}
+                    onClick={(e) => handleImgClick(e)}
+                  ></img>
+                  <Box className={styles.card_info}>
+                    <Box className={styles.name_and_cost}>
+                      <Typography variant="h6">{card.name}</Typography>
+                      <div>
+                        {reactStringReplace(
+                          card.manaCost,
+                          /\{(.*?)\}/g,
+                          (match, i) => {
+                            return (
+                              <img
+                                key={match + card.id + `${i}`}
+                                src={symbols[`{${match}}`]}
+                                alt="card symbol"
+                                className={styles.card_symbol_img_large}
+                              ></img>
+                            );
+                          }
+                        )}
+                      </div>
+                    </Box>
+                    <Typography variant="body1">{card.type}</Typography>
+                    <Typography variant="body2" className={styles.rules_text}>
+                      <pre className={styles.pre}>
+                        {/* {card.text.replace(/\{(.*?)\}/g, fillSymbols)} */}
+                        {reactStringReplace(
+                          card.text,
+                          /\{(.*?)\}/g,
+                          (match, i) => {
+                            return (
+                              <img
+                                key={match + card.id + `${i}`}
+                                src={symbols[`{${match}}`]}
+                                alt="card symbol"
+                                className={styles.rules_card_symbol_img}
+                              ></img>
+                            );
+                          }
+                        )}
+                      </pre>
                     </Typography>
-                  ) : null}
+                    {card.flavorText ? (
+                      <Typography
+                        variant="body2"
+                        className={styles.flavor_text}
+                      >
+                        <pre className={styles.pre}>{card.flavorText}</pre>
+                      </Typography>
+                    ) : null}
+                    {card.power !== null && card.toughness !== null && (
+                      <Typography variant="body2">
+                        {card.power} / {card.toughness}
+                      </Typography>
+                    )}
+                  </Box>
                 </Box>
-              </Box>
+              ) : (
+                <Box className={styles.open_modal_dfc}>
+                  <>
+                    <img
+                      alt="This is a card"
+                      src={card.imgLarge}
+                      className={styles.img}
+                      layout={card.layout}
+                      backimg={card.backImgLarge}
+                      onClick={(e) => handleImgClick(e)}
+                    ></img>
+                    <Box className={styles.card_info}>
+                      <Box className={styles.name_and_cost}>
+                        <Typography variant="h6">
+                          {card.frontFaceName}
+                        </Typography>
+                        <div>
+                          {reactStringReplace(
+                            card.manaCost,
+                            /\{(.*?)\}/g,
+                            (match, i) => {
+                              return (
+                                <img
+                                  key={match + card.id + `${i}`}
+                                  src={symbols[`{${match}}`]}
+                                  alt="card symbol"
+                                  className={styles.card_symbol_img_large}
+                                ></img>
+                              );
+                            }
+                          )}
+                        </div>
+                      </Box>
+                      <Typography variant="body1">{card.type}</Typography>
+                      <Typography variant="body2" className={styles.rules_text}>
+                        <pre className={styles.pre}>
+                          {/* {card.text.replace(/\{(.*?)\}/g, fillSymbols)} */}
+                          {reactStringReplace(
+                            card.text,
+                            /\{(.*?)\}/g,
+                            (match, i) => {
+                              return (
+                                <img
+                                  key={match + card.id + `${i}`}
+                                  src={symbols[`{${match}}`]}
+                                  alt="card symbol"
+                                  className={styles.rules_card_symbol_img}
+                                ></img>
+                              );
+                            }
+                          )}
+                        </pre>
+                      </Typography>
+                      {card.flavorText ? (
+                        <Typography
+                          variant="body2"
+                          className={styles.flavor_text}
+                        >
+                          <pre className={styles.pre}>{card.flavorText}</pre>
+                        </Typography>
+                      ) : null}
+                      {card.power !== null && card.toughness !== null ? (
+                        <Typography variant="body2">
+                          {card.power} / {card.toughness}
+                        </Typography>
+                      ) : null}
+                    </Box>
+                    <img
+                      alt="This is a card"
+                      src={card.backImgLarge}
+                      className={styles.img}
+                      layout={card.layout}
+                      backimg={card.imgLarge}
+                      onClick={(e) => handleImgClick(e)}
+                    ></img>
+                    <Box className={styles.card_info}>
+                      <Box className={styles.name_and_cost}>
+                        <Typography variant="h6">
+                          {card.otherFaceName}
+                        </Typography>
+                        <div>
+                          {reactStringReplace(
+                            card.otherFaceManaCost,
+                            /\{(.*?)\}/g,
+                            (match, i) => {
+                              return (
+                                <img
+                                  key={match + card.id + `${i}`}
+                                  src={symbols[`{${match}}`]}
+                                  alt="card symbol"
+                                  className={styles.card_symbol_img_large}
+                                ></img>
+                              );
+                            }
+                          )}
+                        </div>
+                      </Box>
+                      <Typography variant="body1">
+                        {card.otherFaceType}
+                      </Typography>
+                      <Typography variant="body2" className={styles.rules_text}>
+                        <pre className={styles.pre}>
+                          {/* {card.text.replace(/\{(.*?)\}/g, fillSymbols)} */}
+                          {reactStringReplace(
+                            card.otherFaceText,
+                            /\{(.*?)\}/g,
+                            (match, i) => {
+                              return (
+                                <img
+                                  key={match + card.id + `${i}`}
+                                  src={symbols[`{${match}}`]}
+                                  alt="card symbol"
+                                  className={styles.rules_card_symbol_img}
+                                ></img>
+                              );
+                            }
+                          )}
+                        </pre>
+                      </Typography>
+                      {card.otherFaceFlavorText ? (
+                        <Typography
+                          variant="body2"
+                          className={styles.flavor_text}
+                        >
+                          <pre className={styles.pre}>
+                            {card.otherFaceFlavorText}
+                          </pre>
+                        </Typography>
+                      ) : null}
+                      {card.power !== null && card.toughness !== null ? (
+                        <Typography variant="body2">
+                          {card.power} / {card.toughness}
+                        </Typography>
+                      ) : null}
+                    </Box>
+                  </>
+                </Box>
+              )}
             </AccordionDetails>
           </Accordion>
         );
@@ -193,7 +366,7 @@ const DeckCards = () => {
                 <img
                   alt="This is a card"
                   src={card.imgLarge}
-                  className={styles.imgSmall}
+                  className={styles.img}
                   onClick={(e) => handleImgClick(e, card.imgLarge)}
                 ></img>
                 <Box className={styles.card_info}>

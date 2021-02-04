@@ -38,6 +38,7 @@ const homepagestyles = {
   modal_img: {
     height: "80vh",
     width: "auto",
+    borderRadius: "4.4%",
   },
 };
 

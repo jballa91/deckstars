@@ -53,6 +53,8 @@ const cardbrowserstyles = {
   },
   card_img: {
     maxWidth: "230px",
+    maxHeight: "320.344px",
+    borderRadius: "4.4%",
     "&:hover": {
       cursor: "pointer",
     },

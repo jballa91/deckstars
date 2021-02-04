@@ -42,12 +42,13 @@ const HomePage = () => {
         aria-describedby="This is an image of a selected card."
       >
         <Box className={styles.modal}>
-          {modalImgSrc.map((src) => {
+          {modalImgSrc.map((src, i) => {
             return (
               <img
                 className={styles.modal_img}
                 alt="A large version of selected card"
                 src={src}
+                key={i}
               ></img>
             );
           })}

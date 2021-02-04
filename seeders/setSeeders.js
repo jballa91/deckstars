@@ -206,7 +206,14 @@ const setSeeders = () => {
                         backImgSmall: img_uris.backSmall,
                         backImgLarge: img_uris.backLarge,
                         uuid: card.uuid,
+                        frontFaceName: scry.card_faces[0].name,
+                        otherFaceName: scry.card_faces[1].name,
                         otherFaceId: card.otherFaceIds[0],
+                        otherFaceText: scry.card_faces[1].oracle_text,
+                        otherFaceFlavorText: scry.card_faces[1].flavor_text,
+                        otherFaceType: scry.card_faces[1].type_line,
+                        otherFaceColors: scry.card_faces[1].colors.join(""),
+                        otherFaceManaCost: scry.card_faces[1].mana_cost,
                       },
                     });
                   }
