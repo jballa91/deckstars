@@ -99,6 +99,7 @@ router.post(
           username: true,
           email: true,
           decks: true,
+          deckLikes: true,
         },
       });
       const token = getUserToken(user);

@@ -9,7 +9,7 @@ import { signUp } from "../services/auth";
 const useStyles = makeStyles((theme) => signupformstyles);
 
 const SignUpForm = ({ setSignUpOpen }) => {
-  const { setUser, setAuthenticated } = useContext(MainContext);
+  const { setAuthenticated, setLoading, setUser } = useContext(MainContext);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,7 +46,6 @@ const SignUpForm = ({ setSignUpOpen }) => {
       if (user.message === "Username or Email in use.") {
         window.alert("Username or Email in use.");
       } else {
-        window.localStorage.setItem("token", user.token);
         setUser(user.user);
         setAuthenticated(true);
       }
