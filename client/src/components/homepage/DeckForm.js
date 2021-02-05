@@ -20,6 +20,7 @@ const DeckForm = () => {
     MainContext
   );
   const [redirectId, setRedirectId] = useState(null);
+  const [totalCardCount, setTotalCardCount] = useState(0);
   const styles = useStyles();
 
   useEffect(() => {
@@ -46,6 +47,12 @@ const DeckForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (newDeck.mainDeck.reduce((total, obj) => total + obj, 0) < 60) {
+      window.alert(
+        "A standard legal deck needs at least 60 cards in the Main Deck, silly!"
+      );
+      return;
+    }
     let tempDeck = { ...newDeck };
     for (let i = 0; i < tempDeck.mainDeck.length; i++) {
       tempDeck.mainDeck[i].cardId = tempDeck.mainDeck[i].id;
@@ -86,7 +93,7 @@ const DeckForm = () => {
   };
 
   if (redirectId) {
-    return <Redirect to={`/decks/${redirectId}`} />;
+    return <Redirect to={`/deck/${redirectId}`} />;
   }
 
   return (
@@ -112,7 +119,22 @@ const DeckForm = () => {
           fullWidth={true}
         ></TextField>
         <Box className={styles.deck_list_main}>
-          <Typography color="primary">Main Deck</Typography>
+          <Box className={styles.main_deck_top}>
+            <Typography color="primary">Main Deck</Typography>
+            <Typography
+              color={
+                newDeck.mainDeck.reduce(
+                  (total, obj) => total + obj.quantity,
+                  0
+                ) < 60
+                  ? "error"
+                  : "primary"
+              }
+            >
+              Cards{" "}
+              {newDeck.mainDeck.reduce((total, obj) => total + obj.quantity, 0)}
+            </Typography>
+          </Box>
           <Box className={styles.header}>
             <Typography>#</Typography>
             <Typography>Card Name</Typography>
@@ -150,9 +172,25 @@ const DeckForm = () => {
           </Box>
         </Box>
         <Box className={styles.deck_list_main}>
-          <Typography className={styles.sideboard_title} color="primary">
-            Side Board
-          </Typography>
+          <Box className={styles.sideboard_top}>
+            <Typography color="primary">Side Board</Typography>
+            <Typography
+              color={
+                newDeck.sideBoard.reduce(
+                  (total, obj) => total + obj.quantity,
+                  0
+                ) < 15
+                  ? "error"
+                  : "primary"
+              }
+            >
+              Cards{" "}
+              {newDeck.sideBoard.reduce(
+                (total, obj) => total + obj.quantity,
+                0
+              )}
+            </Typography>
+          </Box>
           <Box className={styles.header}>
             <Typography>#</Typography>
             <Typography>Card Name</Typography>

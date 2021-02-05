@@ -60,12 +60,14 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 3,
     backgroundColor: theme.palette.secondary.light,
     color: "white",
-    border: "1px solid white",
+    // border: "1px solid white",
   },
   accordion_summary: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    border: "1px solid white",
+    boxSizing: "border-box",
   },
   expanded_details: {
     backgroundColor: theme.palette.secondary.main,
@@ -205,7 +207,7 @@ const CardFilter = () => {
         <Box></Box>
         <Box className={styles.filters_container}>
           <Box className={styles.filters}>
-            <Accordion square={true} className={styles.accordion}>
+            <Accordion className={styles.accordion}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon color="primary" />}
                 aria-controls="expand filters"

@@ -8,7 +8,7 @@ import CardBrowser from "./homepage/CardBrowser";
 import DeckForm from "./homepage/DeckForm";
 import CardFilter from "./homepage/CardFilter";
 import { MainContext } from "../MainContext";
-import { Box, Modal } from "@material-ui/core";
+import { Box, Modal, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 import homepagestyles from "../styles/homepagestyles";
@@ -19,24 +19,34 @@ const HomePage = () => {
   const {
     modalImgOpen,
     modalImgSrc,
-    setCurrentDeck,
+    modalRulingsOpen,
+    rulings,
     setModalImgOpen,
     setModalImgSrc,
+    setModalRulingsOpen,
+    setRulings,
   } = useContext(MainContext);
   const styles = useStyles();
 
-  const handleClose = (e) => {
+  const handleImgClose = (e) => {
+    e.preventDefault();
     setModalImgOpen(false);
     setModalImgSrc([]);
   };
 
-  useEffect(() => {}, [setCurrentDeck]);
+  const handleRulingsClose = (e) => {
+    e.preventDefault();
+    setModalRulingsOpen(false);
+    setRulings([]);
+  };
+
+  // useEffect(() => {}, []);
 
   return (
     <div className={styles.homepage_container}>
       <Modal
         open={modalImgOpen}
-        onClose={handleClose}
+        onClose={handleImgClose}
         className={styles.modal}
         aria-labelledby="Card Image"
         aria-describedby="This is an image of a selected card."
@@ -54,6 +64,24 @@ const HomePage = () => {
           })}
         </Box>
       </Modal>
+      <Modal
+        open={modalRulingsOpen}
+        onClose={handleRulingsClose}
+        className={styles.modal_ruling}
+        aria-labelledby="Rulings"
+        aria-describedby="This is a set of rulings for a card."
+      >
+        <Box className={styles.modal_ruling_box}>
+          {rulings.map((ruling, i) => {
+            return (
+              <Box className={styles.ruling}>
+                <Typography variant="Body2">{ruling.date}</Typography>
+                <Typography variant="caption">{ruling.text}</Typography>
+              </Box>
+            );
+          })}
+        </Box>
+      </Modal>
       <Box className={styles.homepage_top}>
         <Switch>
           <PrivateRoute exact path="/" component={CardFilter} />
@@ -63,13 +91,13 @@ const HomePage = () => {
         <HomePageLeft className={styles.homepage_left} />
         <Box className={styles.homepage_center}>
           <Switch>
-            <PrivateRoute exact path="/decks/:deckId" component={DeckCards} />
+            <PrivateRoute exact path="/deck/:deckId" component={DeckCards} />
             <PrivateRoute path="/" component={CardBrowser} />
           </Switch>
         </Box>
         <Box className={styles.homepage_right}>
           <Switch>
-            <PrivateRoute exact path="/decks/:deckId" component={DeckDetails} />
+            <PrivateRoute exact path="/deck/:deckId" component={DeckDetails} />
             <PrivateRoute path="/" component={DeckForm} />
           </Switch>
         </Box>

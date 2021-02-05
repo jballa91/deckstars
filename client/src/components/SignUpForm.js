@@ -67,6 +67,7 @@ const SignUpForm = ({ setSignUpOpen }) => {
           onChange={changeUsername}
           placeholder="username"
           type="text"
+          autoFocus={true}
         ></TextField>
         <TextField
           required

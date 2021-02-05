@@ -47,7 +47,7 @@ const CardBrowser = () => {
   const temp = [];
 
   let filterDups = (obj) => {
-    if (obj.layout === "normal" || obj.layout === "adventure") {
+    if (obj.layout === "normal") {
       return true;
     }
     if (temp.indexOf(obj.uuid) !== -1) {

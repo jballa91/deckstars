@@ -57,7 +57,11 @@ router.get(
         mainDeck: {
           select: {
             quantity: true,
-            card: true,
+            card: {
+              include: {
+                rulings: true,
+              },
+            },
           },
         },
         sideBoard: {

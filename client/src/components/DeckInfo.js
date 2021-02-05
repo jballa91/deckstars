@@ -53,7 +53,7 @@ const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
 
   return (
     <Link
-      to={`/decks/${deck.id}`}
+      to={`/deck/${deck.id}`}
       key={deck.id}
       className={styles.link}
       onClick={(e) => handleClick(e)}

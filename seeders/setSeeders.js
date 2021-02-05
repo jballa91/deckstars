@@ -88,7 +88,10 @@ const setSeeders = () => {
                   let { scryfallId } = card.identifiers;
                   console.log(card.name);
                   console.log(card.layout);
-                  if (card.layout !== "modal_dfc") {
+                  if (
+                    card.layout !== "modal_dfc" &&
+                    card.layout !== "adventure"
+                  ) {
                     let scry_res = await fetch(
                       `https://api.scryfall.com/cards/${scryfallId}`
                     );
@@ -116,6 +119,7 @@ const setSeeders = () => {
                         layout: card.layout,
                         manaCost: card.manaCost,
                         name: card.name,
+                        power: card.power,
                         rarity: card.rarity,
                         rulings: {
                           create: [...card.rulings],
@@ -140,7 +144,7 @@ const setSeeders = () => {
                         uuid: card.uuid,
                       },
                     });
-                  } else {
+                  } else if (card.layout === "modal_dfc") {
                     let scry_res = await fetch(
                       `https://api.scryfall.com/cards/${scryfallId}`
                     );
@@ -180,8 +184,9 @@ const setSeeders = () => {
                           connect: [...keywords],
                         },
                         layout: card.layout,
-                        manaCost: card.manaCost,
+                        manaCost: scry.card_faces[0].mana_cost,
                         name: card.name,
+                        power: scry.card_faces[0].power,
                         rarity: card.rarity,
                         rulings: {
                           create: [...card.rulings],
@@ -213,6 +218,68 @@ const setSeeders = () => {
                         otherFaceFlavorText: scry.card_faces[1].flavor_text,
                         otherFaceType: scry.card_faces[1].type_line,
                         otherFaceColors: scry.card_faces[1].colors.join(""),
+                        otherFaceManaCost: scry.card_faces[1].mana_cost,
+                      },
+                    });
+                  } else if (card.layout === "adventure") {
+                    let scry_res = await fetch(
+                      `https://api.scryfall.com/cards/${scryfallId}`
+                    );
+                    if (scry_res.status === 429) {
+                      console.log(scry_res.json());
+                      return;
+                    }
+                    let scry = await scry_res.json();
+                    let img_uris = {};
+                    img_uris.small = scry.image_uris.small;
+                    img_uris.large = scry.image_uris.large;
+                    let res = await prisma.card.create({
+                      data: {
+                        artist: card.artist,
+                        borderColor: card.borderColor,
+                        colorIdentity: colorIdentity,
+                        colors: colors,
+                        cmc: card.convertedManaCost,
+                        flavorText: card.flavorText,
+                        frameVersion: card.frameVersion,
+                        hasFoil: card.hasFoil,
+                        hasNonFoil: card.hasNonFoil,
+                        keywords: {
+                          connect: [...keywords],
+                        },
+                        layout: card.layout,
+                        manaCost: scry.card_faces[0].mana_cost,
+                        name: card.name,
+                        power: scry.card_faces[0].power,
+                        rarity: card.rarity,
+                        rulings: {
+                          create: [...card.rulings],
+                        },
+                        set: {
+                          connect: { id: set.id },
+                        },
+                        subtypes: {
+                          connect: [...subtypes],
+                        },
+                        supertypes: {
+                          connect: [...supertypes],
+                        },
+                        text: scry.card_faces[0].oracle_text,
+                        toughness: scry.card_faces[0].toughness,
+                        type: scry.card_faces[0].type_line,
+                        cardTypes: {
+                          connect: [...cardtypes],
+                        },
+                        imgSmall: img_uris.small,
+                        imgLarge: img_uris.large,
+                        uuid: card.uuid,
+                        frontFaceName: scry.card_faces[0].name,
+                        otherFaceName: scry.card_faces[1].name,
+                        otherFaceId: card.otherFaceIds[0],
+                        otherFaceText: scry.card_faces[1].oracle_text,
+                        otherFaceFlavorText:
+                          scry.card_faces[1].flavor_text || null,
+                        otherFaceType: scry.card_faces[1].type_line,
                         otherFaceManaCost: scry.card_faces[1].mana_cost,
                       },
                     });

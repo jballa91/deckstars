@@ -40,6 +40,27 @@ const homepagestyles = {
     width: "auto",
     borderRadius: "4.4%",
   },
+  modal_ruling: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modal_ruling_box: {
+    backgroundColor: theme.palette.secondary.main,
+    display: "flex",
+    flexDirection: "column",
+    width: "40%",
+    height: "60%",
+    overflowY: "auto",
+    boxSizing: "border-box",
+    // borderRadius: "5px",
+  },
+  ruling: {
+    display: "flex",
+    flexDirection: "column",
+    padding: theme.spacing(1),
+    color: "white",
+  },
 };
 
 export default homepagestyles;

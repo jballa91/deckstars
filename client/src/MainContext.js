@@ -18,6 +18,7 @@ export const MainProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [modalImgOpen, setModalImgOpen] = useState(false);
   const [modalImgSrc, setModalImgSrc] = useState([]);
+  const [modalRulingsOpen, setModalRulingsOpen] = useState(false);
   const [newDeck, setNewDeck] = useState({
     name: "",
     description: "",
@@ -25,6 +26,7 @@ export const MainProvider = ({ children }) => {
     sideBoard: [],
   });
   const [page, setPage] = useState(0);
+  const [rulings, setRulings] = useState([]);
   const [symbols, setSymbols] = useState({});
   const [user, setUser] = useState();
 
@@ -60,8 +62,10 @@ export const MainProvider = ({ children }) => {
         loading,
         modalImgOpen,
         modalImgSrc,
+        modalRulingsOpen,
         newDeck,
         page,
+        rulings,
         symbols,
         user,
         setAuthenticated,
@@ -71,8 +75,10 @@ export const MainProvider = ({ children }) => {
         setLoading,
         setModalImgOpen,
         setModalImgSrc,
+        setModalRulingsOpen,
         setNewDeck,
         setPage,
+        setRulings,
         setSymbols,
         setUser,
       }}

@@ -22,25 +22,37 @@ const deckcardstyles = {
     display: "grid",
     gridTemplateColumns: "1fr 5fr 2fr 3fr",
     width: "100%",
+    alignItems: "center",
   },
   quant_info: {
     marginLeft: "10px",
   },
   open: {
     display: "flex",
-    margin: "0 100px",
+    margin: "0 20px",
     backgroundColor: theme.palette.secondary.light,
   },
   open_modal_dfc: {
     display: "flex",
+    flexDirection: "column",
     margin: "0 20px",
     backgroundColor: theme.palette.secondary.light,
+  },
+  modal_dfc_img_and_info: {
+    display: "flex",
+    "&:last-child": {
+      marginTop: "20px",
+    },
   },
   card_info: {
     margin: "0px 20px",
     width: "50%",
     display: "flex",
     flexDirection: "column",
+  },
+  card_info_adventure: {
+    borderTop: "1px dashed white",
+    paddingTop: "4px",
   },
   name_and_cost: {
     display: "flex",
@@ -55,7 +67,7 @@ const deckcardstyles = {
   },
   card_symbol_img: {
     height: "0.875rem",
-    marginRight: "5px",
+    marginRight: "2px",
   },
   img: {
     maxWidth: "200px",
@@ -73,12 +85,29 @@ const deckcardstyles = {
     margin: "0px 2px",
   },
   card_symbol_img_large: {
-    height: "1rem",
+    height: "1em",
     margin: "0px 2px",
     // display: "inline-block",
   },
   flavor_text: {
     fontStyle: "italic",
+  },
+  power_toughness: {
+    alignSelf: "flex-end",
+    marginBottom: "5px",
+  },
+  symbol_container: {
+    display: "flex",
+    alignItems: "center",
+  },
+  rulings_button_container: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-end",
+    marginLeft: theme.spacing(3),
+  },
+  open_rulings: {
+    backgroundColor: theme.palette.info.main,
   },
 };
 

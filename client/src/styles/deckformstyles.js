@@ -19,6 +19,10 @@ const deckformstyles = {
   deck_list_main: {
     width: "90%",
   },
+  main_deck_top: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
   header: {
     color: "white",
     display: "grid",
@@ -63,8 +67,10 @@ const deckformstyles = {
       },
     },
   },
-  sideboard_title: {
+  sideboard_top: {
     marginTop: "10px",
+    display: "flex",
+    justifyContent: "space-between",
   },
 };
 
