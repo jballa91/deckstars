@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { Box, Button, Typography, TextField } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Typography,
+  TextField,
+  IconButton,
+} from "@material-ui/core";
+import ImageIcon from "@material-ui/icons/Image";
 import { makeStyles } from "@material-ui/styles";
 import { MainContext } from "../../MainContext";
 
@@ -57,6 +64,13 @@ const DeckForm = () => {
     setDeckDescription(e.target.value);
   };
 
+  const handleSetImg = (e) => {
+    e.preventDefault();
+    console.log(e.target.getAttribute("imgurl"));
+    newDeck.imgUrl = e.target.getAttribute("imgurl");
+    setNewDeck(newDeck);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // if (newDeck.mainDeck.reduce((total, obj) => total + obj, 0) < 60) {
@@ -66,15 +80,18 @@ const DeckForm = () => {
     //   return;
     // }
     let tempDeck = { ...newDeck };
+    let imgUrl = newDeck.mainDeck[0].imgLarge;
     for (let i = 0; i < tempDeck.mainDeck.length; i++) {
       tempDeck.mainDeck[i].cardId = tempDeck.mainDeck[i].id;
       delete tempDeck.mainDeck[i].name;
       delete tempDeck.mainDeck[i].id;
+      delete tempDeck.mainDeck[i].imgLarge;
     }
     for (let i = 0; i < tempDeck.sideBoard.length; i++) {
       tempDeck.sideBoard[i].cardId = tempDeck.sideBoard[i].id;
       delete tempDeck.sideBoard[i].name;
       delete tempDeck.sideBoard[i].id;
+      delete tempDeck.sideBoard[i].imgLarge;
     }
     let dataToPost = {
       userId: user.id,
@@ -84,6 +101,7 @@ const DeckForm = () => {
         mainDeck: tempDeck.mainDeck,
         sideBoard: tempDeck.sideBoard,
         format: "standard",
+        imgUrl,
       },
     };
     let res;
