@@ -34,7 +34,7 @@ function App() {
 
   const styles = useStyles();
 
-  useEffect(() => {}, [loading]);
+  // useEffect(() => {}, [loading]);
 
   if (loading) {
     return <CircularProgress />;

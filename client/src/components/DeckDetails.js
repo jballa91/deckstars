@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { useParams } from "react-router-dom";
-import { Box, Typography } from "@material-ui/core";
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Box, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { MainContext } from "../MainContext";
 
@@ -13,12 +13,53 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
   },
+  name_and_edit_button_container: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  edit_button: {
+    backgroundColor: theme.palette.warning.main,
+    "&:hover": {
+      backgroundColor: theme.palette.warning.dark,
+    },
+  },
 }));
 
 const DeckDetails = () => {
-  const { currentDeck } = useContext(MainContext);
+  const { currentDeck, setIsEdit, setNewDeck } = useContext(MainContext);
+  const history = useHistory();
 
   const styles = useStyles();
+
+  const handleEdit = (e) => {
+    // e.preventDefault();
+    let tempDeck = {
+      id: currentDeck.id,
+      name: currentDeck.name,
+      description: currentDeck.description,
+      mainDeck: [
+        ...currentDeck.mainDeck.map((slot) => {
+          return {
+            id: slot.card.id,
+            quantity: slot.quantity,
+            name: slot.card.name,
+          };
+        }),
+      ],
+      sideBoard: [
+        ...currentDeck.sideBoard.map((slot) => {
+          return {
+            id: slot.card.id,
+            quantity: slot.quantity,
+            name: slot.card.name,
+          };
+        }),
+      ],
+    };
+    setNewDeck(tempDeck);
+    setIsEdit(true);
+    history.push("/");
+  };
 
   if (!currentDeck) {
     return null;
@@ -26,7 +67,12 @@ const DeckDetails = () => {
 
   return (
     <Box className={styles.deck_details_container}>
-      <Typography variant="h4">{currentDeck.name}</Typography>
+      <Box className={styles.name_and_edit_button_container}>
+        <Typography variant="h5">{currentDeck.name}</Typography>
+        <Button className={styles.edit_button} onClick={(e) => handleEdit(e)}>
+          Edit
+        </Button>
+      </Box>
       <Typography variant="body2">
         Created By: {currentDeck.user.username}
       </Typography>

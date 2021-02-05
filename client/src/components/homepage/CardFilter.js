@@ -150,7 +150,6 @@ const CardFilter = () => {
     } else {
       setCheckedTypes([...checkedTypes, e.target.name]);
     }
-    console.log(checkedTypes);
   };
 
   const handleChangeColorCheck = (e) => {

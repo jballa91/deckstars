@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import { Box, Typography, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import { makeStyles } from "@material-ui/styles";
 
 import { MainContext } from "../MainContext";
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
-  const { setCurrentDeck } = useContext(MainContext);
+  const { setCurrentDeck, setFilters } = useContext(MainContext);
   const styles = useStyles();
   const handleClick = async (e) => {
     let foundDeck = await fetch(`/api/decks/${deck.id}`, {
@@ -42,6 +43,11 @@ const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
       },
     });
     const parsedDeck = await foundDeck.json();
+    setFilters({
+      name: "",
+      colors: [],
+      cardTypes: [],
+    });
     setCurrentDeck(parsedDeck);
   };
 
@@ -72,7 +78,10 @@ const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
         </Box>
         <Box className={styles.delete_holder}>
           <IconButton onClick={(e) => handleDelete(e)} size="small">
-            <DeleteIcon color="primary" fontSize="small" id={deck.id} />
+            <DeleteIcon color="error" fontSize="small" id={deck.id} />
+            <Typography variant="caption" color="error">
+              Delete Deck
+            </Typography>
           </IconButton>
         </Box>
       </Box>

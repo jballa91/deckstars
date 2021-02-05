@@ -16,43 +16,55 @@ import {
 const useStyles = makeStyles((theme) => deckformstyles);
 
 const DeckForm = () => {
-  const { newDeck, user, setCurrentDeck, setNewDeck, setUser } = useContext(
-    MainContext
-  );
+  const {
+    isEdit,
+    newDeck,
+    user,
+    setCurrentDeck,
+    setFilters,
+    setIsEdit,
+    setNewDeck,
+    setUser,
+  } = useContext(MainContext);
   const [redirectId, setRedirectId] = useState(null);
-  const [totalCardCount, setTotalCardCount] = useState(0);
+  const [deckName, setDeckName] = useState("");
+  const [deckDescription, setDeckDescription] = useState("");
   const styles = useStyles();
 
-  useEffect(() => {
-    setNewDeck({
-      name: "",
-      description: "",
-      mainDeck: [],
-      sideBoard: [],
-    });
-  }, [setNewDeck]);
+  // useEffect(() => {
+  //   setNewDeck(
+  //     newDeck || {
+  //       name: "",
+  //       description: "",
+  //       mainDeck: [],
+  //       sideBoard: [],
+  //     }
+  //   );
+  // }, [newDeck, setNewDeck]);
+
+  // useEffect(() => {}, [newDeck.name, newDeck.description]);
 
   const changeDeckName = (e) => {
     e.preventDefault();
     newDeck.name = e.target.value;
-    console.log(newDeck);
-    setNewDeck(newDeck);
+    setDeckName(e.target.value);
+    // setNewDeck(newDeck);
   };
 
   const changeDeckDescription = (e) => {
     e.preventDefault();
     newDeck.description = e.target.value;
-    setNewDeck(newDeck);
+    setDeckDescription(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newDeck.mainDeck.reduce((total, obj) => total + obj, 0) < 60) {
-      window.alert(
-        "A standard legal deck needs at least 60 cards in the Main Deck, silly!"
-      );
-      return;
-    }
+    // if (newDeck.mainDeck.reduce((total, obj) => total + obj, 0) < 60) {
+    //   window.alert(
+    //     "A standard legal deck needs at least 60 cards in the Main Deck, silly!"
+    //   );
+    //   return;
+    // }
     let tempDeck = { ...newDeck };
     for (let i = 0; i < tempDeck.mainDeck.length; i++) {
       tempDeck.mainDeck[i].cardId = tempDeck.mainDeck[i].id;
@@ -67,29 +79,61 @@ const DeckForm = () => {
     let dataToPost = {
       userId: user.id,
       deck: {
-        name: tempDeck.name,
-        description: tempDeck.description,
+        name: deckName || newDeck.name,
+        description: deckDescription || newDeck.description,
         mainDeck: tempDeck.mainDeck,
         sideBoard: tempDeck.sideBoard,
         format: "standard",
       },
     };
-    console.log(dataToPost);
-    let res = await fetch("/api/decks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(dataToPost),
+    let res;
+    let parsed;
+    let tempUser;
+    if (isEdit) {
+      res = await fetch(`/api/decks/${newDeck.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(dataToPost),
+      });
+    } else {
+      res = await fetch("/api/decks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(dataToPost),
+      });
+    }
+    parsed = await res.json();
+    tempUser = { ...user };
+    const newDecksList = tempUser.decks.filter((deck) => {
+      if (deck.id === parsed.id) {
+        return false;
+      }
+      return true;
     });
-    let parsed = await res.json();
-    console.log(parsed);
-    let tempUser = { ...user };
-    console.log(user);
-    tempUser.decks.push(parsed);
+    newDecksList.push(parsed);
+    tempUser.decks = newDecksList;
     setUser(tempUser);
+    setFilters({
+      name: "",
+      colors: [],
+      cardTypes: [],
+    });
     setRedirectId(parsed.id);
+  };
+
+  const handleEditSubmit = async (e) => {
+    const res = await fetch(`/api/decks/${newDeck.id}`, {
+      method: "PATCH",
+      "Content-Type": "application/json",
+      credentials: "include",
+      body: JSON.stringify(newDeck),
+    });
   };
 
   if (redirectId) {
@@ -108,6 +152,7 @@ const DeckForm = () => {
           multiline={true}
           variant="outlined"
           fullWidth={true}
+          value={newDeck.name ? newDeck.name : ""}
         ></TextField>
         <TextField
           className={styles.text_field}
@@ -117,6 +162,7 @@ const DeckForm = () => {
           multiline={true}
           variant="outlined"
           fullWidth={true}
+          value={newDeck.description ? newDeck.description : ""}
         ></TextField>
         <Box className={styles.deck_list_main}>
           <Box className={styles.main_deck_top}>

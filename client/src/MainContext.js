@@ -15,6 +15,7 @@ export const MainProvider = ({ children }) => {
     colors: [],
     cardTypes: [],
   });
+  const [isEdit, setIsEdit] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalImgOpen, setModalImgOpen] = useState(false);
   const [modalImgSrc, setModalImgSrc] = useState([]);
@@ -59,6 +60,7 @@ export const MainProvider = ({ children }) => {
         cards,
         currentDeck,
         filters,
+        isEdit,
         loading,
         modalImgOpen,
         modalImgSrc,
@@ -72,6 +74,7 @@ export const MainProvider = ({ children }) => {
         setCards,
         setCurrentDeck,
         setFilters,
+        setIsEdit,
         setLoading,
         setModalImgOpen,
         setModalImgSrc,

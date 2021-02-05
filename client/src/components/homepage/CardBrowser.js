@@ -21,6 +21,7 @@ const CardBrowser = () => {
     newDeck,
     page,
     setCards,
+    setFilters,
     setPage,
     setModalImgOpen,
     setModalImgSrc,

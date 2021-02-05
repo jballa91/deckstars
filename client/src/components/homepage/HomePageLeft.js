@@ -18,14 +18,14 @@ import DeckInfo from "../DeckInfo";
 const useStyles = makeStyles((theme) => homepageleftstyles);
 
 const HomePageLeft = () => {
-  const { user, setUser } = useContext(MainContext);
+  const { user, setIsEdit, setNewDeck, setUser } = useContext(MainContext);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deckToDelete, setDeckToDelete] = useState(null);
   const styles = useStyles();
 
   const history = useHistory();
 
-  useEffect(() => {}, []);
+  useEffect(() => {}, [user]);
 
   const handleClose = (e) => {
     setDeleteOpen(false);
@@ -34,6 +34,18 @@ const HomePageLeft = () => {
   const handleClick = (e) => {
     e.preventDefault();
     setDeleteOpen(false);
+  };
+
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    setNewDeck({
+      name: "",
+      description: "",
+      mainDeck: [],
+      sideBoard: [],
+    });
+    setIsEdit(false);
+    history.push("/");
   };
 
   const handleDeckDelete = async (e) => {
@@ -50,6 +62,12 @@ const HomePageLeft = () => {
     setUser(tempUser);
     setDeckToDelete(0);
     setDeleteOpen(false);
+    setNewDeck({
+      name: "",
+      description: "",
+      mainDeck: [],
+      sideBoard: [],
+    });
     history.push("/");
   };
   return (
@@ -118,9 +136,12 @@ const HomePageLeft = () => {
             </Box>
           </AccordionDetails>
         </Accordion>
-        <Link className={styles.link_new_deck} to="/">
-          <Button className={styles.button_new_deck}>Create a new deck</Button>
-        </Link>
+        <Button
+          className={styles.button_new_deck}
+          onClick={(e) => handleButtonClick(e)}
+        >
+          Create a new deck
+        </Button>
       </Box>
     </Box>
   );

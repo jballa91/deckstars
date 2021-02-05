@@ -178,11 +178,11 @@ router.patch(
   "/:deckId",
   requireAuth,
   asyncHandler(async (req, res, next) => {
-    const deckId = parseInt(req.params.deckId);
+    const deckId = parseInt(req.params.deckId, 10);
     const { deck } = req.body;
     deck.mainDeck.forEach((obj) => (obj["deckId"] = deckId));
     deck.sideBoard.forEach((obj) => (obj["deckId"] = deckId));
-
+    console.log("DECK ID !!!!!", deckId);
     const deletedMainDeck = await prisma.mainDeckCards.deleteMany({
       where: {
         deckId,
@@ -205,6 +205,8 @@ router.patch(
     const updatedDeck = await prisma.deck.update({
       where: { id: deckId },
       data: {
+        name: deck.name,
+        description: deck.description,
         mainDeck: {
           create: deck.mainDeck,
         },
@@ -213,7 +215,24 @@ router.patch(
         },
       },
       include: {
-        mainDeck: true,
+        mainDeck: {
+          select: {
+            card: {
+              select: {
+                id: true,
+                name: true,
+                manaCost: true,
+                cmc: true,
+                cardTypes: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+            quantity: true,
+          },
+        },
         sideBoard: {
           include: {
             card: true,
