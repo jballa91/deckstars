@@ -170,7 +170,7 @@ const CardBrowser = () => {
                       -1
                     </button>
                     <button
-                      imglarge={card.imgLarge}
+                      artcrop={card.artCrop}
                       className={styles.interact_button}
                       id={`${card.id}@${card.name}`}
                       onClick={(e) => handleAddCardMain(e, newDeck, setNewDeck)}
@@ -195,7 +195,7 @@ const CardBrowser = () => {
                       -1
                     </button>
                     <button
-                      imglarge={card.imgLarge}
+                      artcrop={card.artCrop}
                       className={styles.interact_button}
                       id={`${card.id}@${card.name}`}
                       onClick={(e) => handleAddCardSide(e, newDeck, setNewDeck)}

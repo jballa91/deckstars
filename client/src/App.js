@@ -46,13 +46,7 @@ function App() {
         <header className={styles.slipbop}>
           <NavBar />
         </header>
-        <Switch>
-          {authenticated ? (
-            <PrivateRoute path="/" component={HomePage} />
-          ) : (
-            <Route exact path="/" component={SplashPage} />
-          )}
-        </Switch>
+        <Route path="/" component={HomePage} />
       </BrowserRouter>
     </Box>
   );

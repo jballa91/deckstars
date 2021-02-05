@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => deckformstyles);
 
 const DeckForm = () => {
   const {
+    authenticated,
     isEdit,
     newDeck,
     user,
@@ -73,25 +74,31 @@ const DeckForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (newDeck.mainDeck.reduce((total, obj) => total + obj, 0) < 60) {
-    //   window.alert(
-    //     "A standard legal deck needs at least 60 cards in the Main Deck, silly!"
-    //   );
-    //   return;
-    // }
+    if (!authenticated) {
+      window.alert(
+        "You'll need to sign up if you want to save and track your decks. \n The interface to sign up can be found in the top right corner of your screen."
+      );
+      return;
+    }
+    if (newDeck.mainDeck.reduce((total, obj) => total + obj, 0) < 60) {
+      window.alert(
+        "A standard legal deck needs at least 60 cards in the Main Deck, silly!"
+      );
+      return;
+    }
     let tempDeck = { ...newDeck };
-    let imgUrl = newDeck.mainDeck[0].imgLarge;
+    let imgUrl = newDeck.mainDeck[0].artCrop;
     for (let i = 0; i < tempDeck.mainDeck.length; i++) {
       tempDeck.mainDeck[i].cardId = tempDeck.mainDeck[i].id;
       delete tempDeck.mainDeck[i].name;
       delete tempDeck.mainDeck[i].id;
-      delete tempDeck.mainDeck[i].imgLarge;
+      delete tempDeck.mainDeck[i].artCrop;
     }
     for (let i = 0; i < tempDeck.sideBoard.length; i++) {
       tempDeck.sideBoard[i].cardId = tempDeck.sideBoard[i].id;
       delete tempDeck.sideBoard[i].name;
       delete tempDeck.sideBoard[i].id;
-      delete tempDeck.sideBoard[i].imgLarge;
+      delete tempDeck.sideBoard[i].artCrop;
     }
     let dataToPost = {
       userId: user.id,

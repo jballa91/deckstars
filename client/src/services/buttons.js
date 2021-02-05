@@ -30,7 +30,7 @@ export const handleAddCardMain = (e, newDeck, f) => {
       id: parseInt(idName[0]),
       name: idName[1],
       quantity: 1,
-      imgLarge: e.target.getAttribute("imglarge"),
+      artCrop: e.target.getAttribute("artcrop"),
     });
   }
   f(tempDeck);

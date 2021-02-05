@@ -4,29 +4,12 @@ import { Box, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { MainContext } from "../MainContext";
 
-const useStyles = makeStyles((theme) => ({
-  deck_details_container: {
-    color: "white",
-    padding: "10px",
-  },
-  deck_record: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  name_and_edit_button_container: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  edit_button: {
-    backgroundColor: theme.palette.warning.main,
-    "&:hover": {
-      backgroundColor: theme.palette.warning.dark,
-    },
-  },
-}));
+import deckdetailstyles from "../styles/deckdetailstyles";
+
+const useStyles = makeStyles((theme) => deckdetailstyles);
 
 const DeckDetails = () => {
-  const { currentDeck, setIsEdit, setNewDeck } = useContext(MainContext);
+  const { user, currentDeck, setIsEdit, setNewDeck } = useContext(MainContext);
   const history = useHistory();
 
   const styles = useStyles();
@@ -61,17 +44,35 @@ const DeckDetails = () => {
     history.push("/");
   };
 
+  const handleVisit = (e) => {
+    history.push(`/deck/${currentDeck.id}`);
+  };
+
   if (!currentDeck) {
     return null;
   }
 
   return (
     <Box className={styles.deck_details_container}>
+      <img
+        src={currentDeck.imgUrl}
+        alt="Deck"
+        className={styles.deck_img}
+      ></img>
       <Box className={styles.name_and_edit_button_container}>
         <Typography variant="h5">{currentDeck.name}</Typography>
-        <Button className={styles.edit_button} onClick={(e) => handleEdit(e)}>
-          Edit
-        </Button>
+        {user && currentDeck.userId === user.id ? (
+          <Button className={styles.edit_button} onClick={(e) => handleEdit(e)}>
+            Edit
+          </Button>
+        ) : (
+          <Button
+            className={styles.edit_button}
+            onClick={(e) => handleVisit(e)}
+          >
+            View Deck
+          </Button>
+        )}
       </Box>
       <Typography variant="body2">
         Created By: {currentDeck.user.username}

@@ -2,11 +2,10 @@ import theme from "../theme/mui_theme";
 
 const cardbrowserstyles = {
   container: {
-    display: "flex-box",
+    display: "flex",
     flexDirection: "column",
     alignItems: "center",
     height: "100%",
-    justifyContent: "center",
   },
   card_browser: {
     display: "flex",

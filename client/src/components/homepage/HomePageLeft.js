@@ -36,7 +36,7 @@ const HomePageLeft = () => {
     setDeleteOpen(false);
   };
 
-  const handleButtonClick = (e) => {
+  const handleCreateDeckClick = (e) => {
     e.preventDefault();
     setNewDeck({
       name: "",
@@ -48,6 +48,10 @@ const HomePageLeft = () => {
     history.push("/");
   };
 
+  const handleDeckBrowseClick = (e) => {
+    e.preventDefault();
+    history.push("/decks");
+  };
   const handleDeckDelete = async (e) => {
     e.preventDefault();
     await fetch(`/api/decks/${deckToDelete}`, {
@@ -96,51 +100,63 @@ const HomePageLeft = () => {
         </Box>
       </Modal>
       <Box className={styles.fixed}>
-        <Accordion square={true} className={styles.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon color="primary" />}
-            aria-controls="created decks"
-          >
-            <Typography>Created Decks</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Box className={styles.accordion_expanded}>
-              {user.decks.map((deck) => (
-                <DeckInfo
-                  key={deck.id}
-                  deck={deck}
-                  setDeleteOpen={setDeleteOpen}
-                  setDeckToDelete={setDeckToDelete}
-                />
-              ))}
-            </Box>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion square={true} className={styles.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon color="primary" />}
-            aria-controls="liked decks"
-          >
-            <Typography>Liked Decks</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Box className={styles.accordion_expanded}>
-              {user.deckLikes.map((deck) => (
-                <DeckInfo
-                  key={deck.id}
-                  deck={deck}
-                  setDeleteOpen={setDeleteOpen}
-                  setDeckToDelete={setDeckToDelete}
-                />
-              ))}
-            </Box>
-          </AccordionDetails>
-        </Accordion>
+        {user && (
+          <>
+            <Accordion square={true} className={styles.accordion}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon color="primary" />}
+                aria-controls="created decks"
+              >
+                <Typography>Created Decks</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Box className={styles.accordion_expanded}>
+                  {user &&
+                    user.decks.map((deck) => (
+                      <DeckInfo
+                        key={deck.id}
+                        deck={deck}
+                        setDeleteOpen={setDeleteOpen}
+                        setDeckToDelete={setDeckToDelete}
+                      />
+                    ))}
+                </Box>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion square={true} className={styles.accordion}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon color="primary" />}
+                aria-controls="liked decks"
+              >
+                <Typography>Liked Decks</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Box className={styles.accordion_expanded}>
+                  {user &&
+                    user.deckLikes.map((deck) => (
+                      <DeckInfo
+                        key={deck.id}
+                        deck={deck}
+                        setDeleteOpen={setDeleteOpen}
+                        setDeckToDelete={setDeckToDelete}
+                      />
+                    ))}
+                </Box>
+              </AccordionDetails>
+            </Accordion>
+          </>
+        )}
         <Button
           className={styles.button_new_deck}
-          onClick={(e) => handleButtonClick(e)}
+          onClick={(e) => handleCreateDeckClick(e)}
         >
           Create a new deck
+        </Button>
+        <Button
+          className={styles.button_new_deck}
+          onClick={(e) => handleDeckBrowseClick(e)}
+        >
+          Browse Decks
         </Button>
       </Box>
     </Box>

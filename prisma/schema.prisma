@@ -141,6 +141,8 @@ model Card {
   otherFaceType       String?
   otherFaceColors     String?
   otherFaceManaCost   String?
+  artCrop             String?
+  backArtCrop         String?
 
 }
 

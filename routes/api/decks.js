@@ -2,6 +2,7 @@ const express = require("express");
 const asyncHandler = require("express-async-handler");
 const { PrismaClient } = require("@prisma/client");
 const { requireAuth } = require("../../auth");
+const { parse } = require("path");
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -11,6 +12,47 @@ router.get(
   "/",
   asyncHandler(async (req, res, next) => {
     const decks = await prisma.deck.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+        likes: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
+        comments: {
+          include: {
+            author: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    res.json(decks);
+  })
+);
+
+// get paginated decks
+router.get(
+  "/page/:page",
+  asyncHandler(async (req, res, next) => {
+    const page = parseInt(req.params.page, 10);
+    const decks = await prisma.deck.findMany({
+      skip: page * 20,
+      take: 20,
       include: {
         user: {
           select: {
@@ -123,8 +165,8 @@ router.post(
         user: { connect: { id: userId } },
         name: deck.name,
         format: deck.format,
-        wins: 0,
-        losses: 0,
+        wins: deck.wins || 0,
+        losses: deck.losses || 0,
         buyLink: deck.buyLink,
         imgUrl: deck.imgUrl,
         description: deck.description,

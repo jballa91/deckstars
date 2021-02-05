@@ -102,6 +102,7 @@ const setSeeders = () => {
                     let scry = await scry_res.json();
                     img_uris.small = scry.image_uris.small;
                     img_uris.large = scry.image_uris.large;
+                    img_uris.artCrop = scry.image_uris.art_crop;
                     let res = await prisma.card.create({
                       data: {
                         artist: card.artist,
@@ -141,6 +142,7 @@ const setSeeders = () => {
                         },
                         imgSmall: img_uris.small,
                         imgLarge: img_uris.large,
+                        artCrop: img_uris.artCrop,
                         uuid: card.uuid,
                       },
                     });
@@ -161,13 +163,19 @@ const setSeeders = () => {
                     ) {
                       img_uris.small = scry.card_faces[1].image_uris.small;
                       img_uris.large = scry.card_faces[1].image_uris.large;
+                      img_uris.artCrop = scry.card_faces[1].image_uris.art_crop;
                       img_uris.backSmall = scry.card_faces[0].image_uris.small;
                       img_uris.backLarge = scry.card_faces[0].image_uris.large;
+                      img_uris.backArtCrop =
+                        scry.card_faces[0].image_uris.art_crop;
                     } else {
                       img_uris.small = scry.card_faces[0].image_uris.small;
                       img_uris.large = scry.card_faces[0].image_uris.large;
+                      img_uris.artCrop = scry.card_faces[0].image_uris.art_crop;
                       img_uris.backSmall = scry.card_faces[1].image_uris.small;
                       img_uris.backLarge = scry.card_faces[1].image_uris.large;
+                      img_uris.backArtCrop =
+                        scry.card_faces[1].image_uris.art_crop;
                     }
                     let res = await prisma.card.create({
                       data: {
@@ -208,6 +216,8 @@ const setSeeders = () => {
                         },
                         imgSmall: img_uris.small,
                         imgLarge: img_uris.large,
+                        artCrop: img_uris.artCrop,
+                        backArtCrop: img_uris.backArtCrop,
                         backImgSmall: img_uris.backSmall,
                         backImgLarge: img_uris.backLarge,
                         uuid: card.uuid,
@@ -233,6 +243,7 @@ const setSeeders = () => {
                     let img_uris = {};
                     img_uris.small = scry.image_uris.small;
                     img_uris.large = scry.image_uris.large;
+                    img_uris.artCrop = scry.image_uris.art_crop;
                     let res = await prisma.card.create({
                       data: {
                         artist: card.artist,
@@ -272,6 +283,7 @@ const setSeeders = () => {
                         },
                         imgSmall: img_uris.small,
                         imgLarge: img_uris.large,
+                        artCrop: img_uris.artCrop,
                         uuid: card.uuid,
                         frontFaceName: scry.card_faces[0].name,
                         otherFaceName: scry.card_faces[1].name,

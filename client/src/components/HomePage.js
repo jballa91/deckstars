@@ -1,10 +1,11 @@
 import React, { useEffect, useContext } from "react";
-import { Switch, useLocation, useParams } from "react-router-dom";
+import { Route, Switch, useLocation, useParams } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import HomePageLeft from "./homepage/HomePageLeft";
 import DeckDetails from "./DeckDetails";
 import DeckCards from "./homepage/DeckCards";
 import CardBrowser from "./homepage/CardBrowser";
+import DeckBrowser from "./homepage/DeckBrowser";
 import DeckForm from "./homepage/DeckForm";
 import CardFilter from "./homepage/CardFilter";
 import { MainContext } from "../MainContext";
@@ -84,21 +85,24 @@ const HomePage = () => {
       </Modal>
       <Box className={styles.homepage_top}>
         <Switch>
-          <PrivateRoute exact path="/" component={CardFilter} />
+          <Route exact path="/decks" component={CardFilter} />
+          <Route exact path="/" component={CardFilter} />
         </Switch>
       </Box>
       <Box className={styles.homepage_bottom}>
         <HomePageLeft className={styles.homepage_left} />
         <Box className={styles.homepage_center}>
           <Switch>
-            <PrivateRoute exact path="/deck/:deckId" component={DeckCards} />
-            <PrivateRoute path="/" component={CardBrowser} />
+            <Route exact path="/deck/:deckId" component={DeckCards} />
+            <Route exact path="/decks" component={DeckBrowser} />
+            <Route path="/" component={CardBrowser} />
           </Switch>
         </Box>
         <Box className={styles.homepage_right}>
           <Switch>
-            <PrivateRoute exact path="/deck/:deckId" component={DeckDetails} />
-            <PrivateRoute path="/" component={DeckForm} />
+            <Route exact path="/deck/:deckId" component={DeckDetails} />
+            <Route exact path="/decks" component={DeckDetails} />
+            <Route path="/" component={DeckForm} />
           </Switch>
         </Box>
       </Box>
