@@ -16,6 +16,18 @@ const deckformstyles = {
   text_field: {
     marginBottom: "10px",
   },
+  format_and_strat_container: {
+    display: "flex",
+    justifyContent: "space-around",
+    width: "100%",
+    marginBottom: "4px",
+  },
+  select: {
+    color: "white",
+  },
+  option: {
+    color: "black",
+  },
   deck_list_main: {
     width: "90%",
   },

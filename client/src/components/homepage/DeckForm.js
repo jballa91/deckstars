@@ -6,6 +6,9 @@ import {
   Typography,
   TextField,
   IconButton,
+  Select,
+  FormControl,
+  InputLabel,
 } from "@material-ui/core";
 import ImageIcon from "@material-ui/icons/Image";
 import { makeStyles } from "@material-ui/styles";
@@ -19,6 +22,7 @@ import {
   handleRemoveCardSide,
   handleAddCardSide,
 } from "../../services/buttons";
+import { transformDocument } from "@prisma/client/runtime";
 
 const useStyles = makeStyles((theme) => deckformstyles);
 
@@ -37,20 +41,9 @@ const DeckForm = () => {
   const [redirectId, setRedirectId] = useState(null);
   const [deckName, setDeckName] = useState("");
   const [deckDescription, setDeckDescription] = useState("");
+  const [deckStrat, setDeckStrat] = useState("");
+  const [deckFormat, setDeckFormat] = useState("");
   const styles = useStyles();
-
-  // useEffect(() => {
-  //   setNewDeck(
-  //     newDeck || {
-  //       name: "",
-  //       description: "",
-  //       mainDeck: [],
-  //       sideBoard: [],
-  //     }
-  //   );
-  // }, [newDeck, setNewDeck]);
-
-  // useEffect(() => {}, [newDeck.name, newDeck.description]);
 
   const changeDeckName = (e) => {
     e.preventDefault();
@@ -70,6 +63,11 @@ const DeckForm = () => {
     console.log(e.target.getAttribute("imgurl"));
     newDeck.imgUrl = e.target.getAttribute("imgurl");
     setNewDeck(newDeck);
+  };
+
+  const handleChangeStrat = (e) => {
+    e.preventDefault();
+    setDeckStrat(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -189,6 +187,61 @@ const DeckForm = () => {
           fullWidth={true}
           value={newDeck.description ? newDeck.description : ""}
         ></TextField>
+        <Box className={styles.format_and_strat_container}>
+          <FormControl className={styles.select_form_control}>
+            <InputLabel shrink htmlFor="select-deck-strat">
+              Strategy
+            </InputLabel>
+            <Select
+              native
+              value={deckStrat}
+              onChange={handleChangeStrat}
+              name="Strategy"
+              className={styles.select}
+              inputProps={{
+                id: "select-deck-strat",
+                "aria-label": "strategy",
+              }}
+            >
+              <option className={styles.option} value="">
+                None
+              </option>
+              <option className={styles.option} value="AGGRO">
+                Aggro
+              </option>
+              <option className={styles.option} value="COMBO">
+                Combo
+              </option>
+              <option className={styles.option} value="CONTROL">
+                Control
+              </option>
+              <option className={styles.option} value="MIDRANGE">
+                Midrange
+              </option>
+            </Select>
+          </FormControl>
+          <FormControl className={styles.select_form_control}>
+            <InputLabel shrink htmlFor="select-deck-format">
+              Format
+            </InputLabel>
+            <Select
+              native
+              value={deckStrat}
+              onChange={handleChangeStrat}
+              name="Format"
+              disabled={true}
+              className={styles.select}
+              inputProps={{
+                id: "select-deck-format",
+                "aria-label": "format",
+              }}
+            >
+              <option className={styles.option} value="standard">
+                Standard
+              </option>
+            </Select>
+          </FormControl>
+        </Box>
         <Box className={styles.deck_list_main}>
           <Box className={styles.main_deck_top}>
             <Typography color="primary">Main Deck</Typography>
