@@ -40,6 +40,7 @@ const decks = [
       name: "Izzet Tempo",
       description:
         "This deck is all about denying your opponent while nailing value. Cap it off with the current middleweight champion, Goldspan Dragon.",
+      format: "standard",
       deckStrat: "TEMPO",
       mainDeck: [
         { quantity: 4, cardId: 1236 },
@@ -60,7 +61,15 @@ const decks = [
         { quantity: 3, cardId: 1134 },
         { quantity: 2, cardId: 2118 },
       ],
-      sideBoard: [],
+      sideBoard: [
+        { quantity: 3, cardId: 70 },
+        { quantity: 2, cardId: 2118 },
+        { quantity: 3, cardId: 1998 },
+        { quantity: 2, cardId: 1999 },
+        { quantity: 2, cardId: 1441 },
+        { quantity: 1, cardId: 593 },
+        { quantity: 2, cardId: 2002 },
+      ],
       imgUrl:
         "https://c1.scryfall.com/file/scryfall-cards/art_crop/front/a/7/a7cec498-e2ac-4ca0-9aa2-ef98ba634c32.jpg?1610079335",
     },
@@ -72,6 +81,7 @@ const decks = [
       description:
         "I heard you like to play Ugin, but you think Tibalt's Trickery just isn't consistent enough. Well, have I got the list for you...",
       deckStrat: "MIDRANGE",
+      format: "standard",
       mainDeck: [
         { quantity: 4, cardId: 1568 },
         { quantity: 4, cardId: 347 },
@@ -94,7 +104,15 @@ const decks = [
         { quantity: 1, cardId: 2370 },
         { quantity: 4, cardId: 793 },
       ],
-      sideBoard: [],
+      sideBoard: [
+        { quantity: 3, cardId: 339 },
+        { quantity: 3, cardId: 1204 },
+        { quantity: 2, cardId: 506 },
+        { quantity: 2, cardId: 70 },
+        { quantity: 3, cardId: 2118 },
+        { quantity: 2, cardId: 1442 },
+        { quantity: 1, cardId: 593 },
+      ],
       imgUrl:
         "https://c1.scryfall.com/file/scryfall-cards/art_crop/front/a/1/a11e75a0-17f0-429a-a77a-268fe6257010.jpg?1594159764",
     },
@@ -106,6 +124,7 @@ const decks = [
       description:
         "This deck is COLD. I mean FRIGID. SUB-ZERO. Get your parkas, peeps, winter is wonderful wild and wide.",
       deckStrat: "TEMPO",
+      format: "standard",
       mainDeck: [
         { quantity: 2, cardId: 777 },
         { quantity: 4, cardId: 1219 },
@@ -138,6 +157,7 @@ const decks = [
       description:
         "It's in the name. It's Boros. It's Aggro. It's Boros Aggro.",
       deckStrat: "AGGRO",
+      format: "standard",
       mainDeck: [
         { quantity: 2, cardId: 777 },
         { quantity: 4, cardId: 1219 },
@@ -170,6 +190,7 @@ const decks = [
       name: "Mono-White Control",
       description: "Like white decks? Hate Aggro? Oh boy here we go!",
       deckStrat: "CONTROL",
+      format: "standard",
       mainDeck: [
         { quantity: 4, cardId: 1212 },
         { quantity: 3, cardId: 1568 },
@@ -211,6 +232,7 @@ const decks = [
       description:
         "It's a party it's a party it's a PARTY! Too bad the song didn't say it a fourth time, huh? Featuring tons of cards from wizards' \"Let's make sure this works before we do the D&D set\" set, this is a pretty cool list.",
       deckStrat: "MIDRANGE",
+      format: "standard",
       mainDeck: [
         { quantity: 4, cardId: 2425 },
         { quantity: 2, cardId: 2139 },
@@ -255,6 +277,7 @@ const decks = [
       description:
         "Yorion is your companion in this deck, but I honestly haven't even implemented the four-card maximum on deckbuilding at this point, so do you really thing I've gotten companion done? This deck description will end up as errata at some point....",
       deckStrat: "CONTROL",
+      format: "standard",
       mainDeck: [
         { quantity: 3, cardId: 735 },
         { quantity: 2, cardId: 1170 },
@@ -302,6 +325,7 @@ const decks = [
       description:
         "This abomination of RDW has a card with one white mana in its cost. Shame.",
       deckStrat: "AGGRO",
+      format: "standard",
       mainDeck: [
         { quantity: 4, cardId: 1944 },
         { quantity: 4, cardId: 2381 },
@@ -371,4 +395,4 @@ const seedDecks = () => {
   })();
 };
 
-seedDecks();
+module.exports = seedDecks;

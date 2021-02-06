@@ -159,6 +159,7 @@ router.get(
           card: true,
         },
       },
+      sideBoard: true,
     };
     const decks = await prisma.deck.findMany(query);
     res.json(decks);
