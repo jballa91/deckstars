@@ -67,6 +67,8 @@ const deckbrowserstyles = {
     color: "white",
   },
   deck_img: {
+    width: "100%",
+    maxHeight: "140.47px",
     "&:hover": {
       cursor: "pointer",
     },

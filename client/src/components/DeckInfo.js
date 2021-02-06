@@ -15,15 +15,18 @@ const useStyles = makeStyles((theme) => ({
   deckinfo_container: {
     display: "flex",
     flexDirection: "column",
+    justifyContent: "center",
     backgroundColor: theme.palette.secondary.light,
-    height: "80px",
+    height: "fit-content",
     maxWidth: "100%",
     marginBottom: "5px",
     padding: "10px",
   },
   row_one: {
-    display: "flex",
-    justifyContent: "space-between",
+    display: "grid",
+    // justifyContent: "space-between",
+    gridTemplateColumns: "2fr 1fr",
+    alignItems: "center",
     margin: "5px",
   },
   row_two: {
@@ -37,18 +40,18 @@ const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
   const { setCurrentDeck, setFilters } = useContext(MainContext);
   const styles = useStyles();
   const handleClick = async (e) => {
-    let foundDeck = await fetch(`/api/decks/${deck.id}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const parsedDeck = await foundDeck.json();
-    setFilters({
-      name: "",
-      colors: [],
-      cardTypes: [],
-    });
-    setCurrentDeck(parsedDeck);
+    // let foundDeck = await fetch(`/api/decks/${deck.id}`, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // const parsedDeck = await foundDeck.json();
+    // setFilters({
+    //   name: "",
+    //   colors: [],
+    //   cardTypes: [],
+    // });
+    // setCurrentDeck(parsedDeck);
   };
 
   const handleDelete = (e) => {
@@ -67,7 +70,7 @@ const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
       <Box className={styles.deckinfo_container}>
         <Box className={styles.row_one}>
           <Typography>{deck.name}</Typography>
-          <Typography>{deck.format}</Typography>
+          <Typography variant="caption">{deck.format}</Typography>
         </Box>
         <Box className={styles.row_two}>
           <Typography variant="body2">Wins: {deck.wins}</Typography>

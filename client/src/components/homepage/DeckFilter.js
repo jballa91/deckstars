@@ -78,7 +78,7 @@ const DeckFilter = () => {
       name: "",
       deckStrat: "",
       cards: [],
-      checkedColors: [],
+      colors: [],
     };
 
     if (searchDeckName) {
@@ -116,7 +116,6 @@ const DeckFilter = () => {
             className={styles.text_field_card_names}
             variant="outlined"
             placeholder="Search card names (separate with @)"
-            multiline={true}
             onChange={(e) => handleChangeSearchCardNames(e)}
             fullWidth={true}
           ></TextField>

@@ -26,7 +26,7 @@ const DeckBrowser = () => {
 
       if (filters.cards) {
         filters.cards.forEach((card) => {
-          queryString += `colors[]=${card}&`;
+          queryString += `cards[]=${card}&`;
         });
       }
 
@@ -46,7 +46,7 @@ const DeckBrowser = () => {
       setDecks(parsed);
     })();
     setCurrentDeck(null);
-  }, []);
+  }, [filters]);
 
   const handleClickPrevPage = (e) => {
     setPage(page - 1);
@@ -64,11 +64,6 @@ const DeckBrowser = () => {
       },
     });
     const parsedDeck = await foundDeck.json();
-    setFilters({
-      name: "",
-      colors: [],
-      cardTypes: [],
-    });
     setCurrentDeck(parsedDeck);
   };
 

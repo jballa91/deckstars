@@ -181,7 +181,7 @@ const decks = [
         { quantity: 3, cardId: 307 },
       ],
       imgUrl:
-        "https://c1.scryfall.com/file/scryfall-cards/art_crop/front/b/a/badac9b4-bfaf-4b02-a48a-ec141393566c.jpg?1581481391",
+        "https://c1.scryfall.com/file/scryfall-cards/art_crop/front/f/3/f336490d-5a97-49e9-b772-3435eeede65d.jpg?1610734436",
     },
   },
   {
