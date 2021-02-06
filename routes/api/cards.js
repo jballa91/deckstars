@@ -86,34 +86,12 @@ router.get(
   })
 );
 
-// router.get(
-//   "/search/results",
-//   asyncHandler(async (req, res, next) => {
-//     const { types } = req.body;
-
-//     const cards = await prisma.card.findMany({
-//       where: {
-//         cardTypes: {
-//           // every: {
-//           name: {
-//             in: types,
-//           },
-//           // },
-//         },
-//       },
-//       include: {
-//         cardTypes: true,
-//       },
-//     });
-//     res.json(cards);
-//   })
-// );
+// filter cards
 
 router.get(
   "/search/results",
   asyncHandler(async (req, res, next) => {
     const data = req.query;
-    console.log(req.query);
 
     const page = data.page || 0;
 

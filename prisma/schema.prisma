@@ -36,6 +36,14 @@ model Deck {
   likes       DeckLikes[]
   comments    Comment[]
   sideBoard   SideBoardCards[]
+  deckStrat   Strategy?
+}
+
+enum Strategy {
+  AGGRO
+  CONTROL
+  COMBO
+  MIDRANGE
 }
 
 model MainDeckCards {

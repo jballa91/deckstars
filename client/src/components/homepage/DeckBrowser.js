@@ -8,7 +8,9 @@ import deckbrowserstyles from "../../styles/deckbrowserstyles";
 const useStyles = makeStyles((theme) => deckbrowserstyles);
 
 const DeckBrowser = () => {
-  const { page, setCurrentDeck, setFilters, setPage } = useContext(MainContext);
+  const { filters, page, setCurrentDeck, setFilters, setPage } = useContext(
+    MainContext
+  );
   const [decks, setDecks] = useState([]);
   const history = useHistory();
 
@@ -16,7 +18,30 @@ const DeckBrowser = () => {
 
   useEffect(() => {
     (async () => {
-      let res = await fetch(`/api/decks/page/${page}`);
+      let queryString = "?";
+
+      if (filters.name) {
+        queryString += `name=${filters.name}&`;
+      }
+
+      if (filters.cards) {
+        filters.cards.forEach((card) => {
+          queryString += `colors[]=${card}&`;
+        });
+      }
+
+      if (filters.colors.length > 0) {
+        filters.colors.forEach((color) => {
+          queryString += `colors[]=${color}&`;
+        });
+      }
+
+      if (filters.deckStrat) {
+        queryString += `strat=${filters.deckStrat}&`;
+      }
+
+      queryString += `page=${page}&`;
+      let res = await fetch(`api/decks/search/results${queryString}`);
       let parsed = await res.json();
       setDecks(parsed);
     })();

@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const { PrismaClient } = require("@prisma/client");
 const { requireAuth } = require("../../auth");
 const { parse } = require("path");
+const { query } = require("express-validator");
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -82,6 +83,84 @@ router.get(
         },
       },
     });
+    res.json(decks);
+  })
+);
+
+// filter decks
+router.get(
+  "/search/results",
+  asyncHandler(async (req, res, next) => {
+    const data = req.query;
+    console.log(req.query);
+
+    const page = data.page || 0;
+
+    const query = { skip: page * 20, take: 20, where: { ["AND"]: [] } };
+
+    const listOfKeys = Object.keys(data);
+
+    if (listOfKeys.includes("name")) {
+      query.where["AND"].push({
+        name: {
+          contains: data.name,
+          mode: "insensitive",
+        },
+      });
+    }
+
+    if (listOfKeys.includes("colors")) {
+      query.where["OR"] = [];
+      for (let color of data.colors) {
+        query.where["OR"].push({
+          mainDeck: {
+            some: {
+              card: {
+                colors: {
+                  contains: color,
+                  mode: "insensitive",
+                },
+              },
+            },
+          },
+        });
+      }
+    }
+
+    if (listOfKeys.includes("cards")) {
+      for (let card of data.cards) {
+        console.log(card);
+        query.where["AND"].push({
+          mainDeck: {
+            some: {
+              card: {
+                // where: {
+                name: {
+                  contains: card,
+                  mode: "insensitive",
+                },
+                // },
+              },
+            },
+          },
+        });
+      }
+    }
+
+    if (listOfKeys.includes("strat")) {
+      query.where["AND"].push({
+        deckStrat: data.strat,
+      });
+    }
+    query.include = {
+      user: true,
+      mainDeck: {
+        include: {
+          card: true,
+        },
+      },
+    };
+    const decks = await prisma.deck.findMany(query);
     res.json(decks);
   })
 );
@@ -170,6 +249,7 @@ router.post(
         buyLink: deck.buyLink,
         imgUrl: deck.imgUrl,
         description: deck.description,
+        deckStrat: deck.deckStrat,
         mainDeck: {
           create: deck.mainDeck,
         },

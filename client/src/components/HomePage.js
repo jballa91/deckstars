@@ -8,6 +8,7 @@ import CardBrowser from "./homepage/CardBrowser";
 import DeckBrowser from "./homepage/DeckBrowser";
 import DeckForm from "./homepage/DeckForm";
 import CardFilter from "./homepage/CardFilter";
+import DeckFilter from "./homepage/DeckFilter";
 import { MainContext } from "../MainContext";
 import { Box, Modal, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
@@ -85,7 +86,7 @@ const HomePage = () => {
       </Modal>
       <Box className={styles.homepage_top}>
         <Switch>
-          <Route exact path="/decks" component={CardFilter} />
+          <Route exact path="/decks" component={DeckFilter} />
           <Route exact path="/" component={CardFilter} />
         </Switch>
       </Box>

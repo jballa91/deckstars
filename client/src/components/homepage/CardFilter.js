@@ -219,7 +219,7 @@ const CardFilter = () => {
                   component="fieldset"
                   className={styles.card_type_filters}
                 >
-                  <FormLabel component="Legend">Card Types</FormLabel>
+                  <FormLabel component="legend">Card Types</FormLabel>
                   <FormGroup row={true} className={styles.types_container}>
                     {cardTypes.map((type, i) => {
                       return (
@@ -241,7 +241,7 @@ const CardFilter = () => {
                   component="fieldset"
                   className={styles.color_filters}
                 >
-                  <FormLabel component="Legend">Colors</FormLabel>
+                  <FormLabel component="legend">Colors</FormLabel>
                   <FormGroup row={true} className={styles.colors_container}>
                     {colors.map((color, i) => {
                       return (
