@@ -27,19 +27,27 @@ const deckcardstyles = {
   quant_info: {
     marginLeft: "10px",
   },
+  details: {
+    display: "flex",
+    justifyContent: "center",
+  },
   open: {
     display: "flex",
-    margin: "0 20px",
+    // justifyContent: "center",
+    // margin: "0 20px",
+    width: "80%",
     backgroundColor: theme.palette.secondary.light,
   },
   open_modal_dfc: {
     display: "flex",
     flexDirection: "column",
-    margin: "0 20px",
+    width: "80%",
+    // margin: "0 20px",
     backgroundColor: theme.palette.secondary.light,
   },
   modal_dfc_img_and_info: {
     display: "flex",
+    width: "100%",
     "&:last-child": {
       marginTop: "20px",
     },

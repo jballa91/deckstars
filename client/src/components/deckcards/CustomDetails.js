@@ -38,9 +38,9 @@ const CustomDetails = ({ card }) => {
   //   return str.match(regex);
   // };
 
-  if (card.layout === "normal") {
+  if (card.layout === "normal" || card.layout === "saga") {
     return (
-      <AccordionDetails>
+      <AccordionDetails className={styles.details}>
         <Box className={styles.open}>
           <img
             alt="This is a card"
@@ -93,22 +93,22 @@ const CustomDetails = ({ card }) => {
               </Typography>
             )}
           </Box>
-          <Box className={styles.rulings_button_container}>
-            <Button
-              className={styles.open_rulings}
-              onClick={(e) => handleOpenRulings(e, card.rulings)}
-              disabled={card.rulings.length === 0}
-            >
-              Rulings
-            </Button>
-          </Box>
+        </Box>
+        <Box className={styles.rulings_button_container}>
+          <Button
+            className={styles.open_rulings}
+            onClick={(e) => handleOpenRulings(e, card.rulings)}
+            disabled={card.rulings.length === 0}
+          >
+            Rulings
+          </Button>
         </Box>
       </AccordionDetails>
     );
   }
   if (card.layout === "modal_dfc") {
     return (
-      <AccordionDetails>
+      <AccordionDetails className={styles.details}>
         <Box className={styles.open_modal_dfc}>
           <Box className={styles.modal_dfc_img_and_info}>
             <img
@@ -165,15 +165,6 @@ const CustomDetails = ({ card }) => {
                   {card.power} / {card.toughness}
                 </Typography>
               ) : null}
-            </Box>
-            <Box className={styles.rulings_button_container}>
-              <Button
-                className={styles.open_rulings}
-                onClick={(e) => handleOpenRulings(e, card.rulings)}
-                disabled={card.rulings.length === 0}
-              >
-                Rulings
-              </Button>
             </Box>
           </Box>
           <Box className={styles.modal_dfc_img_and_info}>
@@ -233,12 +224,21 @@ const CustomDetails = ({ card }) => {
             </Box>
           </Box>
         </Box>
+        <Box className={styles.rulings_button_container}>
+          <Button
+            className={styles.open_rulings}
+            onClick={(e) => handleOpenRulings(e, card.rulings)}
+            disabled={card.rulings.length === 0}
+          >
+            Rulings
+          </Button>
+        </Box>
       </AccordionDetails>
     );
   }
   if (card.layout === "adventure") {
     return (
-      <AccordionDetails>
+      <AccordionDetails className={styles.details}>
         <Box className={styles.open_modal_dfc}>
           <Box className={styles.modal_dfc_img_and_info}>
             <img
@@ -342,16 +342,16 @@ const CustomDetails = ({ card }) => {
                 ) : null}
               </Box>
             </Box>
-            <Box className={styles.rulings_button_container}>
-              <Button
-                className={styles.open_rulings}
-                disabled={card.rulings.length === 0}
-                onClick={(e) => handleOpenRulings(e, card.rulings)}
-              >
-                Rulings
-              </Button>
-            </Box>
           </Box>
+        </Box>
+        <Box className={styles.rulings_button_container}>
+          <Button
+            className={styles.open_rulings}
+            disabled={card.rulings.length === 0}
+            onClick={(e) => handleOpenRulings(e, card.rulings)}
+          >
+            Rulings
+          </Button>
         </Box>
       </AccordionDetails>
     );

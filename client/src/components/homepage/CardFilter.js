@@ -74,6 +74,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
+  selected_filters: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: "20px",
+  },
   card_type_filters: {
     display: "flex",
   },
