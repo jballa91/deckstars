@@ -217,6 +217,9 @@ const DeckForm = () => {
               <option className={styles.option} value="MIDRANGE">
                 Midrange
               </option>
+              <option className={styles.option} value="TEMPO">
+                Tempo
+              </option>
             </Select>
           </FormControl>
           <FormControl className={styles.select_form_control}>

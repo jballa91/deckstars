@@ -44,6 +44,7 @@ enum Strategy {
   CONTROL
   COMBO
   MIDRANGE
+  TEMPO
 }
 
 model MainDeckCards {

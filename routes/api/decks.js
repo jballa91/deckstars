@@ -238,7 +238,8 @@ router.post(
   requireAuth,
   asyncHandler(async (req, res, next) => {
     const { userId, deck } = req.body;
-    console.log(userId, deck);
+    console.log(deck);
+    console.log(deck.mainDeck);
     const newDeck = await prisma.deck.create({
       data: {
         user: { connect: { id: userId } },
