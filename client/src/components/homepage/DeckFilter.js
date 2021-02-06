@@ -20,7 +20,6 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import { makeStyles } from "@material-ui/styles";
-import { stringify } from "querystring";
 
 import deckfilterstyles from "../../styles/deckfilterstyles";
 
