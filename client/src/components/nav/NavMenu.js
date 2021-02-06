@@ -14,9 +14,7 @@ const NavMenu = () => {
     MainContext
   );
   const [anchorEl, setAnchorEl] = useState(null);
-  const history = useHistory();
   const styles = useStyles();
-
   const handleClick = (e) => {
     e.preventDefault();
     setAnchorEl(e.currentTarget);
@@ -30,7 +28,7 @@ const NavMenu = () => {
     e.preventDefault();
     setAuthenticated(false);
     logout();
-    setCurrentDeck(null);
+    // setCurrentDeck(null);
     setUser(null);
     handleClose();
     // history.push("/");

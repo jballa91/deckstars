@@ -11,7 +11,6 @@ import { Box, Typography, LinearProgress } from "@material-ui/core";
 import CustomDetails from "../deckcards/CustomDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { MainContext } from "../../MainContext";
-import reactStringReplace from "react-string-replace";
 
 const useStyles = makeStyles((theme) => deckcardstyles);
 
@@ -30,13 +29,14 @@ const DeckCards = () => {
   // const [loading, setLoading] = useState(true);
   const styles = useStyles();
 
-  const handleImgClick = (e) => {
-    if (e.target.getAttribute("layout") === "modal_dfc") {
-      setModalImgSrc([e.target.src, e.target.getAttribute("backimg")]);
+  const sortCards = (a, b) => {
+    if (a.card.cmc < b.card.cmc) {
+      return 1;
+    } else if (a.card.cmc > b.card.cmc) {
+      return -1;
     } else {
-      setModalImgSrc([e.target.src]);
+      return 0;
     }
-    setModalImgOpen(true);
   };
 
   const findSymbols = (str) => {
@@ -77,7 +77,17 @@ const DeckCards = () => {
   }
 
   if (!currentDeck) {
-    return <h1>NO CURRENT DECK</h1>;
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          paddingTop: "20px",
+        }}
+      >
+        <h1 style={{ color: "white" }}>Loading...</h1>
+      </Box>
+    );
   }
 
   return (
@@ -93,7 +103,7 @@ const DeckCards = () => {
         <Typography variant="body2">ManaCost</Typography>
         <Typography variant="body2">Type</Typography>
       </Box>
-      {currentDeck.mainDeck.map((slot, i) => {
+      {currentDeck.mainDeck.sort(sortCards).map((slot, i) => {
         let { card } = slot;
         return (
           <Accordion
@@ -176,36 +186,7 @@ const DeckCards = () => {
                 <Typography variant="body2">{card.type}</Typography>
               </Box>
             </AccordionSummary>
-            <AccordionDetails>
-              <Box className={styles.open}>
-                <img
-                  alt="This is a card"
-                  src={card.imgLarge}
-                  className={styles.img}
-                  onClick={(e) => handleImgClick(e, card.imgLarge)}
-                ></img>
-                <Box className={styles.card_info}>
-                  <Typography variant="body2" className={styles.rules_text}>
-                    {/* {card.text.replace(/\{(.*?)\}/g, fillSymbols)} */}
-                    {reactStringReplace(card.text, /\{(.*?)\}/g, (match, i) => {
-                      return (
-                        <img
-                          key={match + card.id + `${i}`}
-                          src={symbols[`{${match}}`]}
-                          alt="card symbol"
-                          className={styles.rules_card_symbol_img}
-                        ></img>
-                      );
-                    })}
-                  </Typography>
-                  {card.flavorText ? (
-                    <Typography variant="body2" className={styles.flavor_text}>
-                      {card.flavorText}
-                    </Typography>
-                  ) : null}
-                </Box>
-              </Box>
-            </AccordionDetails>
+            <CustomDetails card={card} />
           </Accordion>
         );
       })}

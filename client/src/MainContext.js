@@ -35,8 +35,8 @@ export const MainProvider = ({ children }) => {
     (async () => {
       const auth = await authenticate();
       if (auth) {
+        setUser(auth.user);
         setAuthenticated(true);
-        setUser(auth);
         setLoading(false);
       } else {
         setAuthenticated(false);

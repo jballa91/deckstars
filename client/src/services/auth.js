@@ -6,7 +6,7 @@ export const authenticate = async () => {
     return false;
   } else if (res.status === 200) {
     const parsed = await res.json();
-    return parsed.user;
+    return parsed;
   }
 };
 

@@ -188,7 +188,11 @@ router.get(
         },
         sideBoard: {
           include: {
-            card: true,
+            card: {
+              include: {
+                rulings: true,
+              },
+            },
           },
         },
         user: {
