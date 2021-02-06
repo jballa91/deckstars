@@ -36,10 +36,6 @@ function App() {
 
   // useEffect(() => {}, [loading]);
 
-  if (loading) {
-    return <CircularProgress />;
-  }
-
   return (
     <Box className={styles.window}>
       <BrowserRouter history={history}>

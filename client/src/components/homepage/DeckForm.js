@@ -165,6 +165,10 @@ const DeckForm = () => {
   return (
     <Box className={styles.container}>
       <form className={styles.deck_form} onSubmit={(e) => handleSubmit(e)}>
+        <Typography variant="caption" className={styles.info_text}>
+          Add some cards! Tell us about your deck and strategy! The submit
+          button will hide from you at the bottom once you have finished.
+        </Typography>
         <TextField
           required
           className={styles.text_field}
@@ -353,7 +357,9 @@ const DeckForm = () => {
               ))}
           </Box>
         </Box>
-        <Button type="submit">Submit</Button>
+        <Button className={styles.submit_button} type="submit">
+          Submit
+        </Button>
       </form>
     </Box>
   );

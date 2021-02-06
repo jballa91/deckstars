@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Box, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
@@ -9,7 +9,9 @@ import deckdetailstyles from "../styles/deckdetailstyles";
 const useStyles = makeStyles((theme) => deckdetailstyles);
 
 const DeckDetails = () => {
-  const { user, currentDeck, setIsEdit, setNewDeck } = useContext(MainContext);
+  const { user, loading, currentDeck, setIsEdit, setNewDeck } = useContext(
+    MainContext
+  );
   const history = useHistory();
 
   const styles = useStyles();
@@ -47,6 +49,20 @@ const DeckDetails = () => {
   const handleVisit = (e) => {
     history.push(`/deck/${currentDeck.id}`);
   };
+
+  if (loading) {
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          paddingTop: "20px",
+        }}
+      >
+        <h1 style={{ color: "white" }}>Loading...</h1>
+      </Box>
+    );
+  }
 
   if (!currentDeck) {
     return null;

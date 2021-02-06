@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
-  const { setCurrentDeck, setFilters } = useContext(MainContext);
+  const { setCurrentDeck, setLoading, setFilters } = useContext(MainContext);
   const styles = useStyles();
   const handleClick = async (e) => {
     // let foundDeck = await fetch(`/api/decks/${deck.id}`, {
@@ -52,6 +52,7 @@ const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
     //   cardTypes: [],
     // });
     // setCurrentDeck(parsedDeck);
+    setLoading(true);
   };
 
   const handleDelete = (e) => {

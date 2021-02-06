@@ -7,7 +7,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "../MUI_custom/Custom_Accordion";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography, LinearProgress } from "@material-ui/core";
 import CustomDetails from "../deckcards/CustomDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { MainContext } from "../../MainContext";
@@ -19,12 +19,15 @@ const DeckCards = () => {
   const {
     currentDeck,
     symbols,
+    loading,
     setCurrentDeck,
+    setLoading,
     setModalImgSrc,
     setModalImgOpen,
   } = useContext(MainContext);
   const { deckId } = useParams();
   const [expanded, setExpanded] = useState(false);
+  // const [loading, setLoading] = useState(true);
   const styles = useStyles();
 
   const handleImgClick = (e) => {
@@ -55,8 +58,23 @@ const DeckCards = () => {
       const res = await fetch(`/api/decks/${parseInt(deckId)}`);
       const parsed = await res.json();
       setCurrentDeck(parsed);
+      setLoading(false);
     })();
   }, [deckId, setCurrentDeck]);
+
+  if (loading) {
+    return (
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          paddingTop: "20px",
+        }}
+      >
+        <h1 style={{ color: "white" }}>Loading...</h1>
+      </Box>
+    );
+  }
 
   if (!currentDeck) {
     return <h1>NO CURRENT DECK</h1>;

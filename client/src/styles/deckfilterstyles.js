@@ -67,6 +67,16 @@ const deckfilterstyles = {
     height: "2rem",
     width: "auto",
   },
+  submit_container: {
+    display: "flex",
+    alignItems: "center",
+  },
+  button_submit: {
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  },
 };
 
 export default deckfilterstyles;

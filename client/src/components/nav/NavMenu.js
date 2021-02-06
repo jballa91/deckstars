@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { Box, Menu, MenuItem, IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -9,8 +10,11 @@ import { logout } from "../../services/auth";
 const useStyles = makeStyles((theme) => navmenustyles);
 
 const NavMenu = () => {
-  const { user, setAuthenticated, setCurrentDeck } = useContext(MainContext);
+  const { user, setAuthenticated, setCurrentDeck, setUser } = useContext(
+    MainContext
+  );
   const [anchorEl, setAnchorEl] = useState(null);
+  const history = useHistory();
   const styles = useStyles();
 
   const handleClick = (e) => {
@@ -27,7 +31,9 @@ const NavMenu = () => {
     setAuthenticated(false);
     logout();
     setCurrentDeck(null);
+    setUser(null);
     handleClose();
+    // history.push("/");
   };
 
   return (

@@ -84,6 +84,17 @@ const deckformstyles = {
     display: "flex",
     justifyContent: "space-between",
   },
+  submit_button: {
+    backgroundColor: theme.palette.primary.main,
+    marginTop: "10px",
+    "&:hover": {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  },
+  info_text: {
+    color: "white",
+    marginBottom: theme.spacing(1),
+  },
 };
 
 export default deckformstyles;
