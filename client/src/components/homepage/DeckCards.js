@@ -152,7 +152,7 @@ const DeckCards = () => {
         <Typography variant="body2">ManaCost</Typography>
         <Typography variant="body2">Type</Typography>
       </Box>
-      {currentDeck.sideBoard.map((slot, i) => {
+      {currentDeck.sideBoard.sort(sortCards).map((slot, i) => {
         let { card } = slot;
         return (
           <Accordion
