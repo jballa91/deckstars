@@ -308,33 +308,39 @@ router.patch(
   asyncHandler(async (req, res, next) => {
     const deckId = parseInt(req.params.deckId, 10);
     const { deck } = req.body;
-    deck.mainDeck.forEach((obj) => (obj["deckId"] = deckId));
-    deck.sideBoard.forEach((obj) => (obj["deckId"] = deckId));
-    console.log("DECK ID !!!!!", deckId);
-    const deletedMainDeck = await prisma.mainDeckCards.deleteMany({
-      where: {
-        deckId,
-      },
-    });
+    console.log(req.body);
+    console.log(deck);
+    if (deck.mainDeck || deck.sideBoard) {
+      deck.mainDeck.forEach((obj) => (obj["deckId"] = deckId));
+      deck.sideBoard.forEach((obj) => (obj["deckId"] = deckId));
+      console.log("DECK ID !!!!!", deckId);
+      const deletedMainDeck = await prisma.mainDeckCards.deleteMany({
+        where: {
+          deckId,
+        },
+      });
 
-    const deletedSideBoard = await prisma.sideBoardCards.deleteMany({
-      where: {
-        deckId,
-      },
-    });
+      const deletedSideBoard = await prisma.sideBoardCards.deleteMany({
+        where: {
+          deckId,
+        },
+      });
 
-    deck.mainDeck.forEach((obj) => {
-      delete obj.deckId;
-    });
-    deck.sideBoard.forEach((obj) => {
-      delete obj.deckId;
-    });
+      deck.mainDeck.forEach((obj) => {
+        delete obj.deckId;
+      });
+      deck.sideBoard.forEach((obj) => {
+        delete obj.deckId;
+      });
+    }
 
     const updatedDeck = await prisma.deck.update({
       where: { id: deckId },
       data: {
         name: deck.name,
         description: deck.description,
+        wins: deck.wins,
+        losses: deck.losses,
         mainDeck: {
           create: deck.mainDeck,
         },

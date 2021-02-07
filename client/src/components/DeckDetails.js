@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Box, Typography, Button } from "@material-ui/core";
+import { Box, Typography, Button, ButtonGroup } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { MainContext } from "../MainContext";
 
@@ -9,9 +9,14 @@ import deckdetailstyles from "../styles/deckdetailstyles";
 const useStyles = makeStyles((theme) => deckdetailstyles);
 
 const DeckDetails = () => {
-  const { user, loading, currentDeck, setIsEdit, setNewDeck } = useContext(
-    MainContext
-  );
+  const {
+    user,
+    loading,
+    currentDeck,
+    setCurrentDeck,
+    setIsEdit,
+    setNewDeck,
+  } = useContext(MainContext);
   const history = useHistory();
 
   const styles = useStyles();
@@ -44,6 +49,44 @@ const DeckDetails = () => {
     setNewDeck(tempDeck);
     setIsEdit(true);
     history.push("/");
+  };
+
+  const handleAddWin = async (e) => {
+    let tempDeck = { ...currentDeck };
+    tempDeck.wins = tempDeck.wins + 1;
+    setCurrentDeck(tempDeck);
+    await fetch(`/api/decks/${currentDeck.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        deck: {
+          id: currentDeck.id,
+          wins: tempDeck.wins,
+        },
+      }),
+    });
+  };
+
+  const handleAddLoss = async (e) => {
+    let tempDeck = { ...currentDeck };
+    tempDeck.losses = tempDeck.losses + 1;
+    setCurrentDeck(tempDeck);
+    await fetch(`/api/decks/${currentDeck.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        deck: {
+          id: currentDeck.id,
+          losses: tempDeck.wins,
+        },
+      }),
+    });
   };
 
   const handleVisit = (e) => {
@@ -96,21 +139,32 @@ const DeckDetails = () => {
       <Typography variant="body2">Format: {currentDeck.format}</Typography>
       <Box className={styles.deck_record}>
         <Typography variant="caption">Wins: {currentDeck.wins}</Typography>
-        {user.id === currentDeck.userId && (
-          <Button size="small" color="primary">
-            +1
-          </Button>
+        {user && user.id === currentDeck.userId && (
+          <Box className={styles.button_container}>
+            <button className={styles.add_win} onClick={(e) => handleAddWin(e)}>
+              +
+            </button>
+          </Box>
         )}
         <Typography variant="caption">Losses: {currentDeck.losses}</Typography>
-        {user.id === currentDeck.userId && (
-          <Button size="small" color="primary">
-            -1
-          </Button>
+        {user && user.id === currentDeck.userId && (
+          <Box className={styles.button_container}>
+            <button
+              className={styles.add_loss}
+              onClick={(e) => handleAddLoss(e)}
+              size="small"
+            >
+              +
+            </button>
+          </Box>
         )}
         <Typography variant="caption">
           Winrate:{" "}
           {currentDeck.wins
-            ? currentDeck.wins / (currentDeck.wins + currentDeck.losses)
+            ? (
+                currentDeck.wins /
+                (currentDeck.wins + currentDeck.losses)
+              ).toFixed(2)
             : 0}
         </Typography>
       </Box>
