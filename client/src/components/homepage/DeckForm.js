@@ -71,7 +71,7 @@ const DeckForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!authenticated) {
+    if (!user || !authenticated) {
       window.alert(
         "You'll need to sign up if you want to save and track your decks. \n The interface to sign up can be found in the top right corner of your screen."
       );

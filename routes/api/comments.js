@@ -140,6 +140,12 @@ router.post(
       },
       include: {
         likedBy: true,
+        author: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
       },
     });
     res.json(newComment);
@@ -159,6 +165,12 @@ router.patch(
         ...comment,
       },
       include: {
+        author: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
         likedBy: {
           include: {
             user: {
@@ -176,7 +188,7 @@ router.patch(
 );
 
 router.delete(
-  "/remove/:commentId",
+  "/:commentId",
   requireAuth,
   asyncHandler(async (req, res, next) => {
     const { commentId } = req.params;
