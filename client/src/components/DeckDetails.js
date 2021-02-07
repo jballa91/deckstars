@@ -96,7 +96,17 @@ const DeckDetails = () => {
       <Typography variant="body2">Format: {currentDeck.format}</Typography>
       <Box className={styles.deck_record}>
         <Typography variant="caption">Wins: {currentDeck.wins}</Typography>
+        {user.id === currentDeck.userId && (
+          <Button size="small" color="primary">
+            +1
+          </Button>
+        )}
         <Typography variant="caption">Losses: {currentDeck.losses}</Typography>
+        {user.id === currentDeck.userId && (
+          <Button size="small" color="primary">
+            -1
+          </Button>
+        )}
         <Typography variant="caption">
           Winrate:{" "}
           {currentDeck.wins
@@ -105,7 +115,7 @@ const DeckDetails = () => {
         </Typography>
       </Box>
       <Box>
-        <Typography variant="body1">{currentDeck.description}</Typography>
+        <Typography variant="body2">{currentDeck.description}</Typography>
       </Box>
     </Box>
   );
