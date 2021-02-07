@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { Box, Typography, Button, ButtonGroup } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { MainContext } from "../MainContext";
@@ -18,6 +18,8 @@ const DeckDetails = () => {
     setNewDeck,
   } = useContext(MainContext);
   const history = useHistory();
+  const slug = useParams();
+  console.log(slug.deckId);
 
   const styles = useStyles();
 
@@ -125,12 +127,14 @@ const DeckDetails = () => {
             Edit
           </Button>
         ) : (
-          <Button
-            className={styles.edit_button}
-            onClick={(e) => handleVisit(e)}
-          >
-            View Deck
-          </Button>
+          slug.deckId === undefined && (
+            <Button
+              className={styles.edit_button}
+              onClick={(e) => handleVisit(e)}
+            >
+              View Deck
+            </Button>
+          )
         )}
       </Box>
       <Typography variant="body2">
