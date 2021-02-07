@@ -4,6 +4,8 @@ import { Box, Typography, Button, ButtonGroup } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { MainContext } from "../MainContext";
 
+import DeckComments from "./DeckComments";
+
 import deckdetailstyles from "../styles/deckdetailstyles";
 
 const useStyles = makeStyles((theme) => deckdetailstyles);
@@ -171,6 +173,7 @@ const DeckDetails = () => {
       <Box>
         <Typography variant="body2">{currentDeck.description}</Typography>
       </Box>
+      <DeckComments deck={currentDeck} />
     </Box>
   );
 };
