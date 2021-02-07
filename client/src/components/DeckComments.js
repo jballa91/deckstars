@@ -16,7 +16,6 @@ import { makeStyles } from "@material-ui/styles";
 
 import { MainContext } from "../MainContext";
 import deckcommentstyles from "../styles/deckcommentstyles";
-import fetch from "node-fetch";
 
 const useStyles = makeStyles((theme) => deckcommentstyles);
 
