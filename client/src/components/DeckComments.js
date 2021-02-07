@@ -106,6 +106,7 @@ const DeckComments = ({ deck }) => {
 
   const handleCancelEdit = (e) => {
     e.preventDefault();
+    setEditContent("");
     setIsEdit(null);
   };
 
