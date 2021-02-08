@@ -2,16 +2,14 @@ import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from "../../MainContext";
 import {
   Box,
-  Typograhpy,
   Typography,
   FormControl,
   FormGroup,
   FormLabel,
-  FormControlLabel,
-  FormHelperText,
   Checkbox,
   TextField,
   Button,
+  ClickAwayListener,
 } from "@material-ui/core";
 import {
   Accordion,
@@ -22,99 +20,9 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import { makeStyles } from "@material-ui/styles";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    height: "100%",
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  form: {
-    width: "70%",
-    height: "100%",
-    display: "grid",
-    gridTemplateColumns: "6fr 1fr 8fr 1fr 2fr",
-  },
-  search_container: {
-    display: "flex",
-    alignItems: "center",
-  },
-  text_field: {
-    backgroundColor: theme.palette.secondary.light,
-  },
-  filters_container: {
-    display: "flex",
-    alignItems: "center",
-    color: "white",
-  },
-  filters: {
-    display: "flex",
-    flexDirection: "column",
-    height: "56px",
-    width: "100%",
-  },
-  accordion: {
-    height: "100%",
-    width: "100%",
-    zIndex: 3,
-    backgroundColor: theme.palette.secondary.light,
-    color: "white",
-    // border: "1px solid white",
-  },
-  accordion_summary: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    border: "1px solid white",
-    boxSizing: "border-box",
-  },
-  expanded_details: {
-    backgroundColor: theme.palette.secondary.main,
-    display: "flex",
-    flexDirection: "column",
-  },
-  selected_filters: {
-    display: "flex",
-    flexDirection: "column",
-    marginLeft: "20px",
-  },
-  card_type_filters: {
-    display: "flex",
-  },
-  submit_container: {
-    display: "flex",
-    height: "100%",
-    alignItems: "center",
-  },
-  button_submit: {
-    backgroundColor: theme.palette.primary.main,
-    height: "50px",
-    "&:hover": {
-      backgroundColor: theme.palette.primary.light,
-    },
-  },
-  types_container: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
-  },
-  check_box_container: {
-    display: "flex",
-    alignItems: "center",
-  },
-  check_box: {
-    color: theme.palette.secondary.light,
-  },
-  colors_container: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "0px 20px 0px 0px",
-  },
-  mana_symbol: {
-    height: "2rem",
-    width: "auto",
-  },
-}));
+import cardfilterstyles from "../../styles/cardfilterstyles";
+
+const useStyles = makeStyles((theme) => cardfilterstyles);
 
 const CardFilter = () => {
   const { symbols, setFilters, setPage } = useContext(MainContext);
@@ -122,6 +30,7 @@ const CardFilter = () => {
   const [cardTypes, setCardTypes] = useState([]);
   const [checkedTypes, setCheckedTypes] = useState([]);
   const [checkedColors, setCheckedColors] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const styles = useStyles();
 
@@ -187,13 +96,27 @@ const CardFilter = () => {
     if (checkedTypes.length > 0) {
       queryObj["cardTypes"] = checkedTypes;
     }
+    setOpen(false);
     setFilters(queryObj);
+  };
 
-    // const res = await fetch(`/api/cards/search/results${queryString}`);
-    // // const parsed = await res.json();
-    // // setCards(parsed);
-    // let parsed = await res.json();
-    // setCards(parsed);
+  const handleReset = (e) => {
+    e.preventDefault();
+    setSearchString("");
+    setCheckedTypes([]);
+    setCheckedColors([]);
+    setFilters({ name: "", colors: [], cardTypes: [] });
+  };
+
+  const handleAccordion = (e) => {
+    e.preventDefault();
+    setOpen(!open);
+  };
+
+  const handleClickAway = (e) => {
+    if (open) {
+      setOpen(false);
+    }
   };
 
   return (
@@ -211,71 +134,95 @@ const CardFilter = () => {
         <Box></Box>
         <Box className={styles.filters_container}>
           <Box className={styles.filters}>
-            <Accordion className={styles.accordion}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon color="primary" />}
-                aria-controls="expand filters"
-                className={styles.accordion_summary}
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <Accordion
+                className={styles.accordion}
+                expanded={open}
+                onChange={handleAccordion}
               >
-                <Typography>Filters</Typography>
-              </AccordionSummary>
-              <AccordionDetails className={styles.expanded_details}>
-                <FormControl
-                  component="fieldset"
-                  className={styles.card_type_filters}
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon color="primary" />}
+                  aria-controls="expand filters"
+                  className={styles.accordion_summary}
                 >
-                  <FormLabel component="legend">Card Types</FormLabel>
-                  <FormGroup row={true} className={styles.types_container}>
-                    {cardTypes.map((type, i) => {
-                      return (
-                        <Box className={styles.check_box_container} key={i}>
-                          <Checkbox
-                            color="primary"
-                            checked={checkedTypes.includes(type.name)}
-                            onChange={handleChangeTypeCheck}
-                            name={type.name}
-                            className={styles.check_box}
-                          />
-                          <Typography variant="caption">{type.name}</Typography>
-                        </Box>
-                      );
-                    })}
-                  </FormGroup>
-                </FormControl>
-                <FormControl
-                  component="fieldset"
-                  className={styles.color_filters}
-                >
-                  <FormLabel component="legend">Colors</FormLabel>
-                  <FormGroup row={true} className={styles.colors_container}>
-                    {colors.map((color, i) => {
-                      return (
-                        <Box className={styles.check_box_container} key={i}>
-                          <Checkbox
-                            color="primary"
-                            checked={checkedColors.includes(color.identifier)}
-                            onChange={handleChangeColorCheck}
-                            name={color.identifier}
-                            className={styles.check_box}
-                          />
-                          <img
-                            alt={`${color.identifier} mana symbol`}
-                            src={symbols[color.symbol]}
-                            className={styles.mana_symbol}
-                          ></img>
-                        </Box>
-                      );
-                    })}
-                  </FormGroup>
-                </FormControl>
-              </AccordionDetails>
-            </Accordion>
+                  <Typography>Filters</Typography>
+                </AccordionSummary>
+                <AccordionDetails className={styles.expanded_details}>
+                  <FormControl
+                    component="fieldset"
+                    className={styles.card_type_filters}
+                  >
+                    <FormLabel component="legend">Card Types</FormLabel>
+                    <FormGroup row={true} className={styles.types_container}>
+                      {cardTypes
+                        .filter(
+                          (type) =>
+                            type.name !== "conspiracy" &&
+                            type.name !== "phenomenon" &&
+                            type.name !== "plane" &&
+                            type.name !== "scheme" &&
+                            type.name !== "vanguard" &&
+                            type.name !== "tribal"
+                        )
+                        .map((type, i) => {
+                          return (
+                            <Box className={styles.check_box_container} key={i}>
+                              <Checkbox
+                                color="primary"
+                                checked={checkedTypes.includes(type.name)}
+                                onChange={handleChangeTypeCheck}
+                                name={type.name}
+                                className={styles.check_box}
+                              />
+                              <Typography variant="caption">
+                                {type.name}
+                              </Typography>
+                            </Box>
+                          );
+                        })}
+                    </FormGroup>
+                  </FormControl>
+                  <FormControl
+                    component="fieldset"
+                    className={styles.color_filters}
+                  >
+                    <FormLabel component="legend">Colors</FormLabel>
+                    <FormGroup row={true} className={styles.colors_container}>
+                      {colors.map((color, i) => {
+                        return (
+                          <Box className={styles.check_box_container} key={i}>
+                            <Checkbox
+                              color="primary"
+                              checked={checkedColors.includes(color.identifier)}
+                              onChange={handleChangeColorCheck}
+                              name={color.identifier}
+                              className={styles.check_box}
+                            />
+                            <img
+                              alt={`${color.identifier} mana symbol`}
+                              src={symbols[color.symbol]}
+                              className={styles.mana_symbol}
+                            ></img>
+                          </Box>
+                        );
+                      })}
+                    </FormGroup>
+                  </FormControl>
+                </AccordionDetails>
+              </Accordion>
+            </ClickAwayListener>
           </Box>
         </Box>
         <Box></Box>
         <Box className={styles.submit_container}>
           <Button className={styles.button_submit} type="submit">
             Search
+          </Button>
+        </Box>
+        <Box></Box>
+        <Box className={styles.submit_container}>
+          <Button className={styles.button_reset} onClick={handleReset}>
+            Reset
           </Button>
         </Box>
       </form>

@@ -2,14 +2,15 @@ import theme from "../theme/mui_theme";
 
 const signupformstyles = {
   form_container: {
-    width: "30vw",
-    height: "60vh",
+    width: "30%",
+    height: "60%",
     backgroundColor: theme.palette.secondary.main,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
     borderRadius: "5%",
+    border: "2px solid white",
   },
   form_title: {
     color: "white",
@@ -19,6 +20,7 @@ const signupformstyles = {
     display: "flex",
     flexDirection: "column",
     marginBottom: "20px",
+    width: "60%",
   },
   form_field: {
     background: theme.palette.secondary.main,
@@ -26,6 +28,15 @@ const signupformstyles = {
   },
   input: {
     color: "white",
+  },
+  submit_button: {
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.dark,
+    },
+    "&:disabled": {
+      backgroundColor: theme.palette.error.light,
+    },
   },
 };
 

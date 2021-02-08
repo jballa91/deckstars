@@ -1,5 +1,3 @@
-import React, { useContext } from "react";
-
 export const handleRemoveCardMain = (e, newDeck, f) => {
   e.preventDefault();
   let idName = e.target.id.split("@");

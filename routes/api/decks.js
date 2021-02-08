@@ -92,7 +92,6 @@ router.get(
   "/search/results",
   asyncHandler(async (req, res, next) => {
     const data = req.query;
-    console.log(req.query);
 
     const page = data.page || 0;
 
@@ -129,7 +128,6 @@ router.get(
 
     if (listOfKeys.includes("cards")) {
       for (let card of data.cards) {
-        console.log(card);
         query.where["AND"].push({
           mainDeck: {
             some: {
@@ -243,8 +241,6 @@ router.post(
   requireAuth,
   asyncHandler(async (req, res, next) => {
     const { userId, deck } = req.body;
-    console.log(deck);
-    console.log(deck.mainDeck);
     const newDeck = await prisma.deck.create({
       data: {
         user: { connect: { id: userId } },
@@ -308,12 +304,9 @@ router.patch(
   asyncHandler(async (req, res, next) => {
     const deckId = parseInt(req.params.deckId, 10);
     const { deck } = req.body;
-    console.log(req.body);
-    console.log(deck);
     if (deck.mainDeck || deck.sideBoard) {
       deck.mainDeck.forEach((obj) => (obj["deckId"] = deckId));
       deck.sideBoard.forEach((obj) => (obj["deckId"] = deckId));
-      console.log("DECK ID !!!!!", deckId);
       const deletedMainDeck = await prisma.mainDeckCards.deleteMany({
         where: {
           deckId,

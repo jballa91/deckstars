@@ -1,6 +1,5 @@
-import React, { useEffect, useContext } from "react";
-import { Route, Switch, useLocation, useParams } from "react-router-dom";
-import PrivateRoute from "./PrivateRoute";
+import React, { useContext } from "react";
+import { Route, Switch } from "react-router-dom";
 import HomePageLeft from "./homepage/HomePageLeft";
 import DeckDetails from "./DeckDetails";
 import DeckCards from "./homepage/DeckCards";

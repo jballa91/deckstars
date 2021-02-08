@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import {
   Box,
   Button,
   Typography,
   TextField,
-  IconButton,
   Select,
   FormControl,
   InputLabel,
 } from "@material-ui/core";
-import ImageIcon from "@material-ui/icons/Image";
 import { makeStyles } from "@material-ui/styles";
 import { MainContext } from "../../MainContext";
 
@@ -31,9 +29,7 @@ const DeckForm = () => {
     isEdit,
     newDeck,
     user,
-    setCurrentDeck,
     setFilters,
-    setIsEdit,
     setNewDeck,
     setUser,
   } = useContext(MainContext);
@@ -41,7 +37,6 @@ const DeckForm = () => {
   const [deckName, setDeckName] = useState("");
   const [deckDescription, setDeckDescription] = useState("");
   const [deckStrat, setDeckStrat] = useState("");
-  const [deckFormat, setDeckFormat] = useState("");
   const styles = useStyles();
 
   const changeDeckName = (e) => {
@@ -57,12 +52,12 @@ const DeckForm = () => {
     setDeckDescription(e.target.value);
   };
 
-  const handleSetImg = (e) => {
-    e.preventDefault();
-    console.log(e.target.getAttribute("imgurl"));
-    newDeck.imgUrl = e.target.getAttribute("imgurl");
-    setNewDeck(newDeck);
-  };
+  // FUTURE: ALLOW USERS TO SELECT DECK IMAGE
+  // const handleSetImg = (e) => {
+  //   e.preventDefault();
+  //   newDeck.imgUrl = e.target.getAttribute("imgurl");
+  //   setNewDeck(newDeck);
+  // };
 
   const handleChangeStrat = (e) => {
     e.preventDefault();
@@ -149,14 +144,15 @@ const DeckForm = () => {
     setRedirectId(parsed.id);
   };
 
-  const handleEditSubmit = async (e) => {
-    const res = await fetch(`/api/decks/${newDeck.id}`, {
-      method: "PATCH",
-      "Content-Type": "application/json",
-      credentials: "include",
-      body: JSON.stringify(newDeck),
-    });
-  };
+  // NOT CURRENTLY NEEDED
+  // const handleEditSubmit = async (e) => {
+  //   const res = await fetch(`/api/decks/${newDeck.id}`, {
+  //     method: "PATCH",
+  //     "Content-Type": "application/json",
+  //     credentials: "include",
+  //     body: JSON.stringify(newDeck),
+  //   });
+  // };
 
   if (redirectId) {
     return <Redirect to={`/deck/${redirectId}`} />;

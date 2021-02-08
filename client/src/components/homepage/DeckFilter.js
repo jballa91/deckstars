@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { MainContext } from "../../MainContext";
 import {
   Box,
@@ -6,10 +6,10 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
-  CheckBox,
   TextField,
   Button,
   Checkbox,
+  ClickAwayListener,
 } from "@material-ui/core";
 
 import {
@@ -31,6 +31,7 @@ const DeckFilter = () => {
   const [searchCardNames, setSearchCardNames] = useState("");
   const [checkedColors, setCheckedColors] = useState([]);
   const [checkedStrat, setCheckedStrat] = useState("");
+  const [open, setOpen] = useState(false);
 
   const styles = useStyles();
 
@@ -96,6 +97,29 @@ const DeckFilter = () => {
     setFilters(queryObj);
   };
 
+  const handleReset = (e) => {
+    e.preventDefault();
+    setFilters({
+      name: "",
+      deckStrat: "",
+      cards: [],
+      colors: [],
+    });
+    setCheckedColors([]);
+    setCheckedStrat("");
+  };
+
+  const handleAccordion = (e) => {
+    e.preventDefault();
+    setOpen(!open);
+  };
+
+  const handleClickAway = (e) => {
+    if (open) {
+      setOpen(false);
+    }
+  };
+
   return (
     <Box className={styles.container}>
       <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
@@ -123,76 +147,88 @@ const DeckFilter = () => {
         <Box></Box>
         <Box className={styles.filters_container}>
           <Box className={styles.filters}>
-            <Accordion className={styles.accordion}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon color="primary" />}
-                aria-controls="expand filters"
-                className={styles.accordion_summary}
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <Accordion
+                className={styles.accordion}
+                onChange={handleAccordion}
+                expanded={open}
               >
-                <Typography>Filters</Typography>
-              </AccordionSummary>
-              <AccordionDetails className={styles.expanded_details}>
-                <FormControl
-                  component="fieldset"
-                  className={styles.colors_filters}
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon color="primary" />}
+                  aria-controls="expand filters"
+                  className={styles.accordion_summary}
                 >
-                  <FormLabel component="legend">Colors</FormLabel>
-                  <FormGroup row={true} className={styles.colors_container}>
-                    {colors.map((color, i) => {
-                      return (
-                        <Box className={styles.check_box_container} key={i}>
-                          <Checkbox
-                            color="primary"
-                            checked={checkedColors.includes(color.identifier)}
-                            onChange={handleChangeColorCheck}
-                            name={color.identifier}
-                            className={styles.check_box}
-                          />
-                          <img
-                            alt={`${color.identifier} mana symbol`}
-                            src={symbols[color.symbol]}
-                            className={styles.mana_symbol}
-                          ></img>
-                        </Box>
-                      );
-                    })}
-                  </FormGroup>
-                </FormControl>
-                <FormControl
-                  component="fieldset"
-                  className={styles.strat_filters}
-                >
-                  <FormLabel component="legend">Strategies</FormLabel>
-                  <FormGroup row={true} className={styles.strats_container}>
-                    {["AGGRO", "CONTROL", "COMBO", "MIDRANGE"].map(
-                      (strat, i) => {
+                  <Typography>Filters</Typography>
+                </AccordionSummary>
+                <AccordionDetails className={styles.expanded_details}>
+                  <FormControl
+                    component="fieldset"
+                    className={styles.colors_filters}
+                  >
+                    <FormLabel component="legend">Colors</FormLabel>
+                    <FormGroup row={true} className={styles.colors_container}>
+                      {colors.map((color, i) => {
                         return (
                           <Box className={styles.check_box_container} key={i}>
                             <Checkbox
                               color="primary"
-                              checked={checkedStrat === strat}
-                              onChange={handleChangeStratCheck}
-                              name={strat}
+                              checked={checkedColors.includes(color.identifier)}
+                              onChange={handleChangeColorCheck}
+                              name={color.identifier}
                               className={styles.check_box}
                             />
-                            <Typography variant="caption">
-                              {strat[0].toUpperCase() +
-                                strat.slice(1).toLowerCase()}
-                            </Typography>
+                            <img
+                              alt={`${color.identifier} mana symbol`}
+                              src={symbols[color.symbol]}
+                              className={styles.mana_symbol}
+                            ></img>
                           </Box>
                         );
-                      }
-                    )}
-                  </FormGroup>
-                </FormControl>
-              </AccordionDetails>
-            </Accordion>
+                      })}
+                    </FormGroup>
+                  </FormControl>
+                  <FormControl
+                    component="fieldset"
+                    className={styles.strat_filters}
+                  >
+                    <FormLabel component="legend">Strategies</FormLabel>
+                    <FormGroup row={true} className={styles.strats_container}>
+                      {["AGGRO", "CONTROL", "COMBO", "MIDRANGE"].map(
+                        (strat, i) => {
+                          return (
+                            <Box className={styles.check_box_container} key={i}>
+                              <Checkbox
+                                color="primary"
+                                checked={checkedStrat === strat}
+                                onChange={handleChangeStratCheck}
+                                name={strat}
+                                className={styles.check_box}
+                              />
+                              <Typography variant="caption">
+                                {strat[0].toUpperCase() +
+                                  strat.slice(1).toLowerCase()}
+                              </Typography>
+                            </Box>
+                          );
+                        }
+                      )}
+                    </FormGroup>
+                  </FormControl>
+                </AccordionDetails>
+              </Accordion>
+            </ClickAwayListener>
           </Box>
         </Box>
         <Box></Box>
         <Box className={styles.submit_container}>
           <Button className={styles.button_submit} type="submit">
             Search
+          </Button>
+        </Box>
+        <Box></Box>
+        <Box className={styles.submit_container}>
+          <Button className={styles.button_reset} onClick={handleReset}>
+            Reset
           </Button>
         </Box>
       </form>

@@ -9,7 +9,7 @@ import { signUp } from "../services/auth";
 const useStyles = makeStyles((theme) => signupformstyles);
 
 const SignUpForm = ({ setSignUpOpen }) => {
-  const { setAuthenticated, setLoading, setUser } = useContext(MainContext);
+  const { setAuthenticated, setUser } = useContext(MainContext);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,16 +41,29 @@ const SignUpForm = ({ setSignUpOpen }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password === checkPassword) {
+    if (password !== checkPassword) {
+      window.alert("Passwords do not match. Check the form for guidelines.");
+      return;
+    }
+    if (password.length < 5) {
+      window.alert("Password is too short. Check the form for guidelines.");
+      return;
+    }
+    if (username.match(/.{1,}@[^.]{1,}\.[^.]{1,}/)) {
+      window.alert(
+        "You can't use an email in your username. Check the form for guidelines."
+      );
+      return;
+    }
+    if (password === checkPassword && password.length >= 5) {
       let user = await signUp(username, email, password);
       if (user.message === "Username or Email in use.") {
         window.alert("Username or Email in use.");
+        return;
       } else {
         setUser(user.user);
         setAuthenticated(true);
       }
-    } else {
-      window.alert("Passwords do not match");
     }
   };
 
@@ -69,6 +82,21 @@ const SignUpForm = ({ setSignUpOpen }) => {
           type="text"
           autoFocus={true}
         ></TextField>
+        {username.length > 20 ? (
+          <Typography variant="caption" color="error">
+            Usernames can only be 20 characters long.
+          </Typography>
+        ) : null}
+        {!username.match(/^[a-zA-Z0-9]*$/) ? (
+          <Typography variant="caption" color="error">
+            Usernames can only contain alphanumeric characters.
+          </Typography>
+        ) : null}
+        {username.length > 20 ? (
+          <Typography variant="caption" color="error">
+            Usernames can only be 20 characters long.
+          </Typography>
+        ) : null}
         <TextField
           required
           className={styles.form_field}
@@ -77,6 +105,11 @@ const SignUpForm = ({ setSignUpOpen }) => {
           placeholder="email"
           type="text"
         ></TextField>
+        {email.length > 0 && !email.match(/.{1,}@[^.]{1,}\.[^.]{1,}/) ? (
+          <Typography variant="caption" color="error">
+            You must provide a valid email
+          </Typography>
+        ) : null}
         <TextField
           required
           className={styles.form_field}
@@ -93,7 +126,32 @@ const SignUpForm = ({ setSignUpOpen }) => {
           placeholder="confirm password"
           type="password"
         ></TextField>
-        <Button type="submit">Sign up for an account</Button>
+        {password.length < 5 && password.length > 0 ? (
+          <Typography variant="caption" color="error">
+            Password must be 5 characters long.
+          </Typography>
+        ) : null}
+        {password !== checkPassword ? (
+          <Typography variant="caption" color="error">
+            Passwords must match.
+          </Typography>
+        ) : null}
+        <Button
+          type="submit"
+          className={styles.submit_button}
+          disabled={
+            username.length > 20 ||
+            username.length === 0 ||
+            username.match(/.{1,}@[^.]{1,}\.[^.]{1,}/) ||
+            !username.match(/^[a-zA-Z0-9]*$/) ||
+            email.length < 5 ||
+            !email.match(/.{1,}@[^.]{1,}\.[^.]{1,}/) ||
+            password.length < 5 ||
+            password !== checkPassword
+          }
+        >
+          Sign up for an account
+        </Button>
       </form>
     </Box>
   );

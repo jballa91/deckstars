@@ -2,12 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import deckcardstyles from "../../styles/deckcardstyles";
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from "../MUI_custom/Custom_Accordion";
-import { Box, Typography, LinearProgress } from "@material-ui/core";
+import { Accordion, AccordionSummary } from "../MUI_custom/Custom_Accordion";
+import { Box, Typography } from "@material-ui/core";
 import CustomDetails from "../deckcards/CustomDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { MainContext } from "../../MainContext";
@@ -21,8 +17,6 @@ const DeckCards = () => {
     loading,
     setCurrentDeck,
     setLoading,
-    setModalImgSrc,
-    setModalImgOpen,
   } = useContext(MainContext);
   const { deckId } = useParams();
   const [expanded, setExpanded] = useState(false);
@@ -60,7 +54,7 @@ const DeckCards = () => {
       setCurrentDeck(parsed);
       setLoading(false);
     })();
-  }, [deckId, setCurrentDeck]);
+  }, [deckId, setCurrentDeck, setLoading]);
 
   if (loading) {
     return (

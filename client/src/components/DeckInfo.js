@@ -1,59 +1,20 @@
 import React, { useContext } from "react";
-import { Link, withRouter, useHistory } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Box, Typography, IconButton, Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
 import { makeStyles } from "@material-ui/styles";
+
+import deckinfostyles from "../styles/deckinfostyles";
 
 import { MainContext } from "../MainContext";
 
-const useStyles = makeStyles((theme) => ({
-  link: {
-    textDecoration: "none",
-    color: "white",
-  },
-  deckinfo_container: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    backgroundColor: theme.palette.secondary.light,
-    height: "fit-content",
-    maxWidth: "100%",
-    marginBottom: "5px",
-    padding: "10px",
-  },
-  row_one: {
-    display: "grid",
-    // justifyContent: "space-between",
-    gridTemplateColumns: "2fr 1fr",
-    alignItems: "center",
-    margin: "5px",
-  },
-  row_two: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "5px",
-  },
-}));
+const useStyles = makeStyles((theme) => deckinfostyles);
 
 const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
-  const { user, setCurrentDeck, setLoading, setFilters, setUser } = useContext(
-    MainContext
-  );
+  const { user, setLoading, setUser } = useContext(MainContext);
   const styles = useStyles();
+
   const handleClick = async (e) => {
-    // let foundDeck = await fetch(`/api/decks/${deck.id}`, {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    // const parsedDeck = await foundDeck.json();
-    // setFilters({
-    //   name: "",
-    //   colors: [],
-    //   cardTypes: [],
-    // });
-    // setCurrentDeck(parsedDeck);
     setLoading(true);
   };
 

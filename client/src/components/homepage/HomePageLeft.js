@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { MainContext } from "../../MainContext";
 import {
   Box,
@@ -22,10 +22,6 @@ const HomePageLeft = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deckToDelete, setDeckToDelete] = useState(null);
   const styles = useStyles();
-  if (user) {
-    console.log(user);
-    console.log(user.deckLikes);
-  }
 
   const history = useHistory();
 

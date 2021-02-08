@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import { Box, Typography, Button } from "@material-ui/core";
 import { MainContext } from "../../MainContext";
@@ -8,11 +7,8 @@ import deckbrowserstyles from "../../styles/deckbrowserstyles";
 const useStyles = makeStyles((theme) => deckbrowserstyles);
 
 const DeckBrowser = () => {
-  const { filters, page, setCurrentDeck, setFilters, setPage } = useContext(
-    MainContext
-  );
+  const { filters, page, setCurrentDeck, setPage } = useContext(MainContext);
   const [decks, setDecks] = useState([]);
-  const history = useHistory();
 
   const styles = useStyles();
 
@@ -46,7 +42,7 @@ const DeckBrowser = () => {
       setDecks(parsed);
     })();
     setCurrentDeck(null);
-  }, [filters]);
+  }, [filters, page, setCurrentDeck]);
 
   const handleClickPrevPage = (e) => {
     setPage(page - 1);

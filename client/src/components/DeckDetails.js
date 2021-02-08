@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { Box, Typography, Button, ButtonGroup } from "@material-ui/core";
+import { Box, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { MainContext } from "../MainContext";
 
@@ -8,7 +8,6 @@ import DeckComments from "./DeckComments";
 
 import deckdetailstyles from "../styles/deckdetailstyles";
 import fetch from "node-fetch";
-import { authenticate } from "../services/auth";
 
 const useStyles = makeStyles((theme) => deckdetailstyles);
 

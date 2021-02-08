@@ -3,60 +3,13 @@ import { Box, TextField, Button, Modal } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { MainContext } from "../../MainContext";
 
+import navloginstyles from "../../styles/navloginstyles";
+
 import SignUpForm from "../SignUpForm";
 
 import { login } from "../../services/auth";
 
-const useStyles = makeStyles((theme) => ({
-  form_box: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  input: {
-    marginRight: "10px",
-  },
-  submit: {
-    backgroundColor: theme.palette.secondary.light,
-    color: "white",
-  },
-  signup: {
-    marginLeft: "10px",
-    marginRight: "10px",
-    backgroundColor: theme.palette.secondary.dark,
-    color: "white",
-  },
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  form_container: {
-    display: "flex",
-  },
-  paper: {
-    position: "absolute",
-    width: 450,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
-
-// Not sure...
-// function getModalStyle() {
-//   const top = 50;
-//   const left = 50;
-//   return {
-//     top: `${top}%`,
-//     left: `${left}%`,
-//     transform: `translate(-${top}%, -${left}%)`,
-//   };
-// }
+const useStyles = makeStyles((theme) => navloginstyles);
 
 const NavLogin = () => {
   const { setAuthenticated, setUser } = useContext(MainContext);
@@ -65,7 +18,6 @@ const NavLogin = () => {
   const [open, setOpen] = useState(false);
 
   const styles = useStyles();
-  // const [modalStyle] = useState(getModalStyle);
   useEffect(() => {}, []);
 
   const changeUsername = (e) => {
@@ -89,6 +41,8 @@ const NavLogin = () => {
       setAuthenticated(true);
     }
   };
+
+  const handleDemo = async (e) => {};
 
   const handleOpen = () => {
     setOpen(true);
@@ -123,6 +77,9 @@ const NavLogin = () => {
       </form>
       <Button className={styles.signup} onClick={handleOpen} size="small">
         Sign Up
+      </Button>
+      <Button className={styles.demo_button} onClick={handleDemo} size="small">
+        Demo Login
       </Button>
       <Modal
         open={open}
