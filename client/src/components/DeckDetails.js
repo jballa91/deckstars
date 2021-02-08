@@ -8,11 +8,13 @@ import DeckComments from "./DeckComments";
 
 import deckdetailstyles from "../styles/deckdetailstyles";
 import fetch from "node-fetch";
+import { authenticate } from "../services/auth";
 
 const useStyles = makeStyles((theme) => deckdetailstyles);
 
 const DeckDetails = () => {
   const {
+    authenticated,
     user,
     loading,
     currentDeck,
@@ -99,6 +101,12 @@ const DeckDetails = () => {
   };
   const handleLike = async (e) => {
     e.preventDefault();
+    if (!user || !authenticated) {
+      window.alert(
+        "You'll need to sign up if you want to save other users' decks. \n The interface to sign up can be found in the top right corner of your screen."
+      );
+      return;
+    }
     let tempUser = { ...user };
     let tempDeckLikes = tempUser.deckLikes;
     let res = await fetch(`/api/decklikes/${currentDeck.id}/${user.id}`, {
@@ -164,7 +172,8 @@ const DeckDetails = () => {
                   className={styles.spike_button_spikeable}
                   onClick={(e) => handleLike(e)}
                 >
-                  {user.deckLikes
+                  {user &&
+                  user.deckLikes
                     .map((like) => like.deckId)
                     .includes(currentDeck.id)
                     ? "Unspike"
@@ -177,7 +186,8 @@ const DeckDetails = () => {
                   className={styles.spike_button_spikeable}
                   onClick={(e) => handleLike(e)}
                 >
-                  {user.deckLikes
+                  {user &&
+                  user.deckLikes
                     .map((like) => like.deckId)
                     .includes(currentDeck.id)
                     ? "Unspike"
