@@ -65,7 +65,7 @@ const DeckComments = ({ deck }) => {
     });
     const newComment = await res.json();
     tempDeck.comments.push(newComment);
-    setComment('');
+    setComment("");
     setCurrentDeck(tempDeck);
   };
 
@@ -183,6 +183,7 @@ const DeckComments = ({ deck }) => {
             multiline={true}
             rows={3}
             rowsMax={5}
+            value={comment}
             onChange={(e) => handleChange(e)}
           ></TextField>
           <IconButton
