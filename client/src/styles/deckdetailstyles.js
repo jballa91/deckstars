@@ -14,9 +14,11 @@ const deckdetailstyles = {
   name_and_edit_button_container: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   edit_button: {
     backgroundColor: theme.palette.warning.main,
+    maxHeight: "40px",
     "&:hover": {
       backgroundColor: theme.palette.warning.dark,
     },

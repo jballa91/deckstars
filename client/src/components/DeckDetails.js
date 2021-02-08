@@ -134,7 +134,7 @@ const DeckDetails = () => {
               className={styles.edit_button}
               onClick={(e) => handleVisit(e)}
             >
-              View Deck
+              View
             </Button>
           )
         )}
