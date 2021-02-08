@@ -28,7 +28,6 @@ const DeckDetails = () => {
   const styles = useStyles();
 
   const handleEdit = (e) => {
-    // e.preventDefault();
     let tempDeck = {
       id: currentDeck.id,
       name: currentDeck.name,
@@ -102,7 +101,7 @@ const DeckDetails = () => {
     e.preventDefault();
     if (!user || !authenticated) {
       window.alert(
-        "You'll need to sign up if you want to save other users' decks. \n The interface to sign up can be found in the top right corner of your screen."
+        "You'll need to sign up if you want to save other users' decks. \n The interface to log in or sign up can be found in the top right corner of your screen."
       );
       return;
     }
@@ -151,91 +150,101 @@ const DeckDetails = () => {
         alt="Deck"
         className={styles.deck_img}
       ></img>
-      <Box className={styles.name_and_edit_button_container}>
-        <Typography variant="h5">{currentDeck.name}</Typography>
-        {user && currentDeck.userId === user.id ? (
-          <Button className={styles.edit_button} onClick={(e) => handleEdit(e)}>
-            Edit
-          </Button>
-        ) : (
-          [
-            slug.deckId === undefined ? (
-              <Box className={styles.variant_buttons}>
-                <Button
-                  className={styles.edit_button}
-                  onClick={(e) => handleVisit(e)}
-                >
-                  View
-                </Button>
-                <Button
-                  className={styles.spike_button_spikeable}
-                  onClick={(e) => handleLike(e)}
-                >
-                  {user &&
-                  user.deckLikes
-                    .map((like) => like.deckId)
-                    .includes(currentDeck.id)
-                    ? "Unspike"
-                    : "Spike"}
-                </Button>
-              </Box>
-            ) : (
-              <Box className={styles.variant_buttons}>
-                <Button
-                  className={styles.spike_button_spikeable}
-                  onClick={(e) => handleLike(e)}
-                >
-                  {user &&
-                  user.deckLikes
-                    .map((like) => like.deckId)
-                    .includes(currentDeck.id)
-                    ? "Unspike"
-                    : "Spike"}
-                </Button>
-              </Box>
-            ),
-          ]
-        )}
-      </Box>
-      <Typography variant="body2">
-        Created By: {currentDeck.user.username}
-      </Typography>
-      <Typography variant="body2">Format: {currentDeck.format}</Typography>
-      <Box className={styles.deck_record}>
-        <Typography variant="caption">Wins: {currentDeck.wins}</Typography>
-        {user && user.id === currentDeck.userId && (
-          <Box className={styles.button_container}>
-            <button className={styles.add_win} onClick={(e) => handleAddWin(e)}>
-              +
-            </button>
-          </Box>
-        )}
-        <Typography variant="caption">Losses: {currentDeck.losses}</Typography>
-        {user && user.id === currentDeck.userId && (
-          <Box className={styles.button_container}>
-            <button
-              className={styles.add_loss}
-              onClick={(e) => handleAddLoss(e)}
-              size="small"
+      <Box className={styles.under_img_container}>
+        <Box className={styles.name_and_edit_button_container}>
+          <Typography variant="h5">{currentDeck.name}</Typography>
+          {user && currentDeck.userId === user.id ? (
+            <Button
+              className={styles.edit_button}
+              onClick={(e) => handleEdit(e)}
             >
-              +
-            </button>
-          </Box>
-        )}
-        <Typography variant="caption">
-          Winrate:{" "}
-          {currentDeck.wins
-            ? (
-                currentDeck.wins /
-                (currentDeck.wins + currentDeck.losses)
-              ).toFixed(2)
-            : 0}
+              Edit
+            </Button>
+          ) : (
+            [
+              slug.deckId === undefined ? (
+                <Box className={styles.variant_buttons}>
+                  <Button
+                    className={styles.edit_button}
+                    onClick={(e) => handleVisit(e)}
+                  >
+                    View
+                  </Button>
+                  <Button
+                    className={styles.spike_button_spikeable}
+                    onClick={(e) => handleLike(e)}
+                  >
+                    {user &&
+                    user.deckLikes
+                      .map((like) => like.deckId)
+                      .includes(currentDeck.id)
+                      ? "Unspike"
+                      : "Spike"}
+                  </Button>
+                </Box>
+              ) : (
+                <Box className={styles.single_button}>
+                  <Button
+                    className={styles.spike_button_spikeable}
+                    onClick={(e) => handleLike(e)}
+                  >
+                    {user &&
+                    user.deckLikes
+                      .map((like) => like.deckId)
+                      .includes(currentDeck.id)
+                      ? "Unspike"
+                      : "Spike"}
+                  </Button>
+                </Box>
+              ),
+            ]
+          )}
+        </Box>
+        <Typography variant="body2">
+          Created By: {currentDeck.user.username}
         </Typography>
+        <Typography variant="body2">Format: {currentDeck.format}</Typography>
+        <Box className={styles.deck_record}>
+          <Typography variant="caption">Wins: {currentDeck.wins}</Typography>
+          {user && user.id === currentDeck.userId && (
+            <Box className={styles.button_container}>
+              <button
+                className={styles.add_win}
+                onClick={(e) => handleAddWin(e)}
+              >
+                +
+              </button>
+            </Box>
+          )}
+          <Typography variant="caption">
+            Losses: {currentDeck.losses}
+          </Typography>
+          {user && user.id === currentDeck.userId && (
+            <Box className={styles.button_container}>
+              <button
+                className={styles.add_loss}
+                onClick={(e) => handleAddLoss(e)}
+                size="small"
+              >
+                +
+              </button>
+            </Box>
+          )}
+          <Typography variant="caption">
+            Winrate:{" "}
+            {currentDeck.wins
+              ? (
+                  currentDeck.wins /
+                  (currentDeck.wins + currentDeck.losses)
+                ).toFixed(2)
+              : 0}
+          </Typography>
+        </Box>
+        <Box>
+          <Typography variant="body2">{currentDeck.description}</Typography>
+        </Box>
+        <DeckComments deck={currentDeck} />
       </Box>
-      <Box>
-        <Typography variant="body2">{currentDeck.description}</Typography>
-      </Box>
-      <DeckComments deck={currentDeck} />
     </Box>
   );
 };

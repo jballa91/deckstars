@@ -170,9 +170,7 @@ const DeckComments = ({ deck }) => {
           </Button>
         </Box>
       </Modal>
-      <Typography variant="caption" color="white">
-        ------Comments------
-      </Typography>
+      <Typography variant="caption">------Comments------</Typography>
       <Box className={styles.form_container}>
         <form className={styles.comment_form} onSubmit={(e) => handleSubmit(e)}>
           <TextField
@@ -223,9 +221,7 @@ const DeckComments = ({ deck }) => {
               )}
             </Box>
             {comment.edited && (
-              <Typography variant="caption" color="white">
-                [Edited]
-              </Typography>
+              <Typography variant="caption">[Edited]</Typography>
             )}
             {isEdit !== comment.id ? (
               <Typography variant="body2">{comment.content}</Typography>

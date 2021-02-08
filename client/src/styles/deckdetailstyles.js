@@ -4,24 +4,37 @@ const deckdetailstyles = {
   deck_details_container: {
     color: "white",
     padding: "10px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   deck_record: {
     display: "flex",
     justifyContent: "space-between",
-    // gridTemplateColumns: "2fr 1fr 2fr 1fr 2fr",
     alignItems: "center",
+  },
+  under_img_container: {
+    marginTop: theme.spacing(1),
+    display: "flex",
+    flexDirection: "column",
+    width: "95%",
   },
   name_and_edit_button_container: {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
-    // height: "100%",
   },
   variant_buttons: {
     height: "50px",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
+  },
+  single_button: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    height: "50px",
   },
   edit_button: {
     backgroundColor: theme.palette.warning.main,
