@@ -65,6 +65,7 @@ const DeckComments = ({ deck }) => {
     });
     const newComment = await res.json();
     tempDeck.comments.push(newComment);
+    setComment('');
     setCurrentDeck(tempDeck);
   };
 
