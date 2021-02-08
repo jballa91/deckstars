@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link, withRouter, useHistory } from "react-router-dom";
-import { Box, Typography, IconButton } from "@material-ui/core";
+import { Box, Typography, IconButton, Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { makeStyles } from "@material-ui/styles";
@@ -37,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
-  const { setCurrentDeck, setLoading, setFilters } = useContext(MainContext);
+  const { user, setCurrentDeck, setLoading, setFilters, setUser } = useContext(
+    MainContext
+  );
   const styles = useStyles();
   const handleClick = async (e) => {
     // let foundDeck = await fetch(`/api/decks/${deck.id}`, {
@@ -61,6 +63,25 @@ const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
     setDeleteOpen(true);
   };
 
+  const handleUnlike = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const res = await fetch(`/api/decklikes/${deck.id}/${user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    const unlikedDeck = await res.json();
+    let tempUser = { ...user };
+    let tempLikes = tempUser.deckLikes.filter(
+      (like) => like.deckId !== unlikedDeck.deckId
+    );
+    tempUser.deckLikes = tempLikes;
+    setUser(tempUser);
+  };
+
   return (
     <Link
       to={`/deck/${deck.id}`}
@@ -81,12 +102,18 @@ const DeckInfo = ({ deck, setDeleteOpen, setDeckToDelete }) => {
           </Typography>
         </Box>
         <Box className={styles.delete_holder}>
-          <IconButton onClick={(e) => handleDelete(e)} size="small">
-            <DeleteIcon color="error" fontSize="small" id={deck.id} />
-            <Typography variant="caption" color="error">
-              Delete Deck
-            </Typography>
-          </IconButton>
+          {user && user.id === deck.userId ? (
+            <IconButton onClick={(e) => handleDelete(e)} size="small">
+              <DeleteIcon color="error" fontSize="small" id={deck.id} />
+              <Typography variant="caption" color="error">
+                Delete Deck
+              </Typography>
+            </IconButton>
+          ) : (
+            <Button onClick={(e) => handleUnlike(e)} size="small">
+              Unlike
+            </Button>
+          )}
         </Box>
       </Box>
     </Link>

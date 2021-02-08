@@ -28,12 +28,44 @@ router.patch(
             deckId: parseInt(deckId, 10),
           },
         },
+        include: {
+          deck: {
+            include: {
+              mainDeck: {
+                include: {
+                  card: true,
+                },
+              },
+              sideBoard: {
+                include: {
+                  card: true,
+                },
+              },
+            },
+          },
+        },
       });
     } else {
       deckLike = await prisma.deckLikes.create({
         data: {
           deckId: parseInt(deckId, 10),
           userId: parseInt(userId, 10),
+        },
+        include: {
+          deck: {
+            include: {
+              mainDeck: {
+                include: {
+                  card: true,
+                },
+              },
+              sideBoard: {
+                include: {
+                  card: true,
+                },
+              },
+            },
+          },
         },
       });
     }

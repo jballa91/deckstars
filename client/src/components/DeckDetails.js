@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Box, Typography, Button, ButtonGroup } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
@@ -7,6 +7,7 @@ import { MainContext } from "../MainContext";
 import DeckComments from "./DeckComments";
 
 import deckdetailstyles from "../styles/deckdetailstyles";
+import fetch from "node-fetch";
 
 const useStyles = makeStyles((theme) => deckdetailstyles);
 
@@ -18,10 +19,10 @@ const DeckDetails = () => {
     setCurrentDeck,
     setIsEdit,
     setNewDeck,
+    setUser,
   } = useContext(MainContext);
   const history = useHistory();
   const slug = useParams();
-  console.log(slug.deckId);
 
   const styles = useStyles();
 
@@ -96,6 +97,27 @@ const DeckDetails = () => {
   const handleVisit = (e) => {
     history.push(`/deck/${currentDeck.id}`);
   };
+  const handleLike = async (e) => {
+    e.preventDefault();
+    let tempUser = { ...user };
+    let tempDeckLikes = tempUser.deckLikes;
+    let res = await fetch(`/api/decklikes/${currentDeck.id}/${user.id}`, {
+      method: "PATCH",
+      credentials: "include",
+    });
+    let effectedDeck = await res.json();
+    let deckLikesArr = user.deckLikes.map((like) => like.deckId);
+    if (deckLikesArr.includes(currentDeck.id)) {
+      tempDeckLikes = user.deckLikes.filter(
+        (like) => like.deckId !== effectedDeck.deckId
+      );
+      tempUser.deckLikes = tempDeckLikes;
+    } else {
+      tempDeckLikes.push(effectedDeck);
+      tempUser.deckLikes = tempDeckLikes;
+    }
+    setUser(tempUser);
+  };
 
   if (loading) {
     return (
@@ -129,14 +151,41 @@ const DeckDetails = () => {
             Edit
           </Button>
         ) : (
-          slug.deckId === undefined && (
-            <Button
-              className={styles.edit_button}
-              onClick={(e) => handleVisit(e)}
-            >
-              View
-            </Button>
-          )
+          [
+            slug.deckId === undefined ? (
+              <Box className={styles.variant_buttons}>
+                <Button
+                  className={styles.edit_button}
+                  onClick={(e) => handleVisit(e)}
+                >
+                  View
+                </Button>
+                <Button
+                  className={styles.spike_button_spikeable}
+                  onClick={(e) => handleLike(e)}
+                >
+                  {user.deckLikes
+                    .map((like) => like.deckId)
+                    .includes(currentDeck.id)
+                    ? "Unspike"
+                    : "Spike"}
+                </Button>
+              </Box>
+            ) : (
+              <Box className={styles.variant_buttons}>
+                <Button
+                  className={styles.spike_button_spikeable}
+                  onClick={(e) => handleLike(e)}
+                >
+                  {user.deckLikes
+                    .map((like) => like.deckId)
+                    .includes(currentDeck.id)
+                    ? "Unspike"
+                    : "Spike"}
+                </Button>
+              </Box>
+            ),
+          ]
         )}
       </Box>
       <Typography variant="body2">

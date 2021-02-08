@@ -22,6 +22,10 @@ const HomePageLeft = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deckToDelete, setDeckToDelete] = useState(null);
   const styles = useStyles();
+  if (user) {
+    console.log(user);
+    console.log(user.deckLikes);
+  }
 
   const history = useHistory();
 
@@ -133,7 +137,7 @@ const HomePageLeft = () => {
               <AccordionDetails>
                 <Box className={styles.accordion_expanded}>
                   {user &&
-                    user.deckLikes.map((deck) => (
+                    user.deckLikes.map(({ deck }) => (
                       <DeckInfo
                         key={deck.id}
                         deck={deck}

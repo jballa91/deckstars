@@ -13,12 +13,33 @@ const deckdetailstyles = {
   },
   name_and_edit_button_container: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
+    // height: "100%",
+  },
+  variant_buttons: {
+    height: "50px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   edit_button: {
     backgroundColor: theme.palette.warning.main,
-    maxHeight: "40px",
+    maxHeight: "20px",
+    "&:hover": {
+      backgroundColor: theme.palette.warning.dark,
+    },
+  },
+  spike_button_spikeable: {
+    backgroundColor: theme.palette.primary.main,
+    maxHeight: "20px",
+    "&:hover": {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  },
+  spike_button_unspikeable: {
+    backgroundColor: theme.palette.warning.main,
+    maxHeight: "20px",
     "&:hover": {
       backgroundColor: theme.palette.warning.dark,
     },

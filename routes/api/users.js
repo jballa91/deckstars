@@ -62,6 +62,10 @@ router.get(
               select: {
                 id: true,
                 name: true,
+                wins: true,
+                losses: true,
+                format: true,
+                imgUrl: true,
               },
             },
           },
@@ -137,6 +141,7 @@ router.post(
             wins: true,
             losses: true,
             imgUrl: true,
+            userId: true,
           },
         },
         deckLikes: {
@@ -145,6 +150,11 @@ router.post(
               select: {
                 id: true,
                 name: true,
+                wins: true,
+                losses: true,
+                format: true,
+                imgUrl: true,
+                userId: true,
               },
             },
           },
