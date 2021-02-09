@@ -7,7 +7,6 @@ import { MainContext } from "../MainContext";
 import DeckComments from "./DeckComments";
 
 import deckdetailstyles from "../styles/deckdetailstyles";
-import fetch from "node-fetch";
 
 const useStyles = makeStyles((theme) => deckdetailstyles);
 
