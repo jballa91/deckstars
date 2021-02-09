@@ -20,7 +20,7 @@ const seedUsers = async () => {
       hashword: hashword2,
     },
   });
-  const hashword3 = await bcrypt.hash("pasword", 10);
+  const hashword3 = await bcrypt.hash("password", 10);
   const demoRes = await prisma.user.create({
     data: {
       username: "demo",
