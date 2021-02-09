@@ -22,11 +22,17 @@ router.get(
   })
 );
 
+// app.all("*", function (req, res) {
+//   res.cookie("XSRF-TOKEN", req.csrfToken());
+//   res.render("index");
+// });
+
 router.get(
   "/auth",
   requireAuth,
   asyncHandler(async (req, res, next) => {
-    res.status(200).send({
+    res.status(200);
+    res.send({
       message: "OK",
       user: req.user,
     });

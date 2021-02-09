@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 export const authenticate = async () => {
   const res = await fetch("/api/users/auth", {
     credentials: "include",
@@ -14,6 +16,7 @@ export const login = async (username, password) => {
   try {
     const res = await fetch("/api/users/login", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },

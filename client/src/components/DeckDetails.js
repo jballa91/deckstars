@@ -163,7 +163,7 @@ const DeckDetails = () => {
           ) : (
             [
               slug.deckId === undefined ? (
-                <Box className={styles.variant_buttons}>
+                <Box className={styles.variant_buttons} key="1">
                   <Button
                     className={styles.edit_button}
                     onClick={(e) => handleVisit(e)}
@@ -183,7 +183,7 @@ const DeckDetails = () => {
                   </Button>
                 </Box>
               ) : (
-                <Box className={styles.single_button}>
+                <Box className={styles.single_button} key="2">
                   <Button
                     className={styles.spike_button_spikeable}
                     onClick={(e) => handleLike(e)}

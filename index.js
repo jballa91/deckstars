@@ -5,11 +5,9 @@ const cors = require("cors");
 const helmet = require("helmet");
 const path = require("path");
 const morgan = require("morgan");
-const csurf = require("csurf");
 const routes = require("./routes");
 
 const app = express();
-const port = 5000;
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -19,16 +17,6 @@ app.use(cookieParser());
 
 app.use(cors({ origin: true }));
 app.use(helmet({ hsts: false, contentSecurityPolicy: false }));
-// app.use(
-//   csurf({
-//     // cookie: {
-//     //   // secure: process.env.NODE_ENV === "production",
-//     //   // sameSite: process.env.NODE_ENV === "production",
-//     //   httpOnly: true,
-//     // },
-//   })
-// );
-
 app.use(routes);
 
 if (process.env.NODE_ENV === "production") {

@@ -36,13 +36,21 @@ const NavLogin = () => {
     if (user.message) {
       window.alert("Invalid credentials.");
     } else {
-      window.localStorage.setItem("token", user.token);
       setUser(user.user);
       setAuthenticated(true);
     }
   };
 
-  const handleDemo = async (e) => {};
+  const handleDemo = async (e) => {
+    e.preventDefault();
+    let user = await login("demo", "password");
+    if (user.message) {
+      window.alert("Invalid credentials.");
+    } else {
+      setUser(user.user);
+      setAuthenticated(true);
+    }
+  };
 
   const handleOpen = () => {
     setOpen(true);
