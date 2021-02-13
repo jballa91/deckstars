@@ -1,14 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Box, Typography, Button } from "@material-ui/core";
+import { Box, Typography, Button, LinearProgress } from "@material-ui/core";
+import { Skeleton} from "@material-ui/lab";
 import { MainContext } from "../../MainContext";
 
-import {
-  handleRemoveCardMain,
-  handleAddCardMain,
-  handleRemoveCardSide,
-  handleAddCardSide,
-} from "../../services/buttons";
+import CardPanel from "./CardPanel";
 
 import cardbrowserstyles from "../../styles/cardbrowserstyles";
 
@@ -22,12 +18,11 @@ const CardBrowser = () => {
     page,
     setCards,
     setPage,
-    setModalImgOpen,
-    setModalImgSrc,
     setNewDeck,
   } = useContext(MainContext);
   // const [cards, setCards] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [browserLoading, setBrowserLoading] = useState(true);
+  const [prevNextLoading, setPrevNextLoading] = useState(false);
 
   const styles = useStyles();
 
@@ -58,32 +53,19 @@ const CardBrowser = () => {
     }
   };
 
-  const handleImgClick = (e) => {
-    if (e.target.getAttribute("layout") === "modal_dfc") {
-      setModalImgSrc([e.target.src, e.target.getAttribute("backImg")]);
-    } else {
-      setModalImgSrc([e.target.src]);
-    }
-    setModalImgOpen(true);
-  };
-
   const handleClickPrevPage = (e) => {
+    setBrowserLoading(true)
     setPage(page - 1);
   };
 
   const handleClickNextPage = (e) => {
+    setBrowserLoading(true)
     setPage(page + 1);
   };
 
   useEffect(() => {
-    setLoading(false);
     (async () => {
-      // if (!cards.length && !filters) {
-      //   const res = await fetch(`/api/cards/page/${page}`);
-      //   const foundCards = await res.json();
-      //   setCards(foundCards);
-      //   setLoading(false);
-      // } else {
+      setBrowserLoading(true)
       let queryString = "?";
 
       if (filters.name) {
@@ -107,13 +89,9 @@ const CardBrowser = () => {
       let res = await fetch(`api/cards/search/results${queryString}`);
       let parsed = await res.json();
       setCards(parsed);
-      // }
+      setBrowserLoading(false)
     })();
   }, [page, filters, setCards, cards.length]);
-
-  if (loading) {
-    return <h1 style={{ color: "white" }}>Loading....</h1>;
-  }
 
   return (
     <Box className={styles.container}>
@@ -136,77 +114,22 @@ const CardBrowser = () => {
           </Button>
         </Box>
       </Box>
-      <Box className={styles.card_browser}>
-        {cards
-          .filter(filterDups)
-          .sort(sortCards)
-          .map((card) => {
-            return (
-              <Box className={styles.card_panel} key={card.uuid}>
-                <img
-                  src={card.imgLarge}
-                  alt={card.name}
-                  className={styles.card_img}
-                  layout={card.layout}
-                  backImg={card.backImgLarge}
-                  onClick={(e) => handleImgClick(e)}
-                ></img>
-                <Box className={styles.card_panel_interact}>
-                  <Box className={styles.card_panel_interact_main}>
-                    <Typography
-                      className={styles.card_panel_interact_header}
-                      variant="body2"
-                    >
-                      Main Deck
-                    </Typography>
-                    <button
-                      className={styles.interact_button}
-                      id={`${card.id}@${card.name}`}
-                      onClick={(e) =>
-                        handleRemoveCardMain(e, newDeck, setNewDeck)
-                      }
-                    >
-                      -1
-                    </button>
-                    <button
-                      artcrop={card.artCrop}
-                      className={styles.interact_button}
-                      id={`${card.id}@${card.name}`}
-                      onClick={(e) => handleAddCardMain(e, newDeck, setNewDeck)}
-                    >
-                      +1
-                    </button>
-                  </Box>
-                  <Box className={styles.card_panel_interact_main}>
-                    <Typography
-                      className={styles.card_panel_interact_header}
-                      variant="body2"
-                    >
-                      Side Board
-                    </Typography>
-                    <button
-                      className={styles.interact_button}
-                      id={`${card.id}@${card.name}`}
-                      onClick={(e) =>
-                        handleRemoveCardSide(e, newDeck, setNewDeck)
-                      }
-                    >
-                      -1
-                    </button>
-                    <button
-                      artcrop={card.artCrop}
-                      className={styles.interact_button}
-                      id={`${card.id}@${card.name}`}
-                      onClick={(e) => handleAddCardSide(e, newDeck, setNewDeck)}
-                    >
-                      +1
-                    </button>
-                  </Box>
-                </Box>
-              </Box>
-            );
-          })}
-      </Box>
+      {browserLoading ? (
+        <LinearProgress className={styles.linear_progress} />
+        // <Skeleton 
+        //   variant="rect" 
+        //   animation="false" 
+        //   style={{ width: "100%", height: 2000}} /> 
+      ) : (
+        <Box className={styles.card_browser}>
+          {cards
+            .filter(filterDups)
+            .sort(sortCards)
+            .map((card) => {
+              return <CardPanel card={card} styles={styles} prevNextLoading={prevNextLoading} />
+            })}
+        </Box>
+      )}
       <Box className={styles.page_footer}>
         <Box className={styles.page_changer}>
           <Button

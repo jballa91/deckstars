@@ -129,6 +129,7 @@ const CardFilter = () => {
             placeholder="Search for a card"
             onChange={(e) => handleChange(e)}
             fullWidth={true}
+            value={searchString}
           ></TextField>
         </Box>
         <Box></Box>

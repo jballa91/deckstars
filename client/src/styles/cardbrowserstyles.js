@@ -13,6 +13,11 @@ const cardbrowserstyles = {
     justifyContent: "flex-start",
     width: "100%",
   },
+  linear_progress: {
+      width: '80%',
+      marginTop: theme.spacing(5),
+      marginBottom: theme.spacing(5),
+  },
   card_panel: {
     display: "flex",
     backgroundColor: theme.palette.secondary.light,
