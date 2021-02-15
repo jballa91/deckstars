@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Box, Typography, Button } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { MainContext } from "../../MainContext";
 import deckbrowserstyles from "../../styles/deckbrowserstyles";

@@ -14,9 +14,9 @@ const cardbrowserstyles = {
     width: "100%",
   },
   linear_progress: {
-      width: '80%',
-      marginTop: theme.spacing(5),
-      marginBottom: theme.spacing(5),
+    width: "80%",
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(5),
   },
   card_panel: {
     display: "flex",
@@ -62,12 +62,24 @@ const cardbrowserstyles = {
   card_panel_interact: {
     color: "white",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
     marginTop: "10px",
   },
   card_panel_interact_header: {
     textAlign: "center",
+  },
+  card_panel_interact_main: {
+    width: "50%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  interact_button_container: {
+    width: "90%",
+    display: "flex",
+    justifyContent: "center",
   },
   interact_button: {
     margin: "0px 10px",
@@ -85,6 +97,17 @@ const cardbrowserstyles = {
       "&:hover": {
         backgroundColor: theme.palette.warning.dark,
       },
+    },
+  },
+  interact_button_large: {
+    margin: "0px 10px",
+    width: "100%",
+    border: "none",
+    color: "black",
+    backgroundColor: theme.palette.primary.dark,
+    "&:hover": {
+      backgroundColor: theme.palette.warning.dark,
+      cursor: "pointer",
     },
   },
   page_header: {

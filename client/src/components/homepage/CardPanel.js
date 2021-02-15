@@ -54,21 +54,36 @@ const CardPanel = ({ card, styles }) => {
           >
             Main Deck
           </Typography>
-          <button
-            className={styles.interact_button}
-            id={`${card.id}@${card.name}`}
-            onClick={(e) => handleRemoveCardMain(e, newDeck, setNewDeck)}
-          >
-            -1
-          </button>
-          <button
-            artcrop={card.artCrop}
-            className={styles.interact_button}
-            id={`${card.id}@${card.name}`}
-            onClick={(e) => handleAddCardMain(e, newDeck, setNewDeck)}
-          >
-            +1
-          </button>
+          {newDeck.mainDeck.map((card) => card.id).includes(card.id) ? (
+            <Box className={styles.interact_button_container}>
+              <button
+                className={styles.interact_button}
+                id={`${card.id}@${card.name}@${card.cardTypes[0].name}`}
+                onClick={(e) => handleRemoveCardMain(e, newDeck, setNewDeck)}
+              >
+                -1
+              </button>
+              <button
+                artcrop={card.artCrop}
+                className={styles.interact_button}
+                id={`${card.id}@${card.name}@${card.cardTypes[0].name}`}
+                onClick={(e) => handleAddCardMain(e, newDeck, setNewDeck)}
+              >
+                +1
+              </button>
+            </Box>
+          ) : (
+            <Box className={styles.interact_button_container}>
+              <button
+                artcrop={card.artCrop}
+                className={styles.interact_button_large}
+                id={`${card.id}@${card.name}@${card.cardTypes[0].name}`}
+                onClick={(e) => handleAddCardMain(e, newDeck, setNewDeck)}
+              >
+                Add to Main
+              </button>
+            </Box>
+          )}
         </Box>
         <Box className={styles.card_panel_interact_main}>
           <Typography
@@ -77,21 +92,36 @@ const CardPanel = ({ card, styles }) => {
           >
             Side Board
           </Typography>
-          <button
-            className={styles.interact_button}
-            id={`${card.id}@${card.name}`}
-            onClick={(e) => handleRemoveCardSide(e, newDeck, setNewDeck)}
-          >
-            -1
-          </button>
-          <button
-            artcrop={card.artCrop}
-            className={styles.interact_button}
-            id={`${card.id}@${card.name}`}
-            onClick={(e) => handleAddCardSide(e, newDeck, setNewDeck)}
-          >
-            +1
-          </button>
+          {newDeck.sideBoard.map((card) => card.id).includes(card.id) ? (
+            <Box className={styles.interact_button_container}>
+              <button
+                className={styles.interact_button}
+                id={`${card.id}@${card.name}@${card.cardTypes[0].name}@${card.layout}`}
+                onClick={(e) => handleRemoveCardSide(e, newDeck, setNewDeck)}
+              >
+                -1
+              </button>
+              <button
+                artcrop={card.artCrop}
+                className={styles.interact_button}
+                id={`${card.id}@${card.name}@${card.cardTypes[0].name}@${card.layout}`}
+                onClick={(e) => handleAddCardSide(e, newDeck, setNewDeck)}
+              >
+                +1
+              </button>
+            </Box>
+          ) : (
+            <Box className={styles.interact_button_container}>
+              <button
+                artcrop={card.artCrop}
+                className={styles.interact_button_large}
+                id={`${card.id}@${card.name}@${card.cardTypes[0].name}`}
+                onClick={(e) => handleAddCardSide(e, newDeck, setNewDeck)}
+              >
+                Add to Side
+              </button>
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>

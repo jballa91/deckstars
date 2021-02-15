@@ -43,7 +43,6 @@ const DeckForm = () => {
     e.preventDefault();
     newDeck.name = e.target.value;
     setDeckName(e.target.value);
-    // setNewDeck(newDeck);
   };
 
   const changeDeckDescription = (e) => {
