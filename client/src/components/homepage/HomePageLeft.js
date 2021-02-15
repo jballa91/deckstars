@@ -18,7 +18,9 @@ import DeckInfo from "../DeckInfo";
 const useStyles = makeStyles((theme) => homepageleftstyles);
 
 const HomePageLeft = () => {
-  const { user, setIsEdit, setNewDeck, setUser } = useContext(MainContext);
+  const { user, setIsEdit, setNewDeck, setPage, setUser } = useContext(
+    MainContext
+  );
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deckToDelete, setDeckToDelete] = useState(null);
   const styles = useStyles();
@@ -50,6 +52,7 @@ const HomePageLeft = () => {
 
   const handleDeckBrowseClick = (e) => {
     e.preventDefault();
+    setPage(0);
     history.push("/decks");
   };
   const handleDeckDelete = async (e) => {

@@ -20,7 +20,6 @@ const DeckCards = () => {
   } = useContext(MainContext);
   const { deckId } = useParams();
   const [expanded, setExpanded] = useState(false);
-  // const [loading, setLoading] = useState(true);
   const styles = useStyles();
 
   const sortCards = (a, b) => {
