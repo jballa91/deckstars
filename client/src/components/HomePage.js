@@ -41,8 +41,6 @@ const HomePage = () => {
     setRulings([]);
   };
 
-  // useEffect(() => {}, []);
-
   return (
     <div className={styles.homepage_container}>
       <Modal
