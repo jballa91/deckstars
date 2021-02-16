@@ -4,6 +4,8 @@ import { Box, Typography, Button } from "@material-ui/core";
 import { MainContext } from "../../MainContext";
 import deckbrowserstyles from "../../styles/deckbrowserstyles";
 
+import DeckPanel from "./DeckPanel";
+
 const useStyles = makeStyles((theme) => deckbrowserstyles);
 
 const DeckBrowser = () => {
@@ -52,17 +54,6 @@ const DeckBrowser = () => {
     setPage(page + 1);
   };
 
-  const handleDeckClick = async (e, deckId) => {
-    e.preventDefault();
-    let foundDeck = await fetch(`/api/decks/${deckId}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const parsedDeck = await foundDeck.json();
-    setCurrentDeck(parsedDeck);
-  };
-
   return (
     <Box className={styles.container}>
       <Box className={styles.page_header}>
@@ -74,7 +65,7 @@ const DeckBrowser = () => {
           >
             Prev
           </Button>
-          <Typography className={styles.current_page}>{page}</Typography>
+          <Typography className={styles.current_page}>{page + 1}</Typography>
           <Button
             disabled={decks.length < 20}
             className={styles.button_next_page}
@@ -85,24 +76,9 @@ const DeckBrowser = () => {
         </Box>
       </Box>
       <Box className={styles.deck_browser}>
-        {decks.map((deck) => {
-          return (
-            <Box key={deck.id} id={deck.id} className={styles.deck_panel}>
-              <img
-                src={deck.imgUrl}
-                alt={deck.name}
-                className={styles.deck_img}
-                onClick={(e) => handleDeckClick(e, deck.id)}
-              ></img>
-              <Typography className={styles.deck_panel__text} variant="h6">
-                {deck.name}
-              </Typography>
-              <Typography className={styles.deck_panel__text} variant="body2">
-                Creator: {deck.user.username}
-              </Typography>
-            </Box>
-          );
-        })}
+        {decks.map((deck) => (
+          <DeckPanel deck={deck} />
+        ))}
       </Box>
       <Box className={styles.page_footer}>
         <Box className={styles.page_changer}>
@@ -113,7 +89,7 @@ const DeckBrowser = () => {
           >
             Prev
           </Button>
-          <Typography className={styles.current_page}>{page}</Typography>
+          <Typography className={styles.current_page}>{page + 1}</Typography>
           <Button
             disabled={decks.length < 20}
             className={styles.button_next_page}

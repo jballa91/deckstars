@@ -25,7 +25,7 @@ import cardfilterstyles from "../../styles/cardfilterstyles";
 const useStyles = makeStyles((theme) => cardfilterstyles);
 
 const CardFilter = () => {
-  const { symbols, setFilters, setPage } = useContext(MainContext);
+  const { symbols, filters, setFilters, setPage } = useContext(MainContext);
   const [searchString, setSearchString] = useState("");
   const [cardTypes, setCardTypes] = useState([]);
   const [checkedTypes, setCheckedTypes] = useState([]);
@@ -49,7 +49,10 @@ const CardFilter = () => {
       const parsed = await res.json();
       setCardTypes(parsed);
     })();
-  }, []);
+    setSearchString(filters.name);
+    setCheckedTypes(filters.cardTypes);
+    setCheckedColors(filters.colors);
+  }, [filters]);
 
   const handleChange = (e) => {
     e.preventDefault();

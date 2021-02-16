@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 const seedUsers = async () => {
   let hashword = await bcrypt.hash("demo@login@chandra", 10);
-  const res = await prisma.user.create({
+  await prisma.user.create({
     data: {
       username: "chandra",
       email: "chandra@demo.io",
@@ -13,7 +13,7 @@ const seedUsers = async () => {
     },
   });
   let hashword2 = await bcrypt.hash("demo@login@jace", 10);
-  const res2 = await prisma.user.create({
+  await prisma.user.create({
     data: {
       username: "jace",
       email: "jace@demo.io",
@@ -21,7 +21,7 @@ const seedUsers = async () => {
     },
   });
   const hashword3 = await bcrypt.hash("password", 10);
-  const demoRes = await prisma.user.create({
+  await prisma.user.create({
     data: {
       username: "demo",
       email: "demo@demo.io",

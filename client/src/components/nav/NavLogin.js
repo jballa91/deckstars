@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Box, TextField, Button, Modal } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { MainContext } from "../../MainContext";
@@ -16,6 +17,8 @@ const NavLogin = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [open, setOpen] = useState(false);
+
+  const history = useHistory();
 
   const styles = useStyles();
   useEffect(() => {}, []);
@@ -38,6 +41,7 @@ const NavLogin = () => {
     } else {
       setUser(user.user);
       setAuthenticated(true);
+      history.push("/decks");
     }
   };
 
@@ -49,6 +53,7 @@ const NavLogin = () => {
     } else {
       setUser(user.user);
       setAuthenticated(true);
+      history.push("/decks");
     }
   };
 

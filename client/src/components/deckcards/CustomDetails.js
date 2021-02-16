@@ -33,11 +33,6 @@ const CustomDetails = ({ card }) => {
     setModalRulingsOpen(true);
   };
 
-  // const findSymbols = (str) => {
-  //   const regex = /\{(.*?)\}/g;
-  //   return str.match(regex);
-  // };
-
   if (card.layout === "normal" || card.layout === "saga") {
     return (
       <AccordionDetails className={styles.details}>

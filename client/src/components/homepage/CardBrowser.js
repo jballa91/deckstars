@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Box, Typography, Button, LinearProgress } from "@material-ui/core";
-import { Skeleton} from "@material-ui/lab";
 import { MainContext } from "../../MainContext";
 
 import CardPanel from "./CardPanel";
@@ -20,9 +19,7 @@ const CardBrowser = () => {
     setPage,
     setNewDeck,
   } = useContext(MainContext);
-  // const [cards, setCards] = useState([]);
   const [browserLoading, setBrowserLoading] = useState(true);
-  const [prevNextLoading, setPrevNextLoading] = useState(false);
 
   const styles = useStyles();
 
@@ -54,18 +51,18 @@ const CardBrowser = () => {
   };
 
   const handleClickPrevPage = (e) => {
-    setBrowserLoading(true)
+    setBrowserLoading(true);
     setPage(page - 1);
   };
 
   const handleClickNextPage = (e) => {
-    setBrowserLoading(true)
+    setBrowserLoading(true);
     setPage(page + 1);
   };
 
   useEffect(() => {
     (async () => {
-      setBrowserLoading(true)
+      setBrowserLoading(true);
       let queryString = "?";
 
       if (filters.name) {
@@ -89,7 +86,7 @@ const CardBrowser = () => {
       let res = await fetch(`api/cards/search/results${queryString}`);
       let parsed = await res.json();
       setCards(parsed);
-      setBrowserLoading(false)
+      setBrowserLoading(false);
     })();
   }, [page, filters, setCards, cards.length]);
 
@@ -116,17 +113,13 @@ const CardBrowser = () => {
       </Box>
       {browserLoading ? (
         <LinearProgress className={styles.linear_progress} />
-        // <Skeleton 
-        //   variant="rect" 
-        //   animation="false" 
-        //   style={{ width: "100%", height: 2000}} /> 
       ) : (
         <Box className={styles.card_browser}>
           {cards
             .filter(filterDups)
             .sort(sortCards)
             .map((card) => {
-              return <CardPanel card={card} styles={styles} prevNextLoading={prevNextLoading} />
+              return <CardPanel card={card} styles={styles} />;
             })}
         </Box>
       )}

@@ -1,5 +1,3 @@
-import Cookies from "js-cookie";
-
 export const authenticate = async () => {
   const res = await fetch("/api/users/auth", {
     credentials: "include",
