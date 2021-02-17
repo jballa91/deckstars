@@ -1,7 +1,7 @@
 # DECKSTARS
 **Get yourself a better MTG Deckbuilding UI**
 
-## [DECKSTARS Live Link](www.deckstars.net)
+## [DECKSTARS Live Link](http://www.deckstars.net)
 
 
 ## Technologies Used
